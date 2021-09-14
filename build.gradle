@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+println("CI: ${getVar('CI')}")
+
+version = "${minecraft_version}-${ahutils_version}"
+group = 'org.auioc.mods.ahutils'
+archivesBaseName = 'ahutils'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+minecraft {
+    mappings channel: "${mappings_channel}", version: "${mappings_version}"
+    runs {
+        client {
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file('run').canonicalPath
+            mods {
+                ahutils {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file('run').canonicalPath
+            mods {
+                ahutils {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+}
+
+processResources {
+    from (sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+        duplicatesStrategy 'include'
+        expand 'ahutils_version': "${ahutils_version}", 'ahutils_description':"${version}-${getVar('CI_VERSION')}"
+    }
+}
+
+jar {}
+
+jar.finalizedBy('reobfJar')
+
+publishing {}
+
+
+def getVar(String var_name) {
+    return System.getenv(var_name)
+}
