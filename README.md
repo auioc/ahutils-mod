@@ -5,7 +5,7 @@
 Minecraft utilities, also a library for AH's mods.
 
 [![GitHub license](https://img.shields.io/github/license/WakelessSloth56/ahutils-mod?style=flat-square)](/LICENSE)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WakelessSloth56/ahutils-mod/gradle-ci/1.16-forge?style=flat-square)](https://github.com/WakelessSloth56/ahutils-mod/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WakelessSloth56/ahutils-mod/gradle-ci?style=flat-square)](https://github.com/WakelessSloth56/ahutils-mod/actions)
 &nbsp;
 ![Minecraft](https://img.shields.io/static/v1?label=Minecraft&message=1.16.5&color=00aa00&style=flat-square)
 [![Forge](https://img.shields.io/static/v1?label=Forge&message=36.2.4&color=e04e14&logo=Conda-Forge&style=flat-square)](http://files.minecraftforge.net/net/minecraftforge/forge/index_1.16.5.html)
