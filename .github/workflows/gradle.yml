@@ -27,7 +27,7 @@ jobs:
 
             - name: Check tag
               run: |
-                  if ["${{env.GIT_TAG}}" != "v${{env.AHUTILS_VERSION}}"];then exit 1;fi
+                  if [ "${{env.GIT_TAG}}" != "v${{env.AHUTILS_VERSION}}" ];then exit 1;fi
 
             - name: Set up JDK 16
               uses: actions/setup-java@v2
