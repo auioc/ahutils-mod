@@ -47,3 +47,10 @@ jobs:
               with:
                   name: ahutils-${{env.AHUTILS_VERSION}}-${{env.CI_VERSION}}
                   path: build/libs
+
+            - uses: marvinpinto/action-automatic-releases@latest
+              with:
+                  repo_token: ${{secrets.GITHUB_TOKEN}}
+                  prerelease: false
+                  files: |
+                      build/libs/*.jar
