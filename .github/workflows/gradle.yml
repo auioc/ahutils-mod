@@ -11,6 +11,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            packages: write
 
         steps:
             - uses: actions/checkout@v2
@@ -24,6 +27,7 @@ jobs:
                     [ -f "$config" ] && grep -P "^\s*[^#]?${1}=.*$" $config | cut -d'=' -f2
                   }
                   echo "AHUTILS_VERSION=`echo $(prop "ahutils_version")`" >> $GITHUB_ENV
+                  echo "MINECRAFT_VERSION=`echo $(prop "minecraft_version")`" >> $GITHUB_ENV
 
             - name: Check tag
               run: |
@@ -36,19 +40,26 @@ jobs:
                   distribution: "adopt"
                   architecture: x64
 
-            - name: Build with Gradle
+            - name: Set up Gradlew and clean
               run: |
                   chmod +x ./gradlew
                   ./gradlew clean
-                  ./gradlew build
 
-            - name: Upload build artifacts of ahutils
+            - name: Build and publish package
+              env:
+                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+              run: |
+                  ./gradlew build
+                  ./gradlew publish
+
+            - name: Upload build artifacts
               uses: actions/upload-artifact@v1
               with:
-                  name: ahutils-${{env.AHUTILS_VERSION}}-${{env.CI_VERSION}}
+                  name: ahutils-${{env.MINECRAFT_VERSION}}-${{env.AHUTILS_VERSION}}-${{env.CI_VERSION}}
                   path: build/libs
 
-            - uses: marvinpinto/action-automatic-releases@latest
+            - name: Github release
+              uses: marvinpinto/action-automatic-releases@latest
               with:
                   repo_token: ${{secrets.GITHUB_TOKEN}}
                   prerelease: false

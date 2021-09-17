@@ -14,9 +14,9 @@ apply plugin: 'maven-publish'
 
 println("CI: ${getVar('CI')}")
 
-version = "${minecraft_version}-${ahutils_version}"
+version = "${ahutils_version}"
 group = 'org.auioc.mods.ahutils'
-archivesBaseName = 'ahutils'
+archivesBaseName = "ahutils-${minecraft_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
@@ -80,15 +80,52 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
 }
-
-task sourceJar(type: Jar) {
+task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     classifier = 'sources'
 }
+task forgelibJar(type: Jar) {
+    from sourceSets.main.output
+    from sourceSets.main.allJava
+    classifier = 'forgelib'
+}
+artifacts {
+    archives sourcesJar
+    archives deobfJar
+    archives forgelibJar
+}
 
-tasks.build.dependsOn('sourceJar', 'deobfJar')
+tasks.build.dependsOn('sourcesJar', 'deobfJar', 'forgelibJar')
 
-publishing {}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+            artifact deobfJar {
+                classifier 'deobf'
+            }
+            artifact sourcesJar {
+                classifier 'sources'
+            }
+            artifact forgelibJar {
+                classifier 'forgelib'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/wakelesssloth56/ahutils-mod")
+            credentials {
+                username = getVar("GITHUB_ACTOR")
+                password = getVar("GITHUB_TOKEN")
+            }
+        }
+    }
+}
 
 
 def getVar(String var_name) {
