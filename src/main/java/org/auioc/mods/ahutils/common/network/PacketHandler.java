@@ -13,6 +13,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
+@SuppressWarnings("unused")
 public final class PacketHandler {
     @SubscribeEvent
     public static void onCommonSetupEvent(FMLCommonSetupEvent event) {

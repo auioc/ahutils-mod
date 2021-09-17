@@ -10,6 +10,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(AhUtils.MOD_ID)
+@SuppressWarnings("unused")
 public class AhUtils {
     public static final String MOD_ID = "ahutils";
 
