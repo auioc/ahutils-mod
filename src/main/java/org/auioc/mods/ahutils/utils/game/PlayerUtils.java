@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 public interface PlayerUtils {
 
-    @SuppressWarnings("deprecatedJava")
+    @SuppressWarnings("deprecation")
     static void giveItem(ServerPlayerEntity player, Item item, @Nullable CompoundNBT nbt, int count) {
         int i = count;
         while (i > 0) {
