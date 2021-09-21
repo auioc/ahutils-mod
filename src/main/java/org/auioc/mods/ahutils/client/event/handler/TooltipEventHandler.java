@@ -6,7 +6,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -29,13 +33,21 @@ public class TooltipEventHandler {
 
         if (itemStack.hasTag()) {
             CompoundNBT nbt = itemStack.getTag();
-            ITextComponent nbtTooltip = nbt.getPrettyDisplay();
-            add(event, nbtTooltip);
+            ITextComponent nbtTooltip = new StringTextComponent("NBT:").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_GRAY))
+                .append(new StringTextComponent("").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE)).append(nbt.getPrettyDisplay()));
+            addLine(event, nbtTooltip);
+        }
+
+        if ((itemStack.getItem().getTags()).size() > 0) {
+            addLine(event, new StringTextComponent("Tags:").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_GRAY)));
+            for (ResourceLocation tag : itemStack.getItem().getTags()) {
+                addLine(event, new StringTextComponent("    " + tag).setStyle(Style.EMPTY.withColor(TextFormatting.DARK_GRAY)));
+            }
         }
 
     }
 
-    private static void add(ItemTooltipEvent event, ITextComponent tooltip) {
+    private static void addLine(ItemTooltipEvent event, ITextComponent tooltip) {
         if (ClientConfig.AdvancedTooltipOnlyOnDebug.get() && !isDebugMode()) {
             return;
         }
