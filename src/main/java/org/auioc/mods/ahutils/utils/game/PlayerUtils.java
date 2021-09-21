@@ -56,7 +56,7 @@ public interface PlayerUtils {
         );
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(PlayerEntity player, double rayLength) {
+    static EntityRayTraceResult getEntityRayTraceResult(PlayerEntity player, double rayLength, double aabbInflate) {
         World level = player.level;
 
         Vector3d playerViewVector = player.getViewVector(0);
@@ -74,10 +74,14 @@ public interface PlayerUtils {
         }
 
         EntityRayTraceResult rayHitEntity = ProjectileHelper.getEntityHitResult(
-            level, player, from, to, player.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS
+            level, player, from, to, player.getBoundingBox().expandTowards(to).inflate(aabbInflate - ((double) 0.3F)), EntityPredicates.NO_SPECTATORS
         );
 
         return rayHitEntity;
+    }
+
+    static EntityRayTraceResult getEntityRayTraceResult(PlayerEntity player, double rayLength) {
+        return getEntityRayTraceResult(player, rayLength, 0.0D);
     }
 
 }
