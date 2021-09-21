@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -51,11 +50,10 @@ public interface EntityUtils {
     static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
         Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
         RayTraceContext rayCtx = new RayTraceContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
-        BlockRayTraceResult rayHitBlock = entity.level.clip(rayCtx);
-        return rayHitBlock;
+        return entity.level.clip(rayCtx);
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition) {
         Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
 
         Vector3d to = viewRay[1];
@@ -64,9 +62,7 @@ public interface EntityUtils {
             to = rayHitBlock.getLocation();
         }
 
-        EntityRayTraceResult rayHitEntity = ProjectileHelper.getEntityHitResult(
-            entity.level, entity, viewRay[0], to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS
-        );
+        EntityRayTraceResult rayHitEntity = getEntityHitResult(entity.level, entity, viewRay[0], to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS, pickRadiusAddition);
 
         return rayHitEntity;
     }
