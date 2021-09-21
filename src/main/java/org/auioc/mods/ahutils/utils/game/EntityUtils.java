@@ -1,7 +1,5 @@
 package org.auioc.mods.ahutils.utils.game;
 
-import java.util.Map;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.EntityPredicates;
@@ -15,35 +13,32 @@ import net.minecraft.util.math.vector.Vector3d;
 
 public interface EntityUtils {
 
-    static ImmutableMap<String, Vector3d> getEntityViewRay(Entity entity, double rayLength) {
-        Vector3d entityViewVector = entity.getViewVector(0);
+    static Vector3d[] getEntityViewRay(Entity entity, double rayLength) {
+        Vector3d entityViewVector = entity.getViewVector(1.0F);
         Vector3d rayPath = entityViewVector.scale(rayLength);
-        Vector3d from = entity.getEyePosition(0);
+        Vector3d from = entity.getEyePosition(1.0F);
         Vector3d to = from.add(rayPath);
-        return new ImmutableMap.Builder<String, Vector3d>()
-            .put("from", from)
-            .put("to", to)
-            .build();
+        return new Vector3d[] {from, to};
     }
 
     static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
-        Map<String, Vector3d> viewRay = getEntityViewRay(entity, rayLength);
-        RayTraceContext rayCtx = new RayTraceContext(viewRay.get("from"), viewRay.get("to"), blockMode, fluidMode, entity);
+        Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
+        RayTraceContext rayCtx = new RayTraceContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
         BlockRayTraceResult rayHitBlock = entity.level.clip(rayCtx);
         return rayHitBlock;
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, double aabbInflate) {
-        Map<String, Vector3d> viewRay = getEntityViewRay(entity, rayLength);
+    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+        Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
 
-        Vector3d to = viewRay.get("to");
+        Vector3d to = viewRay[1];
         BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE);
         if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
             to = rayHitBlock.getLocation();
         }
 
         EntityRayTraceResult rayHitEntity = ProjectileHelper.getEntityHitResult(
-            entity.level, entity, viewRay.get("from"), to, entity.getBoundingBox().expandTowards(to).inflate(aabbInflate - ((double) 0.3F)), EntityPredicates.NO_SPECTATORS
+            entity.level, entity, viewRay[0], to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS
         );
 
         return rayHitEntity;
@@ -51,10 +46,6 @@ public interface EntityUtils {
 
     static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
         return getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY);
-    }
-
-    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
-        return getEntityRayTraceResult(entity, rayLength, 0.0D);
     }
 
 }
