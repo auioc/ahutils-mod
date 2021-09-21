@@ -1,43 +1,60 @@
 package org.auioc.mods.ahutils.utils.game;
 
-import net.minecraft.entity.player.PlayerEntity;
+import java.util.Map;
+import com.google.common.collect.ImmutableMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 
 public interface EntityUtils {
 
-    static EntityRayTraceResult getEntityRayTraceResult(PlayerEntity player, double rayLength, double aabbInflate) {
-        World level = player.level;
-
-        Vector3d playerViewVector = player.getViewVector(0);
-        Vector3d rayPath = playerViewVector.scale(rayLength);
-
-        Vector3d from = player.getEyePosition(0);
+    static ImmutableMap<String, Vector3d> getEntityViewRay(Entity entity, double rayLength) {
+        Vector3d entityViewVector = entity.getViewVector(0);
+        Vector3d rayPath = entityViewVector.scale(rayLength);
+        Vector3d from = entity.getEyePosition(0);
         Vector3d to = from.add(rayPath);
+        return new ImmutableMap.Builder<String, Vector3d>()
+            .put("from", from)
+            .put("to", to)
+            .build();
+    }
 
-        RayTraceContext rayCtx = new RayTraceContext(
-            from, to, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, player
-        );
-        BlockRayTraceResult rayHitBlock = level.clip(rayCtx);
+    static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
+        Map<String, Vector3d> viewRay = getEntityViewRay(entity, rayLength);
+        RayTraceContext rayCtx = new RayTraceContext(viewRay.get("from"), viewRay.get("to"), blockMode, fluidMode, entity);
+        BlockRayTraceResult rayHitBlock = entity.level.clip(rayCtx);
+        return rayHitBlock;
+    }
+
+    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, double aabbInflate) {
+        Map<String, Vector3d> viewRay = getEntityViewRay(entity, rayLength);
+
+        Vector3d to = viewRay.get("to");
+        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE);
         if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
             to = rayHitBlock.getLocation();
         }
 
         EntityRayTraceResult rayHitEntity = ProjectileHelper.getEntityHitResult(
-            level, player, from, to, player.getBoundingBox().expandTowards(to).inflate(aabbInflate - ((double) 0.3F)), EntityPredicates.NO_SPECTATORS
+            entity.level, entity, viewRay.get("from"), to, entity.getBoundingBox().expandTowards(to).inflate(aabbInflate - ((double) 0.3F)), EntityPredicates.NO_SPECTATORS
         );
 
         return rayHitEntity;
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(PlayerEntity player, double rayLength) {
-        return getEntityRayTraceResult(player, rayLength, 0.0D);
+    static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
+        return getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY);
+    }
+
+    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+        return getEntityRayTraceResult(entity, rayLength, 0.0D);
     }
 
 }
