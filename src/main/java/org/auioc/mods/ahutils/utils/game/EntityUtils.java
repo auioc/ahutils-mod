@@ -62,13 +62,29 @@ public interface EntityUtils {
             to = rayHitBlock.getLocation();
         }
 
-        EntityRayTraceResult rayHitEntity = getEntityHitResult(entity.level, entity, viewRay[0], to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS, pickRadiusAddition);
+        EntityRayTraceResult rayHitEntity = getEntityHitResult(entity, viewRay[0], to, pickRadiusAddition);
 
         return rayHitEntity;
     }
 
+
+
+    @Nullable
+    public static EntityRayTraceResult getEntityHitResult(Entity entity, Vector3d from, Vector3d to, float pickRadiusAddition) {
+        return getEntityHitResult(entity.level, entity, from, to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS, pickRadiusAddition);
+    }
+
+    @Nullable
+    public static EntityRayTraceResult getEntityHitResult(Entity entity, Vector3d from, Vector3d to) {
+        return getEntityHitResult(entity, from, to, 0.0F);
+    }
+
     static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
         return getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY);
+    }
+
+    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+        return getEntityRayTraceResult(entity, rayLength, 0.0F);
     }
 
 }
