@@ -1,18 +1,20 @@
-package org.auioc.mods.ahutils.common.network;
+package org.auioc.mods.ahutils.api.network;
 
 import java.util.function.Supplier;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public interface IHCPacket {
+public interface IHPacket {
+
     void handle(NetworkEvent.Context ctx);
 
     void encode(PacketBuffer buffer);
 
-    static <PACKET extends IHCPacket> void handle(final PACKET message, Supplier<Context> context) {
+    static <PACKET extends IHPacket> void handle(final PACKET message, Supplier<Context> context) {
         Context ctx = context.get();
         ctx.enqueueWork(() -> message.handle(ctx));
         ctx.setPacketHandled(true);
     }
+
 }

@@ -3,6 +3,8 @@ package org.auioc.mods.ahutils.common.network;
 import java.util.Optional;
 import java.util.function.Function;
 import org.auioc.mods.ahutils.AhUtils;
+import org.auioc.mods.ahutils.api.network.IHPacket;
+import org.auioc.mods.ahutils.api.network.IHPacketHandler;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +16,8 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 @SuppressWarnings("unused")
-public final class PacketHandler {
+public final class PacketHandler implements IHPacketHandler {
+
     @SubscribeEvent
     public static void onCommonSetupEvent(FMLCommonSetupEvent event) {
         register();
@@ -29,16 +32,16 @@ public final class PacketHandler {
     );
     private static int index;
 
-    private static <MSG extends IHCPacket> void registerClientToServer(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
+    private static <MSG extends IHPacket> void registerClientToServer(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
         registerMessage(type, decoder, NetworkDirection.PLAY_TO_SERVER);
     }
 
-    private static <MSG extends IHCPacket> void registerServerToClient(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
+    private static <MSG extends IHPacket> void registerServerToClient(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
         registerMessage(type, decoder, NetworkDirection.PLAY_TO_CLIENT);
     }
 
-    private static <MSG extends IHCPacket> void registerMessage(Class<MSG> type, Function<PacketBuffer, MSG> decoder, NetworkDirection networkDirection) {
-        HANDLER.registerMessage(index++, type, IHCPacket::encode, decoder, IHCPacket::handle, Optional.of(networkDirection));
+    private static <MSG extends IHPacket> void registerMessage(Class<MSG> type, Function<PacketBuffer, MSG> decoder, NetworkDirection networkDirection) {
+        HANDLER.registerMessage(index++, type, IHPacket::encode, decoder, IHPacket::handle, Optional.of(networkDirection));
     }
 
     public static void register() {
@@ -46,13 +49,14 @@ public final class PacketHandler {
         registerServerToClient(org.auioc.mods.ahutils.client.network.TriggerCrashPacket.class, org.auioc.mods.ahutils.client.network.TriggerCrashPacket::decode);
     }
 
-    public static <MSG extends IHCPacket> void sendToServer(MSG msg) {
+    public static <MSG extends IHPacket> void sendToServer(MSG msg) {
         HANDLER.sendToServer(msg);
     }
 
-    public static <MSG extends IHCPacket> void sendTo(ServerPlayerEntity player, MSG msg) {
+    public static <MSG extends IHPacket> void sendTo(ServerPlayerEntity player, MSG msg) {
         if (!(player instanceof FakePlayer)) {
             HANDLER.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
         }
     }
+
 }

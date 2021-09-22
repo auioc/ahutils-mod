@@ -1,13 +1,13 @@
 package org.auioc.mods.ahutils.client.network;
 
-import org.auioc.mods.ahutils.common.network.IHCPacket;
+import org.auioc.mods.ahutils.api.network.IHPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 
-public class TriggerCrashPacket implements IHCPacket {
+public class TriggerCrashPacket implements IHPacket {
     private final int mode;
 
     public TriggerCrashPacket(int flag) {
