@@ -1,4 +1,4 @@
-package org.auioc.mods.ahutils.utils.game;
+package org.auioc.mods.ahutils.api.item;
 
 import java.util.function.Supplier;
 import net.minecraft.item.IItemTier;
