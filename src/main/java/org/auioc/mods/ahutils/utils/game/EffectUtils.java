@@ -21,15 +21,49 @@ public interface EffectUtils {
     }
 
     @Nullable
-    static EffectInstance getEffectInstance(CompoundNBT effect_nbt) {
-        if (effect_nbt.contains("id", 8) && effect_nbt.contains("duration", 3) && effect_nbt.contains("amplifier", 3)) {
-            return new EffectInstance(getEffect(effect_nbt.getString("id")), effect_nbt.getInt("duration"), effect_nbt.getInt("amplifier"), true, true);
+    static Effect getEffect(ResourceLocation id) {
+        return ForgeRegistries.POTIONS.getValue(id);
+    }
+
+
+    static EffectInstance getEffectInstance(Effect effect, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
+        return new EffectInstance(effect, duration, amplifier, ambient, visible, showIcon);
+    }
+
+    @Nullable
+    static EffectInstance getEffectInstance(ResourceLocation id, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
+        Effect effect = getEffect(id);
+        if (effect != null) {
+            return getEffectInstance(effect, duration, amplifier, ambient, visible, showIcon);
         }
         return null;
     }
 
+    @Nullable
+    static EffectInstance getEffectInstance(String id, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
+        return getEffectInstance(new ResourceLocation(id), duration, amplifier, ambient, visible, showIcon);
+    }
+
+
+    @Nullable
+    static EffectInstance getEffectInstance(CompoundNBT effect_nbt) {
+        if (effect_nbt.contains("id", 8) && effect_nbt.contains("duration", 3) && effect_nbt.contains("amplifier", 3)) {
+            return getEffectInstance(effect_nbt.getString("id"), effect_nbt.getInt("duration"), effect_nbt.getInt("amplifier"), true, true, true);
+        }
+        return null;
+    }
+
+
     static void addEffect(LivingEntity entity, int id, int duration, int amplifier) {
-        entity.addEffect(new EffectInstance(getEffect(id), duration, amplifier, true, true));
+        entity.addEffect(new EffectInstance(getEffect(id), duration, amplifier, true, true, true));
+    }
+
+    static boolean addEffect(LivingEntity entity, String id, int duration, int amplifier) {
+        EffectInstance effect = getEffectInstance(id, duration, amplifier, true, true, true);
+        if (effect != null) {
+            return entity.addEffect(effect);
+        }
+        return false;
     }
 
 }
