@@ -1,9 +1,11 @@
 package org.auioc.mods.ahutils.utils.game;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -17,7 +19,7 @@ import net.minecraft.world.World;
 
 public interface EntityUtils {
 
-    static Vector3d[] getEntityViewRay(Entity entity, double rayLength) {
+    public static Vector3d[] getEntityViewRay(Entity entity, double rayLength) {
         Vector3d entityViewVector = entity.getViewVector(1.0F);
         Vector3d rayPath = entityViewVector.scale(rayLength);
         Vector3d from = entity.getEyePosition(1.0F);
@@ -47,24 +49,23 @@ public interface EntityUtils {
 
 
 
-    static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
+    public static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
         Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
         RayTraceContext rayCtx = new RayTraceContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
         return entity.level.clip(rayCtx);
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition) {
+    @Nullable
+    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition) {
         Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
 
         Vector3d to = viewRay[1];
-        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE);
+        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, BlockMode.COLLIDER, FluidMode.NONE);
         if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
             to = rayHitBlock.getLocation();
         }
 
-        EntityRayTraceResult rayHitEntity = getEntityHitResult(entity, viewRay[0], to, pickRadiusAddition);
-
-        return rayHitEntity;
+        return getEntityHitResult(entity, viewRay[0], to, pickRadiusAddition);
     }
 
 
@@ -79,12 +80,49 @@ public interface EntityUtils {
         return getEntityHitResult(entity, from, to, 0.0F);
     }
 
-    static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
-        return getBlockRayTraceResult(entity, rayLength, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY);
+    public static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
+        return getBlockRayTraceResult(entity, rayLength, BlockMode.OUTLINE, FluidMode.ANY);
     }
 
-    static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
         return getEntityRayTraceResult(entity, rayLength, 0.0F);
+    }
+
+
+
+    public static int rayHitEntityOrBlockOrMiss(
+        Entity entity, double rayLength,
+        float pickRadiusAddition, BlockMode blockMode, FluidMode fluidMode,
+        Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b, Function<BlockRayTraceResult, Integer> m
+    ) {
+        EntityRayTraceResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition);
+        if (rayHitEntity != null) {
+            return e.apply(rayHitEntity);
+        }
+
+        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, blockMode, fluidMode);
+        if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
+            return b.apply(rayHitBlock);
+        } else {
+            return m.apply(rayHitBlock);
+        }
+    }
+
+    public static int rayHitEntityOrBlock(Entity entity, double rayLength, Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b) {
+        return rayHitEntityOrBlockOrMiss(entity, rayLength, 0.0F, BlockMode.OUTLINE, FluidMode.ANY, e, b, m -> 0);
+    }
+
+    public static int rayHitLivingEntityOrBlock(Entity entity, double rayLength, Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b) {
+        return rayHitEntityOrBlock(
+            entity, rayLength,
+            (r) -> {
+                if (r.getEntity() instanceof LivingEntity) {
+                    return e.apply(r);
+                } else {
+                    return 0;
+                }
+            }, b
+        );
     }
 
 }
