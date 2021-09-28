@@ -56,13 +56,15 @@ public interface EntityUtils {
     }
 
     @Nullable
-    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition) {
+    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition, boolean blockMode) {
         Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
 
         Vector3d to = viewRay[1];
-        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, BlockMode.COLLIDER, FluidMode.NONE);
-        if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
-            to = rayHitBlock.getLocation();
+        if (blockMode) {
+            BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, BlockMode.COLLIDER, FluidMode.NONE);
+            if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
+                to = rayHitBlock.getLocation();
+            }
         }
 
         return getEntityHitResult(entity, viewRay[0], to, pickRadiusAddition);
@@ -85,7 +87,7 @@ public interface EntityUtils {
     }
 
     public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
-        return getEntityRayTraceResult(entity, rayLength, 0.0F);
+        return getEntityRayTraceResult(entity, rayLength, 0.0F, false);
     }
 
 
@@ -95,7 +97,7 @@ public interface EntityUtils {
         float pickRadiusAddition, BlockMode blockMode, FluidMode fluidMode,
         Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b, Function<BlockRayTraceResult, Integer> m
     ) {
-        EntityRayTraceResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition);
+        EntityRayTraceResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition, false);
         if (rayHitEntity != null) {
             return e.apply(rayHitEntity);
         }
