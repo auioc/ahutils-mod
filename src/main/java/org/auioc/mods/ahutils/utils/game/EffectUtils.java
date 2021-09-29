@@ -1,10 +1,14 @@
 package org.auioc.mods.ahutils.utils.game;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -24,6 +28,35 @@ public interface EffectUtils {
     static Effect getEffect(ResourceLocation id) {
         return ForgeRegistries.POTIONS.getValue(id);
     }
+
+
+    static List<Effect> getEffects(@Nullable EffectType type) {
+        Collection<Effect> effects = ForgeRegistries.POTIONS.getValues();
+        List<Effect> effectsList = new ArrayList<>();
+        for (Effect effect : effects) {
+            if (type == null || effect.getCategory() == type) {
+                effectsList.add(effect);
+            }
+        }
+        return effectsList;
+    }
+
+    static List<Effect> getHarmfulEffects() {
+        return getEffects(EffectType.HARMFUL);
+    }
+
+    static List<Effect> getBeneficialEffects() {
+        return getEffects(EffectType.BENEFICIAL);
+    }
+
+    static List<Effect> getNeutralEffects() {
+        return getEffects(EffectType.NEUTRAL);
+    }
+
+    static List<Effect> getAllEffects() {
+        return getEffects(null);
+    }
+
 
 
     static EffectInstance getEffectInstance(Effect effect, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
@@ -52,6 +85,7 @@ public interface EffectUtils {
         }
         return null;
     }
+
 
 
     static void addEffect(LivingEntity entity, int id, int duration, int amplifier) {
