@@ -7,6 +7,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.ForgeMod;
 
 public interface PlayerUtils {
 
@@ -46,6 +47,10 @@ public interface PlayerUtils {
             player.position().toString(),
             (player.level == null) ? "~NULL~" : player.level.toString()
         );
+    }
+
+    static void setPlayerReach(PlayerEntity player, int reach) {
+        player.getAttribute(ForgeMod.REACH_DISTANCE.get()).setBaseValue(reach);
     }
 
 }
