@@ -10,12 +10,15 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ServerEventRegistry {
-    public static void postServerLoginEvent(final CHandshakePacket packet, final NetworkManager manager) {
-        MinecraftForge.EVENT_BUS.post(new ServerLoginEvent(packet, manager));
+
+    // Return true if the event was Cancelable cancelled
+
+    public static boolean postServerLoginEvent(final CHandshakePacket packet, final NetworkManager manager) {
+        return MinecraftForge.EVENT_BUS.post(new ServerLoginEvent(packet, manager));
     }
 
     public static boolean postServerPlayerEntitySendMessageEvent(ITextComponent message, ChatType type, UUID uuid) {
-        // Return true if the event was Cancelable cancelled
         return MinecraftForge.EVENT_BUS.post(new ServerPlayerEntitySendMessageEvent(message, type, uuid));
     }
+
 }
