@@ -73,37 +73,41 @@ mixin {
     add sourceSets.main, "ahutils.mixin-refmap.json"
 }
 
-jar {
-    manifest {
-        attributes([
-            "Specification-Title": "ahutils",
-            "Specification-Vendor": "AUIOC",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"AUIOC",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "TweakOrder": 0,
-            "MixinConfigs" : "ahutils.mixin.json"
-        ])
-    }
+ext {
+    manifest_attributes = [
+        "Specification-Title": "ahutils",
+        "Specification-Vendor": "AUIOC",
+        "Specification-Version": "1",
+        "Implementation-Title": project.name,
+        "Implementation-Version": "${version}",
+        "Implementation-Vendor" :"AUIOC",
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+        "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+        "TweakOrder": 0,
+        "MixinConfigs" : "ahutils.mixin.json"
+    ]
 }
 
+jar {
+    manifest {attributes(manifest_attributes)}
+}
 jar.finalizedBy('reobfJar')
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
+    manifest {attributes(manifest_attributes)}
 }
 task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     classifier = 'sources'
+    manifest {attributes(manifest_attributes)}
 }
 task forgelibJar(type: Jar) {
     from sourceSets.main.output
     from sourceSets.main.allJava
     classifier = 'forgelib'
+    manifest {attributes(manifest_attributes)}
 }
 artifacts {
     archives sourcesJar
