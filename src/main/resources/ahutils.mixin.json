@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "package": "org.auioc.mods.ahutils.mixin",
+    "compatibilityLevel": "JAVA_16",
+    "client": [],
+    "server": ["server.MixinServerLifecycleHooks"],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "refmap": "ahutils.mixin-refmap.json",
+    "minVersion": "0.8"
+}

@@ -1,16 +1,19 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
 println("CI: ${getVar('CI')}")
 
@@ -28,6 +31,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run')
+            arg "-mixin.config=ahutils.mixin.json"
             mods {
                 ahutils {
                     source sourceSets.main
@@ -39,6 +43,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run')
+            arg "-mixin.config=ahutils.mixin.json"
             mods {
                 ahutils {
                     source sourceSets.main
@@ -50,7 +55,11 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    testAnnotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 }
+
 
 processResources {
     from (sourceSets.main.resources.srcDirs) {
@@ -58,6 +67,10 @@ processResources {
         duplicatesStrategy 'include'
         expand 'ahutils_version': "${ahutils_version}", 'ahutils_description':"${version}-${getVar('CI_VERSION')}"
     }
+}
+
+mixin {
+    add sourceSets.main, "ahutils.mixin-refmap.json"
 }
 
 jar {
@@ -69,7 +82,10 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"AUIOC",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "TweakOrder": 0,
+            "MixinConfigs" : "ahutils.mixin.json"
         ])
     }
 }
