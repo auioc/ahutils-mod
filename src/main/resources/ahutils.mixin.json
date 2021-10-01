@@ -2,6 +2,7 @@
     "required": true,
     "package": "org.auioc.mods.ahutils.mixin",
     "compatibilityLevel": "JAVA_16",
+    "mixins": ["server.MixinLootContext"],
     "client": [],
     "server": ["server.MixinServerLifecycleHooks"],
     "injectors": {
