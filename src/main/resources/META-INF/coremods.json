@@ -1,4 +1,3 @@
 {
-    "ahutils.CheckPushableEvent": "coremods/ahutils/CheckPushableEvent.js",
-    "ahutils.ServerPlayerSendMessageEvent": "coremods/ahutils/ServerPlayerSendMessageEvent.js"
+    "ahutils.CheckPushableEvent": "coremods/ahutils/CheckPushableEvent.js"
 }
