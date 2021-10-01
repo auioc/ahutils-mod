@@ -24,8 +24,9 @@ public class ServerEventRegistry {
             manager.send(new SDisconnectLoginPacket(message));
             manager.disconnect(message);
             LogUtil.info(
-                LogUtil.getMarker("ServerHooks(ServerLoginEvent)"),
-                String.format("Disconnecting %s connection attempt: %s", event.getPacket().getIntention(), event.getMessage())
+                "ServerHooks",
+                LogUtil.getMarker("ServerLogin"),
+                String.format("Disconnecting %s connection attempt from %s: %s", event.getPacket().getIntention(), event.getNetworkManager().getRemoteAddress(), event.getMessage())
             );
             return true;
         }

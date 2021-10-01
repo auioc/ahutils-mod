@@ -1,7 +1,7 @@
 package org.auioc.mods.ahutils.server.event;
 
-import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.command.ServerCommandRegistry;
+import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.addrlimiter.player.PlayerManager;
@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ServerEventHandler {
 
     @SubscribeEvent
-    public static void registerCommands(RegisterCommandsEvent event) {
+    public static void registerCommands(final RegisterCommandsEvent event) {
         ServerCommandRegistry.register(event.getDispatcher());
     }
 
@@ -33,7 +33,11 @@ public class ServerEventHandler {
     @SubscribeEvent
     public static void onPing(final ServerLoginEvent event) {
         if (event.getPacket().getIntention() == net.minecraft.network.ProtocolType.STATUS) {
-            LogUtil.info(String.format("[%s] <-> InitialHandler has pinged", event.getNetworkManager().getRemoteAddress().toString()));
+            LogUtil.info(
+                "ServerHooks",
+                LogUtil.getMarker("ServerListPing"),
+                String.format("[%s] <-> InitialHandler has pinged", event.getNetworkManager().getRemoteAddress())
+            );
         }
     }
 
