@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
+@Deprecated(since = "3.1.1")
 @Cancelable
 public class PistonAddBlockLineEvent extends Event {
 
