@@ -17,13 +17,13 @@ public abstract class MixinServerPlayerEntity {
         method = "Lnet/minecraft/entity/player/ServerPlayerEntity;sendMessage(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)V",
         at = @At(value = "HEAD"),
         require = 1,
+        allow = 1,
         cancellable = true,
         remap = false
     )
     private void onSendMessage(ITextComponent p_241151_1_, ChatType p_241151_2_, UUID p_241151_3_, CallbackInfo ci) {
         if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerPlayerEntitySendMessageEvent(p_241151_1_, p_241151_2_, p_241151_3_)) {
             ci.cancel();
-            return;
         }
     }
 

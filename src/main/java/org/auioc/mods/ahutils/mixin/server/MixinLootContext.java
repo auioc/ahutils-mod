@@ -16,6 +16,7 @@ public abstract class MixinLootContext {
         method = "Lnet/minecraft/loot/LootContext;setQueriedLootTableId(Lnet/minecraft/util/ResourceLocation;)V",
         at = @At(value = "HEAD"),
         require = 1,
+        allow = 1,
         cancellable = true,
         remap = false
     )

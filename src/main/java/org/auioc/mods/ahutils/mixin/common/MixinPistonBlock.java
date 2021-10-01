@@ -18,6 +18,7 @@ public abstract class MixinPistonBlock {
         method = "Lnet/minecraft/block/PistonBlock;isPushable(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z",
         at = @At(value = "HEAD"),
         require = 1,
+        allow = 1,
         cancellable = true,
         remap = false
     )

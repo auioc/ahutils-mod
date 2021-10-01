@@ -16,6 +16,7 @@ public abstract class MixinServerLifecycleHooks {
         method = "Lnet/minecraftforge/fml/server/ServerLifecycleHooks;handleServerLogin(Lnet/minecraft/network/handshake/client/CHandshakePacket;Lnet/minecraft/network/NetworkManager;)Z",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/network/handshake/client/CHandshakePacket;getIntention()Lnet/minecraft/network/ProtocolType;", ordinal = 0),
         require = 1,
+        allow = 1,
         cancellable = true,
         remap = false
     )
