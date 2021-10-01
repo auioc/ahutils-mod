@@ -1,22 +1,21 @@
 function initializeCoreMod() {
     // ASMAPI = Java.type("net.minecraftforge.coremod.api.ASMAPI");
-    Opcodes = Java.type("org.objectweb.asm.Opcodes");
+    Opcodes = Java.type('org.objectweb.asm.Opcodes');
 
-    InsnList = Java.type("org.objectweb.asm.tree.InsnList");
-    InsnNode = Java.type("org.objectweb.asm.tree.InsnNode");
-    VarInsnNode = Java.type("org.objectweb.asm.tree.VarInsnNode");
-    MethodInsnNode = Java.type("org.objectweb.asm.tree.MethodInsnNode");
-    JumpInsnNode = Java.type("org.objectweb.asm.tree.JumpInsnNode");
-    LabelNode = Java.type("org.objectweb.asm.tree.LabelNode");
+    InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+    InsnNode = Java.type('org.objectweb.asm.tree.InsnNode');
+    VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+    MethodInsnNode = Java.type('org.objectweb.asm.tree.MethodInsnNode');
+    JumpInsnNode = Java.type('org.objectweb.asm.tree.JumpInsnNode');
+    LabelNode = Java.type('org.objectweb.asm.tree.LabelNode');
 
     return {
-        "PistonBlock#isPushable": {
+        'PistonBlock#isPushable': {
             target: {
-                type: "METHOD",
-                class: "net.minecraft.block.PistonBlock",
-                methodName: "isPushable",
-                methodDesc:
-                    "(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z",
+                type: 'METHOD',
+                class: 'net.minecraft.block.PistonBlock',
+                methodName: 'isPushable',
+                methodDesc: '(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z',
             },
             transformer: function (methodNode) {
                 // print(ASMAPI.methodNodeToString(methodNode));
@@ -33,7 +32,7 @@ function initializeCoreMod() {
                         2     p_185646_2_   Lnet/minecraft/util/math/BlockPos;
                         3     p_185646_3_   Lnet/minecraft/util/Direction;
                         4     p_185646_4_   Z
-                        5     p_185646_5_   Lnet/minecraft/util/Direction; 
+                        5     p_185646_5_   Lnet/minecraft/util/Direction;
                     */
                     toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
                     toInject.add(new VarInsnNode(Opcodes.ALOAD, 1));
@@ -45,9 +44,9 @@ function initializeCoreMod() {
                     toInject.add(
                         new MethodInsnNode(
                             Opcodes.INVOKESTATIC,
-                            "org/auioc/mods/ahutils/common/event/CommonEventRegistry",
-                            "postPistonCheckPushableEvent",
-                            "(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z",
+                            'org/auioc/mods/ahutils/common/event/CommonEventRegistry',
+                            'postPistonCheckPushableEvent',
+                            '(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z',
                             false
                         )
                     );
@@ -68,7 +67,7 @@ function initializeCoreMod() {
 }
 
 //! Original method
-/* 
+/*
 public static boolean isPushable(BlockState p_185646_0_, World p_185646_1_, BlockPos p_185646_2_, Direction p_185646_3_, boolean p_185646_4_, Direction p_185646_5_) {
     if (p_185646_2_.getY() >= 0 && p_185646_2_.getY() <= p_185646_1_.getMaxBuildHeight() - 1 && p_185646_1_.getWorldBorder().isWithinBounds(p_185646_2_)) {
         // ......
@@ -97,7 +96,7 @@ public static boolean isPushable(BlockState p_185646_0_, World p_185646_1_, Bloc
 */
 
 //! Transformed method
-/* 
+/*
 public static boolean isPushable(BlockState p_185646_0_, World p_185646_1_, BlockPos p_185646_2_, Direction p_185646_3_, boolean p_185646_4_, Direction p_185646_5_) {
 ~+  if (org.auioc.mods.ahutils.common.event.CommonEventRegistry.postPistonAddBlockLineEvent(p_185646_0_, p_185646_1_, p_185646_2_, p_185646_3_, p_185646_4_, p_185646_5_)) {
 ~+      return false;

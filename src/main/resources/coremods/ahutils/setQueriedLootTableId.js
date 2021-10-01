@@ -1,14 +1,14 @@
 function initializeCoreMod() {
     // ASMAPI = Java.type("net.minecraftforge.coremod.api.ASMAPI");
-    Opcodes = Java.type("org.objectweb.asm.Opcodes");
+    Opcodes = Java.type('org.objectweb.asm.Opcodes');
 
     return {
-        "LootContext#setQueriedLootTableId": {
+        'LootContext#setQueriedLootTableId': {
             target: {
-                type: "METHOD",
-                class: "net.minecraft.loot.LootContext",
-                methodName: "setQueriedLootTableId",
-                methodDesc: "(Lnet/minecraft/util/ResourceLocation;)V",
+                type: 'METHOD',
+                class: 'net.minecraft.loot.LootContext',
+                methodName: 'setQueriedLootTableId',
+                methodDesc: '(Lnet/minecraft/util/ResourceLocation;)V',
             },
             transformer: function (methodNode) {
                 // print(ASMAPI.methodNodeToString(methodNode));
@@ -24,12 +24,7 @@ function initializeCoreMod() {
                     methodNode.visitCode();
                     methodNode.visitVarInsn(Opcodes.ALOAD, 0);
                     methodNode.visitVarInsn(Opcodes.ALOAD, 1);
-                    methodNode.visitFieldInsn(
-                        Opcodes.PUTFIELD,
-                        "net/minecraft/loot/LootContext",
-                        "queriedLootTableId",
-                        "Lnet/minecraft/util/ResourceLocation;"
-                    );
+                    methodNode.visitFieldInsn(Opcodes.PUTFIELD, 'net/minecraft/loot/LootContext', 'queriedLootTableId', 'Lnet/minecraft/util/ResourceLocation;');
                     methodNode.visitInsn(Opcodes.RETURN);
                     methodNode.visitMaxs(2, 1);
                     methodNode.visitEnd();

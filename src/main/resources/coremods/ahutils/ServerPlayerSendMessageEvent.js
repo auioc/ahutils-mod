@@ -1,22 +1,21 @@
 function initializeCoreMod() {
     // ASMAPI = Java.type("net.minecraftforge.coremod.api.ASMAPI");
-    Opcodes = Java.type("org.objectweb.asm.Opcodes");
+    Opcodes = Java.type('org.objectweb.asm.Opcodes');
 
-    InsnList = Java.type("org.objectweb.asm.tree.InsnList");
-    InsnNode = Java.type("org.objectweb.asm.tree.InsnNode");
-    VarInsnNode = Java.type("org.objectweb.asm.tree.VarInsnNode");
-    MethodInsnNode = Java.type("org.objectweb.asm.tree.MethodInsnNode");
-    JumpInsnNode = Java.type("org.objectweb.asm.tree.JumpInsnNode");
-    LabelNode = Java.type("org.objectweb.asm.tree.LabelNode");
+    InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+    InsnNode = Java.type('org.objectweb.asm.tree.InsnNode');
+    VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+    MethodInsnNode = Java.type('org.objectweb.asm.tree.MethodInsnNode');
+    JumpInsnNode = Java.type('org.objectweb.asm.tree.JumpInsnNode');
+    LabelNode = Java.type('org.objectweb.asm.tree.LabelNode');
 
     return {
-        "ServerPlayerEntity#sendMessage": {
+        'ServerPlayerEntity#sendMessage': {
             target: {
-                type: "METHOD",
-                class: "net.minecraft.entity.player.ServerPlayerEntity",
-                methodName: "sendMessage",
-                methodDesc:
-                    "(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)V",
+                type: 'METHOD',
+                class: 'net.minecraft.entity.player.ServerPlayerEntity',
+                methodName: 'sendMessage',
+                methodDesc: '(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)V',
             },
             transformer: function (methodNode) {
                 // print(ASMAPI.methodNodeToString(methodNode));
@@ -31,7 +30,7 @@ function initializeCoreMod() {
                         0     this         Lnet/minecraft/entity/player/ServerPlayerEntity;
                         1     p_241151_1_  Lnet/minecraft/util/text/ITextComponent;
                         2     p_241151_2_  Lnet/minecraft/util/text/ChatType;
-                        3     p_241151_3_  Ljava/util/UUID; 
+                        3     p_241151_3_  Ljava/util/UUID;
                     */
                     toInject.add(new VarInsnNode(Opcodes.ALOAD, 1));
                     toInject.add(new VarInsnNode(Opcodes.ALOAD, 2));
@@ -39,9 +38,9 @@ function initializeCoreMod() {
                     toInject.add(
                         new MethodInsnNode(
                             Opcodes.INVOKESTATIC,
-                            "org/auioc/mods/ahutils/server/event/ServerEventRegistry",
-                            "postServerPlayerEntitySendMessageEvent",
-                            "(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)Z",
+                            'org/auioc/mods/ahutils/server/event/ServerEventRegistry',
+                            'postServerPlayerEntitySendMessageEvent',
+                            '(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)Z',
                             false
                         )
                     );

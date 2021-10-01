@@ -1,21 +1,20 @@
 function initializeCoreMod() {
     // ASMAPI = Java.type("net.minecraftforge.coremod.api.ASMAPI");
-    Opcodes = Java.type("org.objectweb.asm.Opcodes");
+    Opcodes = Java.type('org.objectweb.asm.Opcodes');
 
-    InsnList = Java.type("org.objectweb.asm.tree.InsnList");
+    InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
-    AbstractInsnNode = Java.type("org.objectweb.asm.tree.AbstractInsnNode");
-    VarInsnNode = Java.type("org.objectweb.asm.tree.VarInsnNode");
-    MethodInsnNode = Java.type("org.objectweb.asm.tree.MethodInsnNode");
+    AbstractInsnNode = Java.type('org.objectweb.asm.tree.AbstractInsnNode');
+    VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+    MethodInsnNode = Java.type('org.objectweb.asm.tree.MethodInsnNode');
 
     return {
-        "ServerLifecycleHooks#handleServerLogin": {
+        'ServerLifecycleHooks#handleServerLogin': {
             target: {
-                type: "METHOD",
-                class: "net.minecraftforge.fml.server.ServerLifecycleHooks",
-                methodName: "handleServerLogin",
-                methodDesc:
-                    "(Lnet/minecraft/network/handshake/client/CHandshakePacket;Lnet/minecraft/network/NetworkManager;)Z",
+                type: 'METHOD',
+                class: 'net.minecraftforge.fml.server.ServerLifecycleHooks',
+                methodName: 'handleServerLogin',
+                methodDesc: '(Lnet/minecraft/network/handshake/client/CHandshakePacket;Lnet/minecraft/network/NetworkManager;)Z',
             },
             transformer: function (methodNode) {
                 // print(ASMAPI.methodNodeToString(methodNode));
@@ -34,9 +33,7 @@ function initializeCoreMod() {
                 }
 
                 if (!firstLabel) {
-                    throw (
-                        "Error: Couldn't find injection point! " + instructions
-                    );
+                    throw "Error: Couldn't find injection point! " + instructions;
                 }
 
                 var toInject = new InsnList();
@@ -52,9 +49,9 @@ function initializeCoreMod() {
                     toInject.add(
                         new MethodInsnNode(
                             Opcodes.INVOKESTATIC,
-                            "org/auioc/mods/ahutils/server/event/ServerEventRegistry",
-                            "postServerLoginEvent",
-                            "(Lnet/minecraft/network/handshake/client/CHandshakePacket;Lnet/minecraft/network/NetworkManager;)V",
+                            'org/auioc/mods/ahutils/server/event/ServerEventRegistry',
+                            'postServerLoginEvent',
+                            '(Lnet/minecraft/network/handshake/client/CHandshakePacket;Lnet/minecraft/network/NetworkManager;)V',
                             false
                         )
                     );
