@@ -35,6 +35,11 @@ public class ServerLoginEvent extends Event {
         return this.message;
     }
 
+    public void cancel() {
+        this.message = "Disconnected because the ServerLoginEvent was cancelled.";
+        this.setCanceled(true);
+    }
+
     public void cancel(String message) {
         this.message = message;
         this.setCanceled(true);
