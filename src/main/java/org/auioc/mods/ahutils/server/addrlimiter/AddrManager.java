@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import com.google.gson.Gson;
+import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.java.NetUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.management.PlayerList;
@@ -29,8 +30,8 @@ public class AddrManager {
     }
 
     private final Map<String, List<UUID>> map = Collections.synchronizedMap(new HashMap<String, List<UUID>>());
-    private static final int maxPlayersPreAddr = 1;
-    private static final boolean bypassLocalAddress = true;
+    private static final int maxPlayersPreAddr = ServerConfig.MaxPlayerPreAddr.get();
+    private static final boolean bypassLocalAddress = ServerConfig.BypassLocalAddress.get();
 
     public int getmaxPlayersPreAddr() {
         return maxPlayersPreAddr;

@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.server.addrlimiter;
 
+import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.utils.game.AddrUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -21,8 +22,8 @@ public class AddrHandler {
         return AddrHandler.instance;
     }
 
+    private static final boolean enable = ServerConfig.EnableAddrLimiter.get();
     private static final AddrManager limiter = AddrManager.getInstance();
-    private static final boolean enable = true;
 
     public void playerAttemptLogin(final ServerLoginEvent event) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
