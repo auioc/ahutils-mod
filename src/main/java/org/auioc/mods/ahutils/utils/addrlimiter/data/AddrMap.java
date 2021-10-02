@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated(since = "3.1.2")
 public class AddrMap {
     private List<UUID> onlineUsers = new ArrayList<UUID>();
     private long lastSeen;

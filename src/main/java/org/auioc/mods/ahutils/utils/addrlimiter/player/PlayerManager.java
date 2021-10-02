@@ -11,6 +11,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 
+@Deprecated(since = "3.1.2")
 public class PlayerManager {
     private static PlayerManager instance;
 

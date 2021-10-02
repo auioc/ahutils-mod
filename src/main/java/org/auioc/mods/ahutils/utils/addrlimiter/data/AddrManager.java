@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.LogUtil;
 
+@Deprecated(since = "3.1.2")
 public class AddrManager {
     private static AddrManager instance;
 
