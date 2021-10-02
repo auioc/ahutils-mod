@@ -1,15 +1,18 @@
 package org.auioc.mods.ahutils.server.command;
 
+import java.io.File;
 import java.util.Collection;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrManager;
 import org.auioc.mods.ahutils.utils.LogUtil;
+import org.auioc.mods.ahutils.utils.java.FileUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
@@ -17,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 public abstract class ServerCommandHandlers {
     public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
@@ -67,6 +71,12 @@ public abstract class ServerCommandHandlers {
                 LogUtil.info(LogUtil.getMarker("AddrLimiter"), ((mode == 1) ? "" : "\n") + message.getString());
             }
         } else if (mode == 3) {
+            try {
+                File file = FileUtils.writeText("dumps", "addrlimiter.json", new StringBuffer().append(addrManager.toJsonString()));
+                source.sendSuccess(new StringTextComponent("[AddrLimiter] Successful dump data to file: " + file), false);
+            } catch (Exception e) {
+                throw new SimpleCommandExceptionType(new StringTextComponent("[AddrLimiter] Cannot dump data to file: " + e.getMessage())).create();
+            }
         }
 
         return Command.SINGLE_SUCCESS;
