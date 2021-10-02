@@ -36,14 +36,14 @@ public class AddrManager {
         return maxPlayersPreAddr;
     }
 
-    public void add(String addr, UUID uuid) {
+    protected void add(String addr, UUID uuid) {
         List<UUID> list = this.map.getOrDefault(addr, new ArrayList<UUID>());
         list.add(uuid);
         this.map.put(addr, list);
         return;
     }
 
-    public void remove(String addr, UUID uuid) {
+    protected void remove(String addr, UUID uuid) {
         if (this.map.containsKey(addr)) {
             List<UUID> list = this.map.get(addr);
             if (list.size() <= 1) {
@@ -66,6 +66,10 @@ public class AddrManager {
             }
         }
         return true;
+    }
+
+    protected void clear() {
+        this.map.clear();
     }
 
 

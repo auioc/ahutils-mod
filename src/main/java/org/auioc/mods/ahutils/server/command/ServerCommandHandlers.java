@@ -10,6 +10,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
+import org.auioc.mods.ahutils.server.addrlimiter.AddrHandler;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrManager;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.java.FileUtils;
@@ -23,6 +24,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
 public abstract class ServerCommandHandlers {
+
     public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
         Collection<GameProfile> targets = GameProfileArgument.getGameProfiles(ctx, "targets");
 
@@ -66,7 +68,7 @@ public abstract class ServerCommandHandlers {
         if (mode == 1 || mode == 2) {
             ITextComponent message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
             if (source.getEntity() != null) {
-                source.sendSuccess(message, false);
+                source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r ").append(message), false);
             } else {
                 LogUtil.info(LogUtil.getMarker("AddrLimiter"), ((mode == 1) ? "" : "\n") + message.getString());
             }
@@ -81,4 +83,19 @@ public abstract class ServerCommandHandlers {
 
         return Command.SINGLE_SUCCESS;
     }
+
+    public static int refreshAddrlimiter(CommandContext<CommandSource> ctx) {
+        CommandSource source = ctx.getSource();
+        source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r Start refreshing..."), true);
+        AddrHandler addrHandler = AddrHandler.getInstance();
+        boolean result = addrHandler.refreshAddrManager(source.getServer().getPlayerList());
+        if (result) {
+            source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r Refresh successfully."), true);
+        } else {
+            source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r §eNot enabled, ignore the refresh operation."), true);
+        }
+
+        return Command.SINGLE_SUCCESS;
+    }
+
 }

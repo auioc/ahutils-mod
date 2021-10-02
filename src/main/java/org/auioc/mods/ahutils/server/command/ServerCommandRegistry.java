@@ -13,6 +13,7 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
 
 public class ServerCommandRegistry {
+
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(
             literal(AhUtils.MOD_ID)
@@ -62,7 +63,13 @@ public class ServerCommandRegistry {
                                         .executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 3))
                                 )
                         )
+                        .then(
+                            literal("refresh")
+                                .requires(source -> source.hasPermission(4))
+                                .executes(ServerCommandHandlers::refreshAddrlimiter)
+                        )
                 )
         );
     }
+
 }
