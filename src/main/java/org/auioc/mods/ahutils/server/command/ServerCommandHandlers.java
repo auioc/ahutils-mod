@@ -8,6 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
+import org.auioc.mods.ahutils.server.addrlimiter.AddrManager;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.arguments.EntityArgument;
@@ -15,6 +16,7 @@ import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class ServerCommandHandlers {
     public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
@@ -49,6 +51,22 @@ public abstract class ServerCommandHandlers {
             );
 
             entity.hurt(source, damage);
+        }
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    public static int dumpAddrlimiterMap(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
+        CommandSource source = ctx.getSource();
+        AddrManager addrManager = AddrManager.getInstance();
+        if (mode == 1 || mode == 2) {
+            ITextComponent message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
+            if (source.getEntity() != null) {
+                source.sendSuccess(message, false);
+            } else {
+                LogUtil.info(LogUtil.getMarker("AddrLimiter"), ((mode == 1) ? "" : "\n") + message.getString());
+            }
+        } else if (mode == 3) {
         }
 
         return Command.SINGLE_SUCCESS;

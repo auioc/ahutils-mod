@@ -16,25 +16,19 @@ public class ServerCommandRegistry {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(
             literal(AhUtils.MOD_ID)
-                .executes(
-                    (ctx) -> {
-                        return Command.SINGLE_SUCCESS;
-                    }
-                )
+                .executes(ctx -> Command.SINGLE_SUCCESS)
 
                 .then(
                     literal("crash")
-                        .requires((commandSource) -> {
-                            return commandSource.hasPermission(4);
-                        })
+                        .requires(source -> source.hasPermission(4))
                         .then(
                             literal("client")
                                 .then(
                                     argument("targets", GameProfileArgument.gameProfile())
-                                        .executes((ctx) -> ServerCommandHandlers.triggerClientCrash(ctx, 0))
+                                        .executes(ctx -> ServerCommandHandlers.triggerClientCrash(ctx, 0))
                                         .then(
                                             argument("mode", IntegerArgumentType.integer(0))
-                                                .executes((ctx) -> ServerCommandHandlers.triggerClientCrash(ctx, ctx.getArgument("mode", Integer.class)))
+                                                .executes(ctx -> ServerCommandHandlers.triggerClientCrash(ctx, ctx.getArgument("mode", Integer.class)))
                                         )
                                 )
                         )
@@ -42,19 +36,31 @@ public class ServerCommandRegistry {
 
                 .then(
                     literal("hurt")
-                        .requires((commandSource) -> {
-                            return commandSource.hasPermission(3);
-                        })
+                        .requires(source -> source.hasPermission(3))
                         .then(
                             argument("targets", EntityArgument.entities())
                                 .then(
                                     argument("source", DamageSourceArgument.damageSource())
                                         .then(
-                                            argument("damage", FloatArgumentType.floatArg(0F))
-                                                .executes(ServerCommandHandlers::hurtEntity)
+                                            argument("damage", FloatArgumentType.floatArg(0F)).executes(ServerCommandHandlers::hurtEntity)
                                         )
                                 )
 
+                        )
+                )
+
+                .then(
+                    literal("addrlimiter")
+                        .requires(source -> source.hasPermission(3))
+                        .then(
+                            literal("dump")
+                                .then(literal("json").executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 1)))
+                                .then(literal("list").executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 2)))
+                                .then(
+                                    literal("file")
+                                        .requires(source -> (source.getEntity() == null))
+                                        .executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 3))
+                                )
                         )
                 )
         );
