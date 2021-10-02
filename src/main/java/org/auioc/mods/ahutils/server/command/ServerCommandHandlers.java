@@ -63,6 +63,9 @@ public abstract class ServerCommandHandlers {
     }
 
     public static int dumpAddrlimiterMap(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
+        if (!AddrHandler.isEnabled()) {
+            throw new SimpleCommandExceptionType(new StringTextComponent("§b[AddrLimiter]§r §cNot enabled!")).create();
+        }
         CommandSource source = ctx.getSource();
         AddrManager addrManager = AddrManager.getInstance();
         if (mode == 1 || mode == 2) {
@@ -84,16 +87,14 @@ public abstract class ServerCommandHandlers {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static int refreshAddrlimiter(CommandContext<CommandSource> ctx) {
+    public static int refreshAddrlimiter(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        if (!AddrHandler.isEnabled()) {
+            throw new SimpleCommandExceptionType(new StringTextComponent("§b[AddrLimiter]§r §cNot enabled!")).create();
+        }
         CommandSource source = ctx.getSource();
         source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r Start refreshing..."), true);
-        AddrHandler addrHandler = AddrHandler.getInstance();
-        boolean result = addrHandler.refreshAddrManager(source.getServer().getPlayerList());
-        if (result) {
-            source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r Refresh successfully."), true);
-        } else {
-            source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r §eNot enabled, ignore the refresh operation."), true);
-        }
+        AddrHandler.refreshAddrManager(source.getServer().getPlayerList());
+        source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r §aRefresh successfully."), true);
 
         return Command.SINGLE_SUCCESS;
     }

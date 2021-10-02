@@ -29,20 +29,20 @@ public class ServerEventHandler {
             return;
         }
         if (intention == ProtocolType.LOGIN) {
-            AddrHandler.getInstance().playerAttemptLogin(event);
+            AddrHandler.playerAttemptLogin(event);
             return;
         }
     }
 
     @SubscribeEvent
     public static void playerLoggedIn(final PlayerEvent.PlayerLoggedInEvent event) {
-        AddrHandler.getInstance().playerLogin((ServerPlayerEntity) event.getPlayer());
+        AddrHandler.playerLogin((ServerPlayerEntity) event.getPlayer());
 
     }
 
     @SubscribeEvent
     public static void playerLoggedOut(final PlayerEvent.PlayerLoggedOutEvent event) {
-        AddrHandler.getInstance().playerLogout((ServerPlayerEntity) event.getPlayer());
+        AddrHandler.playerLogout((ServerPlayerEntity) event.getPlayer());
     }
 
 }

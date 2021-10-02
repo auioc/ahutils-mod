@@ -11,28 +11,17 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class AddrHandler {
 
-    private static AddrHandler instance;
-
-    private AddrHandler() {}
-
-    public static AddrHandler getInstance() {
-        if (AddrHandler.instance == null) {
-            AddrHandler.instance = new AddrHandler();
-        }
-        return AddrHandler.instance;
-    }
-
     private static final boolean enable = ServerConfig.EnableAddrLimiter.get();
     private static final AddrManager limiter = AddrManager.getInstance();
 
-    public void playerAttemptLogin(final ServerLoginEvent event) {
+    public static void playerAttemptLogin(final ServerLoginEvent event) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         if (!limiter.check(AddrUtils.getIp(event.getNetworkManager()), Util.NIL_UUID)) {
             event.cancel(getMessage());
         }
     }
 
-    public void playerLogin(final ServerPlayerEntity player) {
+    public static void playerLogin(final ServerPlayerEntity player) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         if (!limiter.check(AddrUtils.getPlayerIp(player), player.getUUID())) {
             player.connection.disconnect((ITextComponent) new StringTextComponent(getMessage()));
@@ -41,20 +30,23 @@ public class AddrHandler {
         }
     }
 
-    public void playerLogout(final ServerPlayerEntity player) {
+    public static void playerLogout(final ServerPlayerEntity player) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         limiter.remove(AddrUtils.getPlayerIp(player), player.getUUID());
     }
 
-    public boolean refreshAddrManager(PlayerList playerList) {
-        /*@formatter:off*/if(!enable){return false;}/*@formatter:on*/
+    public static void refreshAddrManager(PlayerList playerList) {
+        /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         limiter.clear();
         (playerList.getPlayers()).forEach((player) -> {
             limiter.add(AddrUtils.getPlayerIp(player), player.getUUID());
         });
-        return true;
     }
 
+
+    public static boolean isEnabled() {
+        return enable;
+    }
 
     private static String getMessage() {
         return String.format(
