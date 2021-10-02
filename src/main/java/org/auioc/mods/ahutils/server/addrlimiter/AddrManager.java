@@ -41,7 +41,6 @@ public class AddrManager {
         List<UUID> list = this.map.getOrDefault(addr, new ArrayList<UUID>());
         list.add(uuid);
         this.map.put(addr, list);
-        return;
     }
 
     protected void remove(String addr, UUID uuid) {
@@ -54,7 +53,6 @@ public class AddrManager {
                 this.map.put(addr, list);
             }
         }
-        return;
     }
 
     public boolean check(String addr, UUID uuid) {
@@ -84,23 +82,35 @@ public class AddrManager {
 
     public ITextComponent toChatMessage(PlayerList playerList) {
         StringTextComponent m = new StringTextComponent("");
+
         m.append(new StringTextComponent("[AddrLimiter]").withStyle(Style.EMPTY.withColor(TextFormatting.AQUA)));
         m.append(new StringTextComponent("\n Current player list").withStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)));
+
         if (map.isEmpty()) {
             return m.append(new StringTextComponent("\n  ┗ No data is recorded in the addrlimiter.").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)));
         }
+
         int entryIndex = 0;
         int errorOffline = 0;
+        List<UUID> uuidsAll = new ArrayList<UUID>();
         for (Map.Entry<String, List<UUID>> e : this.map.entrySet()) {
             String addr = e.getKey();
             List<UUID> uuids = e.getValue();
+
             boolean lastEntry = (entryIndex == map.size() - 1);
             entryIndex++;
+
             StringTextComponent l = new StringTextComponent("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
+            if (NetUtils.isLocalAddress(addr)) {
+                l.append(new StringTextComponent(" (Local)").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+            }
             l.append(new StringTextComponent(" (" + uuids.size() + ")").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+
             for (int i = 0; i < uuids.size(); i++) {
                 UUID uuid = uuids.get(i);
+                uuidsAll.add(uuid);
                 ServerPlayerEntity player = playerList.getPlayer(uuid);
+
                 String p = String.format("\n  %s  %s ", (lastEntry ? " " : "┃"), (i == uuids.size() - 1) ? "┗" : "┣");
                 if (player != null) {
                     l.append(new StringTextComponent(p).append(player.getDisplayName()));
@@ -109,11 +119,22 @@ public class AddrManager {
                     errorOffline++;
                 }
             }
+
             m.append(l);
         }
+
+        StringTextComponent e = (StringTextComponent) new StringTextComponent("").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW));
         if (errorOffline > 0) {
-            m.append(new StringTextComponent(String.format("\n WARNING: Detected %d non-online players in the list.", errorOffline)).withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)));
+            e.append(new StringTextComponent(String.format("\n WARNING: Detected %d non-online players in the list.", errorOffline)));
         }
+        if (uuidsAll.size() > uuidsAll.stream().distinct().count()) {
+            e.append(new StringTextComponent(String.format("\n WARNING: Detected %d duplicate players in the list.", uuidsAll.size() - uuidsAll.stream().distinct().count())));
+        }
+        if (!e.getSiblings().isEmpty()) {
+            e.append(new StringTextComponent("\n  (Try to run \"refresh\" command to fix these errors.)").withStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+        }
+        m.append(e);
+
         return m;
     }
 

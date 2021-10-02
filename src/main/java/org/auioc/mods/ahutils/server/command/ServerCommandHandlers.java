@@ -71,9 +71,9 @@ public abstract class ServerCommandHandlers {
         if (mode == 1 || mode == 2) {
             ITextComponent message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
             if (source.getEntity() != null) {
-                source.sendSuccess(new StringTextComponent("§b[AddrLimiter]§r ").append(message), false);
+                source.sendSuccess(new StringTextComponent((mode == 1) ? "§b[AddrLimiter]§r " : "").append(message), false);
             } else {
-                LogUtil.info(LogUtil.getMarker("AddrLimiter"), ((mode == 1) ? "" : "\n") + message.getString());
+                LogUtil.info(LogUtil.getMarker("AddrLimiter"), message.getString());
             }
         } else if (mode == 3) {
             try {
