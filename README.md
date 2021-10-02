@@ -14,22 +14,68 @@ Minecraft utilities, also a library for AH's mods.
 
 </div>
 
+## For Developers
+
+There are two ways to use this mod in your workspace:
+
+### GitHub Package (Recommended)
+
+Add the following to your `build.gradle`:
+
+```groovy
+repositories {
+    maven {
+        url "https://maven.pkg.github.com/wakelesssloth56/ahutils-mod"
+        credentials {
+            username = "<GITHUB_USERNAME>"
+            password = "<GITHUB_TOKEN>"
+        }
+    }
+}
+
+dependencies {
+    compileOnly "org.auioc.mods.ahutils:ahutils-<MINECRAFT_VERSION>:<AHUTILS_VERSION>:forgelib"
+    runtimeOnly "org.auioc.mods.ahutils:ahutils-<MINECRAFT_VERSION>:<AHUTILS_VERSION>"
+}
+```
+
+#### Notices
+
+1. Mod version can be found in the [Packages](https://github.com/WakelessSloth56/ahutils-mod/packages/) of this repository.
+2. You must provide a valid GitHub username and token to access the GitHub Packages.
+    - See [official documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) for more information.
+
+### Local JAR File
+
+If you do not want to or can not use the GitHub Packages:
+
+1. Download the mod jar and forgelib jar of the version you want from [Releases](https://github.com/WakelessSloth56/ahutils-mod/releases), then put them into `libs` folder.
+
+2. Add the following to your `build.gradle`:
+
+    ```groovy
+    dependencies {
+        compileOnly files("libs/ahutils-<VERSION>-forgelib.jar")
+        runtimeOnly files("libs/ahutils-<VERSION>.jar")
+    }
+    ```
+
 ## Maintainers
 
-* [@WakelessSloth56](https://github.com/WakelessSloth56)
+- [@WakelessSloth56](https://github.com/WakelessSloth56)
 
 ## Credits
 
-* [AUIOC](https://www.auioc.com)
-* [bgxd9592](https://github.com/bgxd9592)
-* [HaruhiFanClub](https://github.com/HaruhiFanClub)
+- [AUIOC](https://www.auioc.com)
+- [bgxd9592](https://github.com/bgxd9592)
+- [HaruhiFanClub](https://github.com/HaruhiFanClub)
 
 ## Contributing
 
 Any type of contribution is welcome, here are some examples of how you may contribute to this project:
 
-* Submit [issues](https://github.com/WakelessSloth56/ahutils-mod/issues) to report bugs or ask questions.
-* Propose [pull requests](https://github.com/WakelessSloth56/ahutils-mod/pulls) to improve our code.
+- Submit [issues](https://github.com/WakelessSloth56/ahutils-mod/issues) to report bugs or ask questions.
+- Propose [pull requests](https://github.com/WakelessSloth56/ahutils-mod/pulls) to improve our code.
 
 ## License
 
