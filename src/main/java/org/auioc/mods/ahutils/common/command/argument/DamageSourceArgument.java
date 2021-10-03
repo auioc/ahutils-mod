@@ -9,7 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import org.auioc.mods.ahutils.utils.game.I18nUtils;
+import org.auioc.mods.ahutils.utils.game.TextUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.util.DamageSource;
@@ -34,7 +34,7 @@ public class DamageSourceArgument implements ArgumentType<DamageSource> {
         }
 
         throw (new SimpleCommandExceptionType(
-            I18nUtils.getTranslatedText("ahutils.argument.damage_source.invalid", sourceName)
+            TextUtils.getI18nText("ahutils.argument.damage_source.invalid", sourceName)
         )).create();
     }
 
