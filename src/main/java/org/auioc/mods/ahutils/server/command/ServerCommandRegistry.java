@@ -8,6 +8,7 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import org.auioc.mods.ahutils.AhUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
+import org.auioc.mods.ahutils.server.addrlimiter.AddrlimiterCommandHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
@@ -26,10 +27,10 @@ public class ServerCommandRegistry {
                             literal("client")
                                 .then(
                                     argument("targets", GameProfileArgument.gameProfile())
-                                        .executes(ctx -> ServerCommandHandlers.triggerClientCrash(ctx, 0))
+                                        .executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 0))
                                         .then(
                                             argument("mode", IntegerArgumentType.integer(0))
-                                                .executes(ctx -> ServerCommandHandlers.triggerClientCrash(ctx, ctx.getArgument("mode", Integer.class)))
+                                                .executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, ctx.getArgument("mode", Integer.class)))
                                         )
                                 )
                         )
@@ -43,7 +44,7 @@ public class ServerCommandRegistry {
                                 .then(
                                     argument("source", DamageSourceArgument.damageSource())
                                         .then(
-                                            argument("damage", FloatArgumentType.floatArg(0F)).executes(ServerCommandHandlers::hurtEntity)
+                                            argument("damage", FloatArgumentType.floatArg(0F)).executes(ServerCommandHandler::hurtEntity)
                                         )
                                 )
 
@@ -55,18 +56,18 @@ public class ServerCommandRegistry {
                         .requires(source -> source.hasPermission(3))
                         .then(
                             literal("dump")
-                                .then(literal("json").executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 1)))
-                                .then(literal("list").executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 2)))
+                                .then(literal("json").executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 1)))
+                                .then(literal("list").executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 2)))
                                 .then(
                                     literal("file")
                                         .requires(source -> (source.getEntity() == null))
-                                        .executes(ctx -> ServerCommandHandlers.dumpAddrlimiterMap(ctx, 3))
+                                        .executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 3))
                                 )
                         )
                         .then(
                             literal("refresh")
                                 .requires(source -> source.hasPermission(4))
-                                .executes(ServerCommandHandlers::refreshAddrlimiter)
+                                .executes(AddrlimiterCommandHandler::refreshAddrlimiter)
                         )
                 )
         );
