@@ -5,6 +5,12 @@
 
     "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
 
+    "ahutils.addrlimiter.command.prefix": "[AddrLimiter] ",
+    "ahutils.addrlimiter.command.not_enabled": "This feature is not enabled",
+    "ahutils.addrlimiter.command.dump.success": "Successful dump data to file %s",
+    "ahutils.addrlimiter.command.dump.failure": "Cannot dump data to file: %s",
+    "ahutils.addrlimiter.command.refresh.start": "Start refreshing",
+    "ahutils.addrlimiter.command.refresh.success": "Refresh successfully",
     "ahutils.addrlimiter.dump.title": "Current player map",
     "ahutils.addrlimiter.dump.no_data": "No data is recorded in the addrlimiter",
     "ahutils.addrlimiter.dump.local_address": "(Local)",

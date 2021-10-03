@@ -5,6 +5,12 @@
 
     "ahutils.argument.damage_source.invalid": "无效的伤害类型%s",
 
+    "ahutils.addrlimiter.command.prefix": "[AddrLimiter] ",
+    "ahutils.addrlimiter.command.not_enabled": "此功能未启用",
+    "ahutils.addrlimiter.command.dump.success": "成功将数据输出到文件%s",
+    "ahutils.addrlimiter.command.dump.failure": "输出数据到文件失败: %s",
+    "ahutils.addrlimiter.command.refresh.start": "开始刷新映射",
+    "ahutils.addrlimiter.command.refresh.success": "刷新映射成功",
     "ahutils.addrlimiter.dump.title": "已记录的玩家映射",
     "ahutils.addrlimiter.dump.no_data": "记录中没有任何数据",
     "ahutils.addrlimiter.dump.local_address": "(本地地址)",
