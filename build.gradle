@@ -28,10 +28,11 @@ minecraft {
     mappings channel: "${mappings_channel}", version: "${mappings_version}"
     runs {
         client {
+            workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            workingDirectory project.file('run')
-            arg "-mixin.config=ahutils.mixin.json"
+            property 'mixin.debug', 'true'
+            arg '-mixin.config=ahutils.mixin.json'
             mods {
                 ahutils {
                     source sourceSets.main
@@ -40,10 +41,11 @@ minecraft {
         }
 
         server {
+            workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            workingDirectory project.file('run')
-            arg "-mixin.config=ahutils.mixin.json"
+            property 'mixin.debug', 'true'
+            arg '-mixin.config=ahutils.mixin.json'
             mods {
                 ahutils {
                     source sourceSets.main
