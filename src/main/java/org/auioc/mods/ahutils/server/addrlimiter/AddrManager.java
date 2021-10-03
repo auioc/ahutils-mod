@@ -15,7 +15,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -86,11 +85,11 @@ public class AddrManager {
     public ITextComponent toChatMessage(PlayerList playerList) {
         StringTextComponent m = getStringText("");
 
-        m.append(getStringText("[AddrLimiter]").withStyle(Style.EMPTY.withColor(TextFormatting.AQUA)));
-        m.append(getPrefix().append(getI18nText("title")).withStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)));
+        m.append(getStringText("[AddrLimiter]").withStyle(TextFormatting.AQUA));
+        m.append(getPrefix().append(getI18nText("title")).withStyle(TextFormatting.DARK_AQUA));
 
         if (map.isEmpty()) {
-            return m.append(getPrefix().append(" ┗ ").append(getI18nText("no_data")).withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)));
+            return m.append(getPrefix().append(" ┗ ").append(getI18nText("no_data")).withStyle(TextFormatting.YELLOW));
         }
 
         int entryIndex = 0;
@@ -105,9 +104,9 @@ public class AddrManager {
 
             StringTextComponent l = getStringText("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
             if (NetUtils.isLocalAddress(addr)) {
-                l.append(getStringText(" ").append(getI18nText("local_address")).withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+                l.append(getStringText(" ").append(getI18nText("local_address")).withStyle(TextFormatting.GRAY));
             }
-            l.append(getStringText(" (" + uuids.size() + ")").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+            l.append(getStringText(" (" + uuids.size() + ")").withStyle(TextFormatting.GRAY));
 
             for (int i = 0; i < uuids.size(); i++) {
                 UUID uuid = uuids.get(i);
@@ -118,7 +117,7 @@ public class AddrManager {
                 if (player != null) {
                     l.append(getStringText(p).append(player.getDisplayName()));
                 } else {
-                    l.append(getStringText(p).append(getStringText(uuid.toString()).withStyle(Style.EMPTY.withColor(TextFormatting.GRAY).withItalic(true))));
+                    l.append(getStringText(p).append(getStringText(uuid.toString()).withStyle(TextFormatting.GRAY, TextFormatting.ITALIC)));
                     errorOffline++;
                 }
             }
@@ -126,7 +125,7 @@ public class AddrManager {
             m.append(l);
         }
 
-        StringTextComponent e = (StringTextComponent) getStringText("").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW));
+        StringTextComponent e = (StringTextComponent) getStringText("").withStyle(TextFormatting.YELLOW);
         if (errorOffline > 0) {
             e.append(getPrefix().append(getI18nText("detected_non_online_players", errorOffline)));
         }
@@ -134,7 +133,7 @@ public class AddrManager {
             e.append(getPrefix().append(getI18nText("detected_duplicate_players", uuidsAll.size() - uuidsAll.stream().distinct().count())));
         }
         if (!e.getSiblings().isEmpty()) {
-            e.append(getPrefix().append(getI18nText("refresh_tip")).withStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+            e.append(getPrefix().append(getI18nText("refresh_tip")).withStyle(TextFormatting.GREEN));
         }
         m.append(e);
 

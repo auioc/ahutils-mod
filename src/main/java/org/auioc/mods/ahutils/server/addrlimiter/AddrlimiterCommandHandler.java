@@ -11,7 +11,6 @@ import org.auioc.mods.ahutils.utils.java.FileUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -26,7 +25,7 @@ public final class AddrlimiterCommandHandler {
     }
 
     private static final IFormattableTextComponent prefix() {
-        return TextUtils.getStringText("").append(getI18nText("prefix").withStyle(Style.EMPTY.withColor(TextFormatting.AQUA)));
+        return TextUtils.getStringText("").append(getI18nText("prefix").withStyle(TextFormatting.AQUA));
     }
 
     public static final SimpleCommandExceptionType NOT_ENABLED = new SimpleCommandExceptionType(prefix().append(getI18nText("not_enabled")));
@@ -64,7 +63,7 @@ public final class AddrlimiterCommandHandler {
         CommandSource source = ctx.getSource();
         source.sendSuccess(prefix().append(getI18nText("refresh.start")), true);
         AddrHandler.refreshAddrManager(source.getServer().getPlayerList());
-        source.sendSuccess(prefix().append(getI18nText("refresh.success").withStyle(Style.EMPTY.withColor(TextFormatting.GREEN))), true);
+        source.sendSuccess(prefix().append(getI18nText("refresh.success").withStyle(TextFormatting.GREEN)), true);
 
         return Command.SINGLE_SUCCESS;
     }
