@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.server.addrlimiter;
 
+import static org.auioc.mods.ahutils.utils.game.TextUtils.getStringText;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import com.google.gson.Gson;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
+import org.auioc.mods.ahutils.utils.game.TextUtils;
 import org.auioc.mods.ahutils.utils.java.NetUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.management.PlayerList;
@@ -15,6 +17,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class AddrManager {
 
@@ -77,17 +80,17 @@ public class AddrManager {
     }
 
     public StringTextComponent toJsonText() {
-        return new StringTextComponent((new Gson()).toJson(this.map));
+        return getStringText((new Gson()).toJson(this.map));
     }
 
     public ITextComponent toChatMessage(PlayerList playerList) {
-        StringTextComponent m = new StringTextComponent("");
+        StringTextComponent m = getStringText("");
 
-        m.append(new StringTextComponent("[AddrLimiter]").withStyle(Style.EMPTY.withColor(TextFormatting.AQUA)));
-        m.append(new StringTextComponent("\n Current player list").withStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)));
+        m.append(getStringText("[AddrLimiter]").withStyle(Style.EMPTY.withColor(TextFormatting.AQUA)));
+        m.append(getPrefix().append(getI18nText("title")).withStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)));
 
         if (map.isEmpty()) {
-            return m.append(new StringTextComponent("\n  ┗ No data is recorded in the addrlimiter.").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)));
+            return m.append(getPrefix().append(" ┗ ").append(getI18nText("no_data")).withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)));
         }
 
         int entryIndex = 0;
@@ -100,11 +103,11 @@ public class AddrManager {
             boolean lastEntry = (entryIndex == map.size() - 1);
             entryIndex++;
 
-            StringTextComponent l = new StringTextComponent("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
+            StringTextComponent l = getStringText("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
             if (NetUtils.isLocalAddress(addr)) {
-                l.append(new StringTextComponent(" (Local)").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+                l.append(getStringText(" ").append(getI18nText("local_address")).withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
             }
-            l.append(new StringTextComponent(" (" + uuids.size() + ")").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
+            l.append(getStringText(" (" + uuids.size() + ")").withStyle(Style.EMPTY.withColor(TextFormatting.GRAY)));
 
             for (int i = 0; i < uuids.size(); i++) {
                 UUID uuid = uuids.get(i);
@@ -113,9 +116,9 @@ public class AddrManager {
 
                 String p = String.format("\n  %s  %s ", (lastEntry ? " " : "┃"), (i == uuids.size() - 1) ? "┗" : "┣");
                 if (player != null) {
-                    l.append(new StringTextComponent(p).append(player.getDisplayName()));
+                    l.append(getStringText(p).append(player.getDisplayName()));
                 } else {
-                    l.append(new StringTextComponent(p).append(new StringTextComponent(uuid.toString()).withStyle(Style.EMPTY.withColor(TextFormatting.GRAY).withItalic(true))));
+                    l.append(getStringText(p).append(getStringText(uuid.toString()).withStyle(Style.EMPTY.withColor(TextFormatting.GRAY).withItalic(true))));
                     errorOffline++;
                 }
             }
@@ -123,19 +126,31 @@ public class AddrManager {
             m.append(l);
         }
 
-        StringTextComponent e = (StringTextComponent) new StringTextComponent("").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW));
+        StringTextComponent e = (StringTextComponent) getStringText("").withStyle(Style.EMPTY.withColor(TextFormatting.YELLOW));
         if (errorOffline > 0) {
-            e.append(new StringTextComponent(String.format("\n WARNING: Detected %d non-online players in the list.", errorOffline)));
+            e.append(getPrefix().append(getI18nText("detected_non_online_players", errorOffline)));
         }
         if (uuidsAll.size() > uuidsAll.stream().distinct().count()) {
-            e.append(new StringTextComponent(String.format("\n WARNING: Detected %d duplicate players in the list.", uuidsAll.size() - uuidsAll.stream().distinct().count())));
+            e.append(getPrefix().append(getI18nText("detected_duplicate_players", uuidsAll.size() - uuidsAll.stream().distinct().count())));
         }
         if (!e.getSiblings().isEmpty()) {
-            e.append(new StringTextComponent("\n  (Try to run \"refresh\" command to fix these errors.)").withStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+            e.append(getPrefix().append(getI18nText("refresh_tip")).withStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
         }
         m.append(e);
 
         return m;
+    }
+
+    private static TranslationTextComponent getI18nText(String key) {
+        return TextUtils.getI18nText("ahutils.addrlimiter.dump." + key);
+    }
+
+    private static TranslationTextComponent getI18nText(String key, Object... arguments) {
+        return TextUtils.getI18nText("ahutils.addrlimiter.dump." + key, arguments);
+    }
+
+    private static StringTextComponent getPrefix() {
+        return getStringText("\n ");
     }
 
 }

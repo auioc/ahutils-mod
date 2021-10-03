@@ -3,5 +3,12 @@
     "itemGroup.ahutils_group": "AhUtils",
     "itemGroup.mc_hidden_items_group": "Vanilla Hidden Items",
 
-    "ahutils.argument.damage_source.invalid": "Invalid damage source%s"
+    "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
+
+    "ahutils.addrlimiter.dump.title": "Current player map",
+    "ahutils.addrlimiter.dump.no_data": "No data is recorded in the addrlimiter",
+    "ahutils.addrlimiter.dump.local_address": "(Local)",
+    "ahutils.addrlimiter.dump.detected_non_online_players": "WARNING: Detected %s non-online players in the list",
+    "ahutils.addrlimiter.dump.detected_duplicate_players": "WARNING: Detected %s duplicate players in the list",
+    "ahutils.addrlimiter.dump.refresh_tip": "(Tip: Try to run \"refresh\" command to fix these errors)"
 }
