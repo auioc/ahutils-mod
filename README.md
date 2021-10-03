@@ -60,6 +60,10 @@ If you do not want to or can not use the GitHub Packages:
     }
     ```
 
+## Documentation
+
+- `zh-CN`: <https://wiki.auioc.com/view/Minecraft:Mod/AHUtils>
+
 ## Maintainers
 
 - [@WakelessSloth56](https://github.com/WakelessSloth56)
