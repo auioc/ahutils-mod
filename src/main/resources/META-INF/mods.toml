@@ -5,6 +5,7 @@ license="GNU GPLv3"
 [[mods]]
 modId="ahutils"
 version="${ahutils_version}"
+updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.16.5.json"
 displayName="AHUtils"
 credits="AUIOC"
 authors="WakelssSloth56"

@@ -86,7 +86,7 @@ ext {
         "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
         "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
         "TweakOrder": 0,
-        "MixinConfigs" : "ahutils.mixin.json"
+        "MixinConfigs": "ahutils.mixin.json"
     ]
 }
 
@@ -146,6 +146,21 @@ publishing {
                 password = getVar("GITHUB_TOKEN")
             }
         }
+    }
+}
+
+task genUpdateJson() {
+    doFirst {
+        def j = [
+            'homepage': 'https://github.com/WakelessSloth56/ahutils-mod/releases',
+            'promos': [
+                    "${minecraft_version}-latest": "${ahutils_version}",
+                    "${minecraft_version}-recommended": "${ahutils_version}",
+            ]
+        ]
+        println(groovy.json.JsonOutput.toJson(j))
+        File file = file("tmp/${minecraft_version}.json")
+        file.write(groovy.json.JsonOutput.toJson(j))
     }
 }
 
