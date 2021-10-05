@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36.2,)"
+loaderVersion="[36.2.5,)"
 license="GNU GPLv3"
 
 [[mods]]
@@ -16,7 +16,7 @@ ${ahutils_description}
 [[dependencies.ahutils]]
     modId="forge"
     mandatory=true
-    versionRange="[36.2,)"
+    versionRange="[36.2.5,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.ahutils]]
