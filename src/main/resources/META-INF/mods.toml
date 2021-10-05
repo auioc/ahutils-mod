@@ -1,12 +1,14 @@
 modLoader="javafml"
 loaderVersion="[36.2.5,)"
 license="GNU GPLv3"
+issueTrackerURL="https://github.com/WakelessSloth56/ahutils-mod/issues"
 
 [[mods]]
 modId="ahutils"
 version="${ahutils_version}"
 updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.16.5.json"
 displayName="AHUtils"
+displayURL="https://github.com/WakelessSloth56/ahutils-mod"
 credits="AUIOC"
 authors="WakelssSloth56"
 description='''
