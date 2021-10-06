@@ -67,7 +67,7 @@ processResources {
     from (sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
         duplicatesStrategy 'include'
-        expand 'ahutils_version': "${ahutils_version}", 'ahutils_description':"${version}-${getVar('CI_VERSION')}"
+        expand 'ahutils_version': "${ahutils_version}", 'ahutils_full_version':"${archivesBaseName}-${version}-${getVar('CI_VERSION')}"
     }
 }
 

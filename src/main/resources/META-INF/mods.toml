@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36.2.5,)"
+loaderVersion="[36.2,)"
 license="GNU GPLv3"
 issueTrackerURL="https://github.com/WakelessSloth56/ahutils-mod/issues"
 
@@ -12,7 +12,8 @@ displayURL="https://github.com/WakelessSloth56/ahutils-mod"
 credits="AUIOC"
 authors="WakelssSloth56"
 description='''
-${ahutils_description}
+Minecraft utilities, also a library for AH's mods.
+${ahutils_full_version}
 '''
 
 [[dependencies.ahutils]]
