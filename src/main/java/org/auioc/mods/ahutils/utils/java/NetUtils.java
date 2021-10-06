@@ -3,6 +3,7 @@ package org.auioc.mods.ahutils.utils.java;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import javax.annotation.Nullable;
 import org.auioc.mods.ahutils.utils.LogUtil;
 
 public interface NetUtils {
@@ -14,6 +15,16 @@ public interface NetUtils {
         return s.substring(0, s.indexOf(":"));
     }
 
+    @Nullable
+    static InetAddress toInetAddress(String addr) {
+        try {
+            return InetAddress.getByName(addr);
+        } catch (UnknownHostException e) {
+            LogUtil.getModLogger().error(LogUtil.getMarker("NetUtils"), "", e);
+            return null;
+        }
+    }
+
     static boolean isLocalAddress(InetAddress addr) {
         return addr.isLoopbackAddress() || addr.isAnyLocalAddress() || addr.isLinkLocalAddress();
     }
@@ -22,12 +33,19 @@ public interface NetUtils {
         if (addr.contains("local:E:")) {
             return true;
         }
-        try {
-            return isLocalAddress(InetAddress.getByName(addr));
-        } catch (UnknownHostException e) {
-            LogUtil.getModLogger().error(LogUtil.getMarker("NetUtils"), "isLocalAddress()", e);
-            return false;
+        return isLocalAddress(toInetAddress(addr));
+
+    }
+
+    static boolean isLanAddress(InetAddress addr) {
+        return addr.isSiteLocalAddress();
+    }
+
+    static boolean isLanAddress(String addr) {
+        if (addr.contains("local:E:")) {
+            return true;
         }
+        return isLanAddress(toInetAddress(addr));
     }
 
 }
