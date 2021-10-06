@@ -8,6 +8,7 @@ public class ServerConfig {
     public static ForgeConfigSpec.BooleanValue EnableAddrLimiter;
     public static ForgeConfigSpec.IntValue MaxPlayerPreAddr;
     public static ForgeConfigSpec.BooleanValue BypassLocalAddress;
+    public static ForgeConfigSpec.BooleanValue BypassLanAddress;
 
     static {
         ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
@@ -17,6 +18,7 @@ public class ServerConfig {
             EnableAddrLimiter = b.define("enable", true);
             MaxPlayerPreAddr = b.defineInRange("max_player_pre_address", 1, 1, Integer.MAX_VALUE);
             BypassLocalAddress = b.define("bypass_local_address", true);
+            BypassLanAddress = b.define("bypass_lan_address", true);
             b.pop();
         }
 

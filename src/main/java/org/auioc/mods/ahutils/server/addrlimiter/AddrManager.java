@@ -34,6 +34,7 @@ public class AddrManager {
     private final Map<String, List<UUID>> map = Collections.synchronizedMap(new HashMap<String, List<UUID>>());
     private static final int maxPlayersPreAddr = ServerConfig.MaxPlayerPreAddr.get();
     private static final boolean bypassLocalAddress = ServerConfig.BypassLocalAddress.get();
+    private static final boolean bypassLanAddress = ServerConfig.BypassLanAddress.get();
 
     public int getmaxPlayersPreAddr() {
         return maxPlayersPreAddr;
@@ -60,6 +61,9 @@ public class AddrManager {
     public boolean check(String addr, UUID uuid) {
         if (this.map.containsKey(addr)) {
             if (bypassLocalAddress && NetUtils.isLocalAddress(addr)) {
+                return true;
+            }
+            if (bypassLanAddress && NetUtils.isLanAddress(addr)) {
                 return true;
             }
             if ((this.map.get(addr)).size() > (maxPlayersPreAddr - 1)) {
@@ -105,6 +109,8 @@ public class AddrManager {
             StringTextComponent l = getStringText("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
             if (NetUtils.isLocalAddress(addr)) {
                 l.append(getStringText(" ").append(getI18nText("local_address")).withStyle(TextFormatting.GRAY));
+            } else if (NetUtils.isLanAddress(addr)) {
+                l.append(getStringText(" ").append(getI18nText("lan_address")).withStyle(TextFormatting.GRAY));
             }
             l.append(getStringText(" (" + uuids.size() + ")").withStyle(TextFormatting.GRAY));
 
