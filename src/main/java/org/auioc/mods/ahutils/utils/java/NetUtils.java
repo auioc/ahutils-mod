@@ -3,6 +3,7 @@ package org.auioc.mods.ahutils.utils.java;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import org.auioc.mods.ahutils.utils.LogUtil;
 
 public interface NetUtils {
 
@@ -18,10 +19,13 @@ public interface NetUtils {
     }
 
     static boolean isLocalAddress(String addr) {
+        if (addr.contains("local:E:")) {
+            return true;
+        }
         try {
             return isLocalAddress(InetAddress.getByName(addr));
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            LogUtil.getModLogger().error(LogUtil.getMarker("NetUtils"), "isLocalAddress()", e);
             return false;
         }
     }
