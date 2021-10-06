@@ -25,12 +25,16 @@ public class LogUtil {
         return caller;
     }
 
-    private static Logger getLoggerByCaller() {
+    public static Logger getLoggerByCaller() {
         return LogManager.getLogger(getCaller().getClassName());
     }
 
     public static Logger getNamedLogger(String name) {
         return LogManager.getLogger(name);
+    }
+
+    public static Logger getModLogger() {
+        return getNamedLogger("ahutils");
     }
 
     public static Marker getMarker(String marker) {
