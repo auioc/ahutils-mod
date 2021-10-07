@@ -46,7 +46,7 @@ public final class PacketHandler implements IHPacketHandler {
 
     public static void register() {
         // registerClientToServer(TestPacket.class, TestPacket::decode);
-        registerServerToClient(org.auioc.mods.ahutils.client.network.TriggerCrashPacket.class, org.auioc.mods.ahutils.client.network.TriggerCrashPacket::decode);
+        registerServerToClient(org.auioc.mods.ahutils.client.network.TriggerClientCrashPacket.class, org.auioc.mods.ahutils.client.network.TriggerClientCrashPacket::decode);
     }
 
     public static <MSG extends IHPacket> void sendToServer(MSG msg) {

@@ -25,7 +25,7 @@ public abstract class ServerCommandHandler {
 
         for (GameProfile gameprofile : targets) {
             ServerPlayerEntity player = source.getServer().getPlayerList().getPlayer(gameprofile.getId());
-            PacketHandler.sendTo(player, new org.auioc.mods.ahutils.client.network.TriggerCrashPacket(mode));
+            PacketHandler.sendTo(player, new org.auioc.mods.ahutils.client.network.TriggerClientCrashPacket(mode));
 
             LogUtil.warn(
                 LogUtil.getMarker("TriggerClientCrash"), String.format(

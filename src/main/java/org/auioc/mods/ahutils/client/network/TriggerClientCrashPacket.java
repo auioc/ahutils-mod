@@ -9,10 +9,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 
-public class TriggerCrashPacket implements IHPacket {
+public class TriggerClientCrashPacket implements IHPacket {
     private final int mode;
 
-    public TriggerCrashPacket(int mode) {
+    public TriggerClientCrashPacket(int mode) {
         this.mode = mode;
     }
 
@@ -26,8 +26,8 @@ public class TriggerCrashPacket implements IHPacket {
         buffer.writeInt(mode);
     }
 
-    public static TriggerCrashPacket decode(PacketBuffer buffer) {
-        return new TriggerCrashPacket(buffer.readInt());
+    public static TriggerClientCrashPacket decode(PacketBuffer buffer) {
+        return new TriggerClientCrashPacket(buffer.readInt());
     }
 
     @OnlyIn(Dist.CLIENT)
