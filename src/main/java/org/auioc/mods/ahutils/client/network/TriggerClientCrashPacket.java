@@ -42,12 +42,12 @@ public class TriggerClientCrashPacket implements IHPacket {
                 System.exit(-1);
                 break;
             }
-            case 2: {
-                Object[] o = null;
-                while (true) {
-                    o = new Object[] {o};
-                }
-            }
+            // case 2: {
+            //     Object[] o = null;
+            //     while (true) {
+            //         o = new Object[] {o};
+            //     }
+            // }
         }
     }
 }

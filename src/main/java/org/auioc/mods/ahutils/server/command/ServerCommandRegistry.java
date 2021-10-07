@@ -29,7 +29,7 @@ public class ServerCommandRegistry {
                                         .executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 0))
                                         .then(literal("debug").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 0)))
                                         .then(literal("exit").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 1)))
-                                        .then(literal("unsafe").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 2)))
+                                    // .then(literal("unsafe").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 2)))
                                 )
                         )
                 )
