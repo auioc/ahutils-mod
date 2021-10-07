@@ -20,15 +20,17 @@ public abstract class ServerCommandHandler {
 
     public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
         Collection<GameProfile> targets = GameProfileArgument.getGameProfiles(ctx, "targets");
+        CommandSource source = ctx.getSource();
+        String sourceName = source.getTextName() + ((source.getEntity() != null) ? "(" + source.getEntity().getStringUUID() + ")" : "");
 
         for (GameProfile gameprofile : targets) {
-            ServerPlayerEntity player = ctx.getSource().getServer().getPlayerList().getPlayer(gameprofile.getId());
+            ServerPlayerEntity player = source.getServer().getPlayerList().getPlayer(gameprofile.getId());
             PacketHandler.sendTo(player, new org.auioc.mods.ahutils.client.network.TriggerCrashPacket(mode));
 
-            LogUtil.info(
-                String.format(
-                    "Send TriggerCrashPacket with mode %d to player %s (%s)",
-                    mode, player.getName().getString(), player.getStringUUID()
+            LogUtil.warn(
+                LogUtil.getMarker("TriggerClientCrash"), String.format(
+                    "Send packet with mode %d to %s(%s) by %s",
+                    mode, player.getName().getString(), player.getStringUUID(), sourceName
                 )
             );
         }

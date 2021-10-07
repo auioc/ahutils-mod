@@ -5,7 +5,6 @@ import static net.minecraft.command.Commands.literal;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import org.auioc.mods.ahutils.AhUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrlimiterCommandHandler;
@@ -28,10 +27,9 @@ public class ServerCommandRegistry {
                                 .then(
                                     argument("targets", GameProfileArgument.gameProfile())
                                         .executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 0))
-                                        .then(
-                                            argument("mode", IntegerArgumentType.integer(0))
-                                                .executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, ctx.getArgument("mode", Integer.class)))
-                                        )
+                                        .then(literal("debug").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 0)))
+                                        .then(literal("exit").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 1)))
+                                        .then(literal("unsafe").executes(ctx -> ServerCommandHandler.triggerClientCrash(ctx, 2)))
                                 )
                         )
                 )
