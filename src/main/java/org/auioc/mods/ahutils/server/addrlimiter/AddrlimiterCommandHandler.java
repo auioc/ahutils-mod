@@ -49,7 +49,7 @@ public final class AddrlimiterCommandHandler {
                 File file = FileUtils.writeText("dumps", "addrlimiter.json", new StringBuffer().append(addrManager.toJsonString()));
                 source.sendSuccess(prefix().append(TextUtils.getI18nText(getKey("dump.success"), file)), false);
             } catch (Exception e) {
-                throw new SimpleCommandExceptionType(prefix().append(TextUtils.getI18nText(getKey("dump.failure"), e.getMessage()))).create();
+                throw new SimpleCommandExceptionType(prefix().append(TextUtils.getI18nText(getKey("dump.failed"), e.getMessage()))).create();
             }
         }
 

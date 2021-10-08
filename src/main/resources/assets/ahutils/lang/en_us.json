@@ -3,12 +3,15 @@
     "itemGroup.ahutils_group": "AhUtils",
     "itemGroup.mc_hidden_items_group": "Vanilla Hidden Items",
 
+    "ahutils.command.failed.internal": "An internal error occurred trying to execute that command",
+    "ahutils.command.failed.reflection": "Failed while using reflection to get private source",
+
     "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
 
     "ahutils.addrlimiter.command.prefix": "[AddrLimiter] ",
     "ahutils.addrlimiter.command.not_enabled": "This feature is not enabled",
     "ahutils.addrlimiter.command.dump.success": "Successful dump data to file %s",
-    "ahutils.addrlimiter.command.dump.failure": "Cannot dump data to file: %s",
+    "ahutils.addrlimiter.command.dump.failed": "Cannot dump data to file: %s",
     "ahutils.addrlimiter.command.refresh.start": "Start refreshing",
     "ahutils.addrlimiter.command.refresh.success": "Refresh successfully",
     "ahutils.addrlimiter.dump.title": "Current player map",
