@@ -8,6 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
+import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.game.CommandUtils;
 import net.minecraft.command.CommandSource;
@@ -21,20 +22,22 @@ import net.minecraft.util.DamageSource;
 
 public abstract class ServerCommandHandler {
 
+    private static final boolean ClientCrashCmdServerOnly = ServerConfig.ClientCrashCmdServerOnly.get();
+
     public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
         CommandSource source = ctx.getSource();
+        if (ClientCrashCmdServerOnly) {
+            ICommandSource privateSource;
+            try {
+                privateSource = CommandUtils.getPrivateSource(source);
+            } catch (Exception e) {
+                throw CommandUtils.REFLECTION_ERROR.create();
+            }
 
-        ICommandSource privateSource;
-        try {
-            privateSource = CommandUtils.getPrivateSource(source);
-        } catch (Exception e) {
-            throw CommandUtils.REFLECTION_ERROR.create();
+            if (!(privateSource instanceof MinecraftServer)) {
+                throw CommandUtils.NOT_SERVER_ERROR.create();
+            }
         }
-
-        if (!(privateSource instanceof MinecraftServer)) {
-            throw CommandUtils.NOT_SERVER_ERROR.create();
-        }
-
 
         Collection<GameProfile> targets = GameProfileArgument.getGameProfiles(ctx, "targets");
         String sourceName = source.getTextName() + ((source.getEntity() != null) ? "(" + source.getEntity().getStringUUID() + ")" : "");
