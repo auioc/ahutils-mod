@@ -4,13 +4,13 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import javax.annotation.Nullable;
 import io.netty.channel.local.LocalAddress;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Connection;
+import net.minecraft.server.level.ServerPlayer;
 
 public interface AddrUtils {
 
     @Nullable
-    static String getIp(NetworkManager connection) {
+    static String getIp(Connection connection) {
         SocketAddress addr = connection.getRemoteAddress();
         if (addr instanceof InetSocketAddress) {
             return ((InetSocketAddress) addr).getAddress().getHostAddress();
@@ -21,7 +21,7 @@ public interface AddrUtils {
     }
 
     @Nullable
-    static String getPlayerIp(ServerPlayerEntity player) {
+    static String getPlayerIp(ServerPlayer player) {
         return getIp(player.connection.getConnection());
     }
 
