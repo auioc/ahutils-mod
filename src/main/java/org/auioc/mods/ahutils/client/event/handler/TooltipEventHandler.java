@@ -4,7 +4,7 @@ import org.auioc.mods.ahutils.client.config.ClientConfig;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
