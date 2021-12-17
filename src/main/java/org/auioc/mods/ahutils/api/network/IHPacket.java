@@ -1,15 +1,15 @@
 package org.auioc.mods.ahutils.api.network;
 
 import java.util.function.Supplier;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent.Context;
 
 public interface IHPacket {
 
     void handle(NetworkEvent.Context ctx);
 
-    void encode(PacketBuffer buffer);
+    void encode(FriendlyByteBuf buffer);
 
     static <PACKET extends IHPacket> void handle(final PACKET message, Supplier<Context> context) {
         Context ctx = context.get();
