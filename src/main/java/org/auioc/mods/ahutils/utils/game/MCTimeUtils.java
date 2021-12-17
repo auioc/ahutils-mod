@@ -1,6 +1,6 @@
 package org.auioc.mods.ahutils.utils.game;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public interface MCTimeUtils {
 
@@ -10,7 +10,7 @@ public interface MCTimeUtils {
     static final double ticksPerMinute = 1000d / 60d;
     static final double ticksPerSecond = 1000d / 60d / 60d;
 
-    static long[] getTime(World level) {
+    static long[] getTime(Level level) {
         return new long[] {level.getDayTime(), level.getGameTime(), System.currentTimeMillis()};
     }
 
