@@ -19,8 +19,7 @@ public abstract class MixinPistonBlock {
         at = @At(value = "HEAD"),
         require = 1,
         allow = 1,
-        cancellable = true,
-        remap = false
+        cancellable = true
     )
     private static void onCheckPushable(BlockState p_60205_, Level p_60206_, BlockPos p_60207_, Direction p_60208_, boolean p_60209_, Direction p_60210_, CallbackInfoReturnable<Boolean> cir) {
         if (org.auioc.mods.ahutils.common.event.CommonEventRegistry.postPistonCheckPushableEvent(p_60205_, p_60206_, p_60207_, p_60208_, p_60209_, p_60210_)) {

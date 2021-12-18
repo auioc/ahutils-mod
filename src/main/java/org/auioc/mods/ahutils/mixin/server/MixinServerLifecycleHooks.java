@@ -17,8 +17,7 @@ public abstract class MixinServerLifecycleHooks {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/handshake/ClientIntentionPacket;getIntention()Lnet/minecraft/network/ConnectionProtocol;", ordinal = 0),
         require = 1,
         allow = 1,
-        cancellable = true,
-        remap = false
+        cancellable = true
     )
     private static void onServerLogin(final ClientIntentionPacket packet, final Connection manager, CallbackInfoReturnable<Boolean> cir) {
         if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerLoginEvent(packet, manager)) {

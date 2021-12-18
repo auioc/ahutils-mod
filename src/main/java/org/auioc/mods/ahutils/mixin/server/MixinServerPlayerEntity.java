@@ -18,8 +18,7 @@ public abstract class MixinServerPlayerEntity {
         at = @At(value = "HEAD"),
         require = 1,
         allow = 1,
-        cancellable = true,
-        remap = false
+        cancellable = true
     )
     private void onSendMessage(Component p_9147_, ChatType p_9148_, UUID p_9149_, CallbackInfo ci) {
         if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerPlayerEntitySendMessageEvent(p_9147_, p_9148_, p_9149_)) {
