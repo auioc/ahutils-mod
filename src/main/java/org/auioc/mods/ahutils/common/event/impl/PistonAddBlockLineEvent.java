@@ -1,9 +1,10 @@
 package org.auioc.mods.ahutils.common.event.impl;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
@@ -12,11 +13,11 @@ import net.minecraftforge.eventbus.api.Event;
 public class PistonAddBlockLineEvent extends Event {
 
     private final BlockState blockState;
-    private final World level;
+    private final Level level;
     private final BlockPos blockPos;
     private final Direction direction;
 
-    public PistonAddBlockLineEvent(BlockState blockState, World level, BlockPos blockPos, Direction direction) {
+    public PistonAddBlockLineEvent(BlockState blockState, Level level, BlockPos blockPos, Direction direction) {
         super();
         this.blockState = blockState;
         this.level = level;
@@ -28,7 +29,7 @@ public class PistonAddBlockLineEvent extends Event {
         return this.blockPos;
     }
 
-    public World getLevel() {
+    public Level getLevel() {
         return this.level;
     }
 
