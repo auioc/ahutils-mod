@@ -3,11 +3,12 @@ package org.auioc.mods.ahutils.server.addrlimiter;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.utils.game.AddrUtils;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.management.PlayerList;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
+
 
 public class AddrHandler {
 
@@ -21,16 +22,16 @@ public class AddrHandler {
         }
     }
 
-    public static void playerLogin(final ServerPlayerEntity player) {
+    public static void playerLogin(final ServerPlayer player) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         if (!limiter.check(AddrUtils.getPlayerIp(player), player.getUUID())) {
-            player.connection.disconnect((ITextComponent) new StringTextComponent(getMessage()));
+            player.connection.disconnect((Component) new TextComponent(getMessage()));
         } else {
             limiter.add(AddrUtils.getPlayerIp(player), player.getUUID());
         }
     }
 
-    public static void playerLogout(final ServerPlayerEntity player) {
+    public static void playerLogout(final ServerPlayer player) {
         /*@formatter:off*/if(!enable){return;}/*@formatter:on*/
         limiter.remove(AddrUtils.getPlayerIp(player), player.getUUID());
     }

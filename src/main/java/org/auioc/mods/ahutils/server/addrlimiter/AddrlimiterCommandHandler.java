@@ -8,11 +8,11 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.game.TextUtils;
 import org.auioc.mods.ahutils.utils.java.FileUtils;
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public final class AddrlimiterCommandHandler {
 
@@ -20,25 +20,25 @@ public final class AddrlimiterCommandHandler {
         return "ahutils.addrlimiter.command." + key;
     }
 
-    private static final TranslationTextComponent getI18nText(String key) {
+    private static final TranslatableComponent getI18nText(String key) {
         return TextUtils.getI18nText(getKey(key));
     }
 
-    private static final IFormattableTextComponent prefix() {
-        return TextUtils.getStringText("").append(getI18nText("prefix").withStyle(TextFormatting.AQUA));
+    private static final MutableComponent prefix() {
+        return TextUtils.getStringText("").append(getI18nText("prefix").withStyle(ChatFormatting.AQUA));
     }
 
     public static final SimpleCommandExceptionType NOT_ENABLED = new SimpleCommandExceptionType(prefix().append(getI18nText("not_enabled")));
 
 
-    public static final int dumpAddrlimiterMap(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
+    public static final int dumpAddrlimiterMap(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
         if (!AddrHandler.isEnabled()) {
             throw NOT_ENABLED.create();
         }
-        CommandSource source = ctx.getSource();
+        CommandSourceStack source = ctx.getSource();
         AddrManager addrManager = AddrManager.getInstance();
         if (mode == 1 || mode == 2) {
-            ITextComponent message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
+            Component message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
             if (source.getEntity() != null) {
                 source.sendSuccess(((mode == 1) ? prefix() : TextUtils.getStringText("")).append(message), false);
             } else {
@@ -56,14 +56,14 @@ public final class AddrlimiterCommandHandler {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static final int refreshAddrlimiter(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+    public static final int refreshAddrlimiter(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         if (!AddrHandler.isEnabled()) {
             throw NOT_ENABLED.create();
         }
-        CommandSource source = ctx.getSource();
+        CommandSourceStack source = ctx.getSource();
         source.sendSuccess(prefix().append(getI18nText("refresh.start")), true);
         AddrHandler.refreshAddrManager(source.getServer().getPlayerList());
-        source.sendSuccess(prefix().append(getI18nText("refresh.success").withStyle(TextFormatting.GREEN)), true);
+        source.sendSuccess(prefix().append(getI18nText("refresh.success").withStyle(ChatFormatting.GREEN)), true);
 
         return Command.SINGLE_SUCCESS;
     }

@@ -5,24 +5,24 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 
-@Mixin(value = ServerPlayerEntity.class)
+@Mixin(value = ServerPlayer.class)
 public abstract class MixinServerPlayerEntity {
 
-    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
-        method = "Lnet/minecraft/entity/player/ServerPlayerEntity;sendMessage(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/util/text/ChatType;Ljava/util/UUID;)V",
+        method = "Lnet/minecraft/server/level/ServerPlayer;sendMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;Ljava/util/UUID;)V",
         at = @At(value = "HEAD"),
         require = 1,
         allow = 1,
         cancellable = true,
         remap = false
     )
-    private void onSendMessage(ITextComponent p_241151_1_, ChatType p_241151_2_, UUID p_241151_3_, CallbackInfo ci) {
-        if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerPlayerEntitySendMessageEvent(p_241151_1_, p_241151_2_, p_241151_3_)) {
+    private void onSendMessage(Component p_9147_, ChatType p_9148_, UUID p_9149_, CallbackInfo ci) {
+        if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerPlayerEntitySendMessageEvent(p_9147_, p_9148_, p_9149_)) {
             ci.cancel();
         }
     }

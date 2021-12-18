@@ -5,15 +5,15 @@ import java.util.function.Function;
 import org.auioc.mods.ahutils.AhUtils;
 import org.auioc.mods.ahutils.api.network.IHPacket;
 import org.auioc.mods.ahutils.api.network.IHPacketHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 @SuppressWarnings("unused")
 public final class PacketHandler implements IHPacketHandler {
@@ -32,15 +32,15 @@ public final class PacketHandler implements IHPacketHandler {
     );
     private static int index;
 
-    private static <MSG extends IHPacket> void registerClientToServer(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
+    private static <MSG extends IHPacket> void registerClientToServer(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {
         registerMessage(type, decoder, NetworkDirection.PLAY_TO_SERVER);
     }
 
-    private static <MSG extends IHPacket> void registerServerToClient(Class<MSG> type, Function<PacketBuffer, MSG> decoder) {
+    private static <MSG extends IHPacket> void registerServerToClient(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {
         registerMessage(type, decoder, NetworkDirection.PLAY_TO_CLIENT);
     }
 
-    private static <MSG extends IHPacket> void registerMessage(Class<MSG> type, Function<PacketBuffer, MSG> decoder, NetworkDirection networkDirection) {
+    private static <MSG extends IHPacket> void registerMessage(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder, NetworkDirection networkDirection) {
         HANDLER.registerMessage(index++, type, IHPacket::encode, decoder, IHPacket::handle, Optional.of(networkDirection));
     }
 
@@ -53,7 +53,7 @@ public final class PacketHandler implements IHPacketHandler {
         HANDLER.sendToServer(msg);
     }
 
-    public static <MSG extends IHPacket> void sendTo(ServerPlayerEntity player, MSG msg) {
+    public static <MSG extends IHPacket> void sendTo(ServerPlayer player, MSG msg) {
         if (!(player instanceof FakePlayer)) {
             HANDLER.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
         }

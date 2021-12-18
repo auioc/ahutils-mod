@@ -1,20 +1,20 @@
 package org.auioc.mods.ahutils.server.command;
 
-import static net.minecraft.command.Commands.argument;
-import static net.minecraft.command.Commands.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import org.auioc.mods.ahutils.AhUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrlimiterCommandHandler;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.GameProfileArgument;
 
 public class ServerCommandRegistry {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             literal(AhUtils.MOD_ID)
                 .executes(ctx -> Command.SINGLE_SUCCESS)

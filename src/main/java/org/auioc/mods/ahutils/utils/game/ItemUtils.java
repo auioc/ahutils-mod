@@ -1,10 +1,10 @@
 package org.auioc.mods.ahutils.utils.game;
 
 import javax.annotation.Nullable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public interface ItemUtils {
 
@@ -20,7 +20,7 @@ public interface ItemUtils {
         return String.format("%s%s * %d", getRegistryName(itemStack), (itemStack.hasTag()) ? itemStack.getTag() : "{}", itemStack.getCount());
     }
 
-    static ItemStack createItemStack(Item item, @Nullable CompoundNBT nbt, int count) {
+    static ItemStack createItemStack(Item item, @Nullable CompoundTag nbt, int count) {
         ItemStack itemStack = new ItemStack(item, count);
         if (nbt != null) {
             itemStack.setTag(nbt);
@@ -28,7 +28,7 @@ public interface ItemUtils {
         return itemStack;
     }
 
-    static void damageItem(PlayerEntity player, ItemStack itemStack) {
+    static void damageItem(Player player, ItemStack itemStack) {
         itemStack.hurtAndBreak(1, player, (p) -> {
             p.broadcastBreakEvent(player.getUsedItemHand());
         });

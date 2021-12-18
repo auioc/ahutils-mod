@@ -1,15 +1,16 @@
 package org.auioc.mods.ahutils.api.item;
 
 import java.util.function.Supplier;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyValue;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class HArmorMaterial implements IArmorMaterial {
+@SuppressWarnings("deprecation")
+public class HArmorMaterial implements ArmorMaterial {
 
     private final String name;
     private int durability = 1;
@@ -18,7 +19,7 @@ public class HArmorMaterial implements IArmorMaterial {
     private float toughness = 0.0F;
     private float knockbackResistance = 0.0F;
     private SoundEvent sound = null;
-    private LazyValue<Ingredient> repairIngredient = new LazyValue<>(null);
+    private LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(null);
 
     public HArmorMaterial(String name) {
         this.name = name;
@@ -56,19 +57,19 @@ public class HArmorMaterial implements IArmorMaterial {
     }
 
     public HArmorMaterial setRepairIngredient(Supplier<Ingredient> repairIngredient) {
-        this.repairIngredient = new LazyValue<>(repairIngredient);
+        this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
         return this;
     }
 
 
 
     @Override
-    public int getDurabilityForSlot(EquipmentSlotType slotType) {
+    public int getDurabilityForSlot(EquipmentSlot slotType) {
         return this.durability;
     }
 
     @Override
-    public int getDefenseForSlot(EquipmentSlotType slotType) {
+    public int getDefenseForSlot(EquipmentSlot slotType) {
         return this.defense;
     }
 

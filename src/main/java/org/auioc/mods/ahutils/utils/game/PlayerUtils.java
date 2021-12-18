@@ -1,24 +1,24 @@
 package org.auioc.mods.ahutils.utils.game;
 
 import javax.annotation.Nullable;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 
 public interface PlayerUtils {
 
     @SuppressWarnings("deprecation")
-    static void giveItem(ServerPlayerEntity player, Item item, @Nullable CompoundNBT nbt, int count) {
+    static void giveItem(ServerPlayer player, Item item, @Nullable CompoundTag nbt, int count) {
         int i = count;
         while (i > 0) {
             int j = Math.min(item.getMaxStackSize(), i);
             i -= j;
             ItemStack itemStack = ItemUtils.createItemStack(item, nbt, j);
-            boolean flag = player.inventory.add(itemStack);
+            boolean flag = player.getInventory().add(itemStack);
             ItemEntity itementity = player.drop(itemStack, false);
             if (flag && itemStack.isEmpty()) {
                 itemStack.setCount(1);
@@ -35,11 +35,11 @@ public interface PlayerUtils {
         }
     }
 
-    static void giveItem(ServerPlayerEntity player, ItemStack itemStack) {
+    static void giveItem(ServerPlayer player, ItemStack itemStack) {
         giveItem(player, itemStack.getItem(), itemStack.getTag(), itemStack.getCount());
     }
 
-    static String toString(PlayerEntity player) {
+    static String toString(Player player) {
         return String.format(
             "%s(%s) at %s in %s",
             player.getName().getString(),
@@ -49,7 +49,7 @@ public interface PlayerUtils {
         );
     }
 
-    static void setPlayerReach(PlayerEntity player, int reach) {
+    static void setPlayerReach(Player player, int reach) {
         player.getAttribute(ForgeMod.REACH_DISTANCE.get()).setBaseValue(reach);
     }
 

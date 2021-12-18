@@ -1,25 +1,25 @@
 package org.auioc.mods.ahutils.server.event.impl;
 
 import java.util.UUID;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
 @Cancelable
 public class ServerPlayerEntitySendMessageEvent extends Event {
-    private final ITextComponent message;
+    private final Component message;
     private final ChatType chatType;
     private final UUID uuid;
 
-    public ServerPlayerEntitySendMessageEvent(ITextComponent message, ChatType chatType, UUID uuid) {
+    public ServerPlayerEntitySendMessageEvent(Component message, ChatType chatType, UUID uuid) {
         super();
         this.message = message;
         this.chatType = chatType;
         this.uuid = uuid;
     }
 
-    public ITextComponent getMessage() {
+    public Component getMessage() {
         return this.message;
     }
 

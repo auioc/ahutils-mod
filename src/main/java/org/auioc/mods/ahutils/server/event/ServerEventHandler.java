@@ -4,8 +4,8 @@ import org.auioc.mods.ahutils.server.addrlimiter.AddrHandler;
 import org.auioc.mods.ahutils.server.command.ServerCommandRegistry;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.utils.LogUtil;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.ProtocolType;
+import net.minecraft.network.ConnectionProtocol;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,8 +19,8 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public static void onServerLogin(final ServerLoginEvent event) {
-        ProtocolType intention = event.getPacket().getIntention();
-        if (intention == ProtocolType.STATUS) {
+        ConnectionProtocol intention = event.getPacket().getIntention();
+        if (intention == ConnectionProtocol.STATUS) {
             LogUtil.info(
                 "ServerHooks",
                 LogUtil.getMarker("ServerListPing"),
@@ -28,7 +28,7 @@ public class ServerEventHandler {
             );
             return;
         }
-        if (intention == ProtocolType.LOGIN) {
+        if (intention == ConnectionProtocol.LOGIN) {
             AddrHandler.playerAttemptLogin(event);
             return;
         }
@@ -36,13 +36,13 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public static void playerLoggedIn(final PlayerEvent.PlayerLoggedInEvent event) {
-        AddrHandler.playerLogin((ServerPlayerEntity) event.getPlayer());
+        AddrHandler.playerLogin((ServerPlayer) event.getPlayer());
 
     }
 
     @SubscribeEvent
     public static void playerLoggedOut(final PlayerEvent.PlayerLoggedOutEvent event) {
-        AddrHandler.playerLogout((ServerPlayerEntity) event.getPlayer());
+        AddrHandler.playerLogout((ServerPlayer) event.getPlayer());
     }
 
 }

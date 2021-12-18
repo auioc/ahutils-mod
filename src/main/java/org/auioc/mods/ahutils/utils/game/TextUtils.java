@@ -1,31 +1,31 @@
 package org.auioc.mods.ahutils.utils.game;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
 
 public interface TextUtils {
 
-    static void chat(PlayerEntity player, String message) {
-        player.sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+    static void chat(Player player, String message) {
+        player.sendMessage(new TextComponent(message), Util.NIL_UUID);
     }
 
-    static void chat(PlayerEntity player, ITextComponent message) {
+    static void chat(Player player, Component message) {
         player.sendMessage(message, Util.NIL_UUID);
     }
 
-    static StringTextComponent getStringText(String text) {
-        return new StringTextComponent(text);
+    static TextComponent getStringText(String text) {
+        return new TextComponent(text);
     }
 
-    static TranslationTextComponent getI18nText(String key) {
-        return new TranslationTextComponent(key);
+    static TranslatableComponent getI18nText(String key) {
+        return new TranslatableComponent(key);
     }
 
-    static TranslationTextComponent getI18nText(String key, Object... arguments) {
-        return new TranslationTextComponent(key, arguments);
+    static TranslatableComponent getI18nText(String key, Object... arguments) {
+        return new TranslatableComponent(key, arguments);
     }
 
 }

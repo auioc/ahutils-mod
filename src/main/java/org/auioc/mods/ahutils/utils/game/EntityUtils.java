@@ -4,37 +4,34 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import javax.annotation.Nullable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public interface EntityUtils {
 
-    public static Vector3d[] getEntityViewRay(Entity entity, double rayLength) {
-        Vector3d entityViewVector = entity.getViewVector(1.0F);
-        Vector3d rayPath = entityViewVector.scale(rayLength);
-        Vector3d from = entity.getEyePosition(1.0F);
-        Vector3d to = from.add(rayPath);
-        return new Vector3d[] {from, to};
+    public static Vec3[] getEntityViewRay(Entity entity, double rayLength) {
+        Vec3 entityViewVector = entity.getViewVector(1.0F);
+        Vec3 rayPath = entityViewVector.scale(rayLength);
+        Vec3 from = entity.getEyePosition(1.0F);
+        Vec3 to = from.add(rayPath);
+        return new Vec3[] {from, to};
     }
 
     @Nullable
-    public static EntityRayTraceResult getEntityHitResult(World world, Entity entity, Vector3d from, Vector3d to, AxisAlignedBB aabb, Predicate<Entity> predicate, float pickRadiusAddition) {
+    public static EntityHitResult getEntityHitResult(Level level, Entity entity, Vec3 from, Vec3 to, AABB aabb, Predicate<Entity> predicate, float pickRadiusAddition) {
         double d0 = Double.MAX_VALUE;
         Entity targetEntity = null;
 
-        for (Entity entity1 : world.getEntities(targetEntity, aabb, predicate)) {
-            AxisAlignedBB entity1aabb = entity1.getBoundingBox().inflate((double) (entity1.getPickRadius() + pickRadiusAddition));
-            Optional<Vector3d> optional = entity1aabb.clip(from, to);
+        for (Entity entity1 : level.getEntities(targetEntity, aabb, predicate)) {
+            AABB entity1aabb = entity1.getBoundingBox().inflate((double) (entity1.getPickRadius() + pickRadiusAddition));
+            Optional<Vec3> optional = entity1aabb.clip(from, to);
             if (optional.isPresent()) {
                 double d1 = from.distanceToSqr(optional.get());
                 if (d1 < d0) {
@@ -44,25 +41,25 @@ public interface EntityUtils {
             }
         }
 
-        return targetEntity == null ? null : new EntityRayTraceResult(targetEntity);
+        return targetEntity == null ? null : new EntityHitResult(targetEntity);
     }
 
 
 
-    public static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength, BlockMode blockMode, FluidMode fluidMode) {
-        Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
-        RayTraceContext rayCtx = new RayTraceContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
+    public static BlockHitResult getBlockRayTraceResult(Entity entity, double rayLength, ClipContext.Block blockMode, ClipContext.Fluid fluidMode) {
+        Vec3[] viewRay = getEntityViewRay(entity, rayLength);
+        ClipContext rayCtx = new ClipContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
         return entity.level.clip(rayCtx);
     }
 
     @Nullable
-    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition, boolean blockMode) {
-        Vector3d[] viewRay = getEntityViewRay(entity, rayLength);
+    public static EntityHitResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition, boolean blockMode) {
+        Vec3[] viewRay = getEntityViewRay(entity, rayLength);
 
-        Vector3d to = viewRay[1];
+        Vec3 to = viewRay[1];
         if (blockMode) {
-            BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, BlockMode.COLLIDER, FluidMode.NONE);
-            if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
+            BlockHitResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE);
+            if (rayHitBlock.getType() != HitResult.Type.MISS) {
                 to = rayHitBlock.getLocation();
             }
         }
@@ -73,20 +70,20 @@ public interface EntityUtils {
 
 
     @Nullable
-    public static EntityRayTraceResult getEntityHitResult(Entity entity, Vector3d from, Vector3d to, float pickRadiusAddition) {
-        return getEntityHitResult(entity.level, entity, from, to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), EntityPredicates.NO_SPECTATORS, pickRadiusAddition);
+    public static EntityHitResult getEntityHitResult(Entity entity, Vec3 from, Vec3 to, float pickRadiusAddition) {
+        return getEntityHitResult(entity.level, entity, from, to, entity.getBoundingBox().expandTowards(to).inflate(1.0D), (e) -> !e.isSpectator(), pickRadiusAddition);
     }
 
     @Nullable
-    public static EntityRayTraceResult getEntityHitResult(Entity entity, Vector3d from, Vector3d to) {
+    public static EntityHitResult getEntityHitResult(Entity entity, Vec3 from, Vec3 to) {
         return getEntityHitResult(entity, from, to, 0.0F);
     }
 
-    public static BlockRayTraceResult getBlockRayTraceResult(Entity entity, double rayLength) {
-        return getBlockRayTraceResult(entity, rayLength, BlockMode.OUTLINE, FluidMode.ANY);
+    public static BlockHitResult getBlockRayTraceResult(Entity entity, double rayLength) {
+        return getBlockRayTraceResult(entity, rayLength, ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY);
     }
 
-    public static EntityRayTraceResult getEntityRayTraceResult(Entity entity, double rayLength) {
+    public static EntityHitResult getEntityRayTraceResult(Entity entity, double rayLength) {
         return getEntityRayTraceResult(entity, rayLength, 0.0F, false);
     }
 
@@ -94,27 +91,27 @@ public interface EntityUtils {
 
     public static int rayHitEntityOrBlockOrMiss(
         Entity entity, double rayLength,
-        float pickRadiusAddition, BlockMode blockMode, FluidMode fluidMode,
-        Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b, Function<BlockRayTraceResult, Integer> m
+        float pickRadiusAddition, ClipContext.Block blockMode, ClipContext.Fluid fluidMode,
+        Function<EntityHitResult, Integer> e, Function<BlockHitResult, Integer> b, Function<BlockHitResult, Integer> m
     ) {
-        EntityRayTraceResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition, false);
+        EntityHitResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition, false);
         if (rayHitEntity != null) {
             return e.apply(rayHitEntity);
         }
 
-        BlockRayTraceResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, blockMode, fluidMode);
-        if (rayHitBlock.getType() != RayTraceResult.Type.MISS) {
+        BlockHitResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, blockMode, fluidMode);
+        if (rayHitBlock.getType() != HitResult.Type.MISS) {
             return b.apply(rayHitBlock);
         } else {
             return m.apply(rayHitBlock);
         }
     }
 
-    public static int rayHitEntityOrBlock(Entity entity, double rayLength, Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b) {
-        return rayHitEntityOrBlockOrMiss(entity, rayLength, 0.0F, BlockMode.OUTLINE, FluidMode.ANY, e, b, m -> 0);
+    public static int rayHitEntityOrBlock(Entity entity, double rayLength, Function<EntityHitResult, Integer> e, Function<BlockHitResult, Integer> b) {
+        return rayHitEntityOrBlockOrMiss(entity, rayLength, 0.0F, ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY, e, b, m -> 0);
     }
 
-    public static int rayHitLivingEntityOrBlock(Entity entity, double rayLength, Function<EntityRayTraceResult, Integer> e, Function<BlockRayTraceResult, Integer> b) {
+    public static int rayHitLivingEntityOrBlock(Entity entity, double rayLength, Function<EntityHitResult, Integer> e, Function<BlockHitResult, Integer> b) {
         return rayHitEntityOrBlock(
             entity, rayLength,
             (r) -> {

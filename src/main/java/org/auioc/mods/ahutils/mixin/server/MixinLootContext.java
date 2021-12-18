@@ -5,15 +5,15 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.loot.LootContext;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootContext;
 
 @Mixin(value = LootContext.class)
 public abstract class MixinLootContext {
 
-    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
-        method = "Lnet/minecraft/loot/LootContext;setQueriedLootTableId(Lnet/minecraft/util/ResourceLocation;)V",
+        method = "Lnet/minecraft/world/level/storage/loot/LootContext;setQueriedLootTableId(Lnet/minecraft/resources/ResourceLocation;)V",
         at = @At(value = "HEAD"),
         require = 1,
         allow = 1,
