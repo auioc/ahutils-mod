@@ -2,12 +2,11 @@ package org.auioc.mods.ahutils.api.network;
 
 import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkEvent.Context;
 
 public interface IHPacket {
 
-    void handle(NetworkEvent.Context ctx);
+    void handle(Context ctx);
 
     void encode(FriendlyByteBuf buffer);
 

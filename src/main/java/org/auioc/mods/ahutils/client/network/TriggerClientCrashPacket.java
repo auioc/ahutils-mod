@@ -1,12 +1,12 @@
 package org.auioc.mods.ahutils.client.network;
 
 import org.auioc.mods.ahutils.api.network.IHPacket;
+import net.minecraft.CrashReport;
 import net.minecraft.client.Minecraft;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent.Context;
 
 
 public class TriggerClientCrashPacket implements IHPacket {
@@ -22,11 +22,11 @@ public class TriggerClientCrashPacket implements IHPacket {
     }
 
     @Override
-    public void encode(PacketBuffer buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(mode);
     }
 
-    public static TriggerClientCrashPacket decode(PacketBuffer buffer) {
+    public static TriggerClientCrashPacket decode(FriendlyByteBuf buffer) {
         return new TriggerClientCrashPacket(buffer.readInt());
     }
 
