@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/WakelessSloth56/ahutils-mod/issues"
 
 [[mods]]
 modId="ahutils"
-version="${ahutils_version}"
+version="${file.jarVersion}"
 updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.18.1.json"
 displayName="AHUtils"
 displayURL="https://github.com/WakelessSloth56/ahutils-mod"
@@ -13,7 +13,6 @@ credits="AUIOC"
 authors="WakelssSloth56"
 description='''
 Minecraft utilities, also a library for AH's mods.
-${ahutils_full_version}
 '''
 
 [[dependencies.ahutils]]

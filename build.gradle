@@ -64,11 +64,11 @@ dependencies {
 
 
 processResources {
-    from (sourceSets.main.resources.srcDirs) {
-        include 'META-INF/mods.toml'
-        duplicatesStrategy 'include'
-        expand 'ahutils_version': "${ahutils_version}", 'ahutils_full_version':"${archivesBaseName}-${version}-${getVar('CI_VERSION')}"
-    }
+    // from (sourceSets.main.resources.srcDirs) {
+    //     include 'META-INF/mods.toml'
+    //     duplicatesStrategy 'include'
+    //     expand 'ahutils_version': "${ahutils_version}", 'ahutils_full_version':"${archivesBaseName}-${version}-${getVar('CI_VERSION')}"
+    // }
 }
 
 mixin {
@@ -86,7 +86,8 @@ ext {
         "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
         "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
         "TweakOrder": 0,
-        "MixinConfigs": "ahutils.mixin.json"
+        "MixinConfigs": "ahutils.mixin.json",
+        "AHUtils-Version": "${archivesBaseName}-${version}-${getVar('CI_VERSION')}"
     ]
 }
 
