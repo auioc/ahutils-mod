@@ -10,9 +10,9 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import org.auioc.mods.ahutils.utils.game.TextUtils;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.ISuggestionProvider;
-import net.minecraft.util.DamageSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.world.damagesource.DamageSource;
 
 public class DamageSourceArgument implements ArgumentType<DamageSource> {
     private static HashMap<String, DamageSource> MAP = new HashMap<String, DamageSource>();
@@ -21,7 +21,7 @@ public class DamageSourceArgument implements ArgumentType<DamageSource> {
         return new DamageSourceArgument();
     }
 
-    public static DamageSource getDamageSource(CommandContext<CommandSource> context, String argument) throws CommandSyntaxException {
+    public static DamageSource getDamageSource(CommandContext<CommandSourceStack> context, String argument) throws CommandSyntaxException {
         return context.getArgument(argument, DamageSource.class);
     }
 
@@ -40,7 +40,7 @@ public class DamageSourceArgument implements ArgumentType<DamageSource> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return ISuggestionProvider.suggest(MAP.keySet(), builder);
+        return SharedSuggestionProvider.suggest(MAP.keySet(), builder);
     }
 
     static {
