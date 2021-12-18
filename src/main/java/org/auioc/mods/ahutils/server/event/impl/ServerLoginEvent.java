@@ -1,33 +1,33 @@
 package org.auioc.mods.ahutils.server.event.impl;
 
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.handshake.client.CHandshakePacket;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.handshake.ClientIntentionPacket;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
 @Cancelable
 public class ServerLoginEvent extends Event {
 
-    private final CHandshakePacket packet;
-    private final NetworkManager manager;
+    private final ClientIntentionPacket packet;
+    private final Connection manager;
     private String message;
 
-    public ServerLoginEvent(CHandshakePacket packet, NetworkManager manager) {
+    public ServerLoginEvent(ClientIntentionPacket packet, Connection manager) {
         super();
         this.packet = packet;
         this.manager = manager;
     }
 
-    public CHandshakePacket getPacket() {
+    public ClientIntentionPacket getPacket() {
         return this.packet;
     }
 
     @Deprecated
-    public NetworkManager getManager() {
+    public Connection getManager() {
         return this.manager;
     }
 
-    public NetworkManager getNetworkManager() {
+    public Connection getNetworkManager() {
         return this.manager;
     }
 
