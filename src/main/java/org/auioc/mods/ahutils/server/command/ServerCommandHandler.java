@@ -1,20 +1,24 @@
 package org.auioc.mods.ahutils.server.command;
 
+import static org.auioc.mods.ahutils.utils.game.TextUtils.getStringText;
 import java.util.Collection;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import org.auioc.mods.ahutils.AhUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.game.CommandUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.GameProfileArgument;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,6 +27,24 @@ import net.minecraft.world.entity.Entity;
 public abstract class ServerCommandHandler {
 
     private static final boolean ClientCrashCmdServerOnly = ServerConfig.ClientCrashCmdServerOnly.get();
+
+    public static int getModVersion(CommandContext<CommandSourceStack> ctx) {
+        String mainVersion = AhUtils.MAIN_VERSION;
+        String fullVersion = AhUtils.FULL_VERSION;
+
+        MutableComponent message = getStringText("");
+        message.append(getStringText("[AHUtils] ").withStyle(ChatFormatting.AQUA));
+
+        if (mainVersion.length() == 0 && fullVersion.length() == 0) {
+            message.append(getStringText("Could not read the mod version.").withStyle(ChatFormatting.YELLOW));
+            message.append(getStringText("\nIf this is a development environment you can ignore this message.").withStyle(ChatFormatting.GRAY));
+        } else {
+            message.append(getStringText("Version: " + mainVersion + " (" + fullVersion + ")"));
+        }
+
+        ctx.getSource().sendSuccess(message, false);
+        return Command.SINGLE_SUCCESS;
+    }
 
     public static int triggerClientCrash(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
         CommandSourceStack source = ctx.getSource();

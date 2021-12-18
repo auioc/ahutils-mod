@@ -2,7 +2,6 @@ package org.auioc.mods.ahutils.server.command;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import org.auioc.mods.ahutils.AhUtils;
@@ -17,7 +16,9 @@ public class ServerCommandRegistry {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             literal(AhUtils.MOD_ID)
-                .executes(ctx -> Command.SINGLE_SUCCESS)
+                .executes(ServerCommandHandler::getModVersion)
+
+                .then(literal("version").executes(ServerCommandHandler::getModVersion))
 
                 .then(
                     literal("crash")
