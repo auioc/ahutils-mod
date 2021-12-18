@@ -25,7 +25,7 @@ public final class AddrlimiterCommandHandler {
     }
 
     private static final MutableComponent prefix() {
-        return TextUtils.getStringText("").append(getI18nText("prefix").withStyle(ChatFormatting.AQUA));
+        return TextUtils.getStringText("").append(TextUtils.getStringText("[AddrLimiter] ").withStyle(ChatFormatting.AQUA));
     }
 
     public static final SimpleCommandExceptionType NOT_ENABLED = new SimpleCommandExceptionType(prefix().append(getI18nText("not_enabled")));

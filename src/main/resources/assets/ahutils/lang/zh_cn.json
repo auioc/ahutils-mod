@@ -10,7 +10,6 @@
 
     "ahutils.argument.damage_source.invalid": "无效的伤害类型%s",
 
-    "ahutils.addrlimiter.command.prefix": "[AddrLimiter] ",
     "ahutils.addrlimiter.command.not_enabled": "此功能未启用",
     "ahutils.addrlimiter.command.dump.success": "成功将数据输出到文件%s",
     "ahutils.addrlimiter.command.dump.failed": "输出数据到文件失败: %s",

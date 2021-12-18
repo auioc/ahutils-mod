@@ -10,7 +10,6 @@
 
     "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
 
-    "ahutils.addrlimiter.command.prefix": "[AddrLimiter] ",
     "ahutils.addrlimiter.command.not_enabled": "This feature is not enabled",
     "ahutils.addrlimiter.command.dump.success": "Successful dump data to file %s",
     "ahutils.addrlimiter.command.dump.failed": "Cannot dump data to file: %s",
