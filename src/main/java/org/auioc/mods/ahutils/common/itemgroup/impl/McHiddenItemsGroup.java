@@ -1,14 +1,14 @@
 package org.auioc.mods.ahutils.common.itemgroup.impl;
 
 import java.util.List;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class McHiddenItemsGroup extends ItemGroup {
+public class McHiddenItemsGroup extends CreativeModeTab {
     List<String> hiddenItems = List.of(
         "debug_stick",
         "barrier",
