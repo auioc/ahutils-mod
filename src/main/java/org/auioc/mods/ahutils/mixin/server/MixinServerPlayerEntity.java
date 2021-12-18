@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 @Mixin(value = ServerPlayer.class)
 public abstract class MixinServerPlayerEntity {
 
-    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
         method = "Lnet/minecraft/server/level/ServerPlayer;sendMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;Ljava/util/UUID;)V",
         at = @At(value = "HEAD"),

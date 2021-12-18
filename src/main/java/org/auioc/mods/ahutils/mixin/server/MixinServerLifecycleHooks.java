@@ -11,7 +11,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 @Mixin(value = ServerLifecycleHooks.class)
 public abstract class MixinServerLifecycleHooks {
 
-    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
         method = "Lnet/minecraftforge/server/ServerLifecycleHooks;handleServerLogin(Lnet/minecraft/network/protocol/handshake/ClientIntentionPacket;Lnet/minecraft/network/Connection;)Z",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/handshake/ClientIntentionPacket;getIntention()Lnet/minecraft/network/ConnectionProtocol;", ordinal = 0),

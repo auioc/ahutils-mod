@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 @Mixin(value = PistonBaseBlock.class)
 public abstract class MixinPistonBlock {
 
-    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
         method = "Lnet/minecraft/world/level/block/piston/PistonBaseBlock;isPushable(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;ZLnet/minecraft/core/Direction;)Z",
         at = @At(value = "HEAD"),

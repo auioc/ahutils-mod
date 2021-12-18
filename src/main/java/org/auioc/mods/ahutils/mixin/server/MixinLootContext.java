@@ -11,7 +11,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 @Mixin(value = LootContext.class)
 public abstract class MixinLootContext {
 
-    @org.spongepowered.asm.mixin.Debug(export = true, print = true)
+    // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
         method = "Lnet/minecraft/world/level/storage/loot/LootContext;setQueriedLootTableId(Lnet/minecraft/resources/ResourceLocation;)V",
         at = @At(value = "HEAD"),
