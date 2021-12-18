@@ -11,23 +11,23 @@ import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.game.CommandUtils;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.GameProfileArgument;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.DamageSource;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 
 public abstract class ServerCommandHandler {
 
     private static final boolean ClientCrashCmdServerOnly = ServerConfig.ClientCrashCmdServerOnly.get();
 
-    public static int triggerClientCrash(CommandContext<CommandSource> ctx, int mode) throws CommandSyntaxException {
-        CommandSource source = ctx.getSource();
+    public static int triggerClientCrash(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
+        CommandSourceStack source = ctx.getSource();
         if (ClientCrashCmdServerOnly) {
-            ICommandSource privateSource;
+            CommandSource privateSource;
             try {
                 privateSource = CommandUtils.getPrivateSource(source);
             } catch (Exception e) {
@@ -43,7 +43,7 @@ public abstract class ServerCommandHandler {
         String sourceName = source.getTextName() + ((source.getEntity() != null) ? "(" + source.getEntity().getStringUUID() + ")" : "");
 
         for (GameProfile gameprofile : targets) {
-            ServerPlayerEntity player = source.getServer().getPlayerList().getPlayer(gameprofile.getId());
+            ServerPlayer player = source.getServer().getPlayerList().getPlayer(gameprofile.getId());
             PacketHandler.sendTo(player, new org.auioc.mods.ahutils.client.network.TriggerClientCrashPacket(mode));
 
             LogUtil.warn(
@@ -57,7 +57,7 @@ public abstract class ServerCommandHandler {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static int hurtEntity(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+    public static int hurtEntity(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         Collection<? extends Entity> targets = EntityArgument.getEntities(ctx, "targets");
         DamageSource source = DamageSourceArgument.getDamageSource(ctx, "source");
         float damage = FloatArgumentType.getFloat(ctx, "damage");
