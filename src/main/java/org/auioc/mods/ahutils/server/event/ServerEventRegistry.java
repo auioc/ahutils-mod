@@ -5,10 +5,10 @@ import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.server.event.impl.ServerPlayerEntitySendMessageEvent;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.handshake.client.CHandshakePacket;
 import net.minecraft.network.login.server.SDisconnectLoginPacket;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,7 +33,7 @@ public class ServerEventRegistry {
         return false;
     }
 
-    public static boolean postServerPlayerEntitySendMessageEvent(ITextComponent message, ChatType type, UUID uuid) {
+    public static boolean postServerPlayerEntitySendMessageEvent(Component message, ChatType type, UUID uuid) {
         return MinecraftForge.EVENT_BUS.post(new ServerPlayerEntitySendMessageEvent(message, type, uuid));
     }
 
