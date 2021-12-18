@@ -1,12 +1,12 @@
 modLoader="javafml"
-loaderVersion="[36.2,)"
+loaderVersion="[39,)"
 license="GNU GPLv3"
 issueTrackerURL="https://github.com/WakelessSloth56/ahutils-mod/issues"
 
 [[mods]]
 modId="ahutils"
 version="${ahutils_version}"
-updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.16.5.json"
+updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.18.1.json"
 displayName="AHUtils"
 displayURL="https://github.com/WakelessSloth56/ahutils-mod"
 credits="AUIOC"
@@ -19,12 +19,12 @@ ${ahutils_full_version}
 [[dependencies.ahutils]]
     modId="forge"
     mandatory=true
-    versionRange="[36.2.5,)"
+    versionRange="[39,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.ahutils]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.18.1,1.19)"
     ordering="NONE"
     side="BOTH"
