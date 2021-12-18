@@ -25,38 +25,6 @@ public class CommonConfig {
         ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
 
         {
-            b.push("item");
-
-            {
-                b.push("physics_excalibur");
-                EnablePhysicsExcalibur = b.define("enable", false);
-                PhysicsExcaliburCreativeOnly = b.define("creative_only", true);
-                b.pop();
-            }
-
-            b.pop();
-        }
-
-        {
-            b.push("block");
-
-            {
-                b.push("light").comment("Restart required");
-
-                {
-                    b.push("default_state");
-                    LightBlockDefaultStateVisible = b.define("visible", true);
-                    LightBlockDefaultStateLevel = b.defineInRange("level", 0, 0, 15);
-                    b.pop();
-                }
-
-                b.pop();
-            }
-
-            b.pop();
-        }
-
-        {
             b.push("utils");
 
             {

@@ -49,8 +49,6 @@ public class AhUtils {
     }
 
     private void modSetup(final IEventBus modEventBus) {
-        // org.auioc.mods.ahutils.common.item.ItemRegistry.ITEMS.register(modEventBus);
-        // org.auioc.mods.ahutils.common.block.BlockRegistry.BLOCKS.register(modEventBus);
         modEventBus.register(org.auioc.mods.ahutils.common.network.PacketHandler.class);
         org.auioc.mods.ahutils.common.command.CommandArgumentRegistry.register();
         modEventBus.register(org.auioc.mods.ahutils.server.loot.GlobalLootModifierRegistry.class);
@@ -71,9 +69,7 @@ public class AhUtils {
             this.forgeEventBus = forgeEventBus;
         }
 
-        public void modSetup() {
-            // modEventBus.register(org.auioc.mods.ahutils.client.render.RenderTypeRegistry.class);
-        }
+        public void modSetup() {}
 
         public void forgeSetup() {
             forgeEventBus.register(org.auioc.mods.ahutils.client.event.ClientEventHandler.class);

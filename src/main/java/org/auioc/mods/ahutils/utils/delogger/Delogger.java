@@ -9,7 +9,7 @@ import org.auioc.mods.ahutils.utils.delogger.filter.PrintStreamFilter;
 
 public class Delogger {
     public static void init() {
-        LogUtil.info("Delogger loaded");
+        LogUtil.info("[AHUtils] Delogger loaded.");
 
         // Java system out
         System.setOut(new PrintStreamFilter(System.out));
