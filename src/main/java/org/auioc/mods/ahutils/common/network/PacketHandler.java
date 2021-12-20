@@ -23,7 +23,7 @@ public final class PacketHandler implements IHPacketHandler {
         register();
     }
 
-    private static final String PROTOCOL_VERSION = Integer.toString(1);
+    private static final String PROTOCOL_VERSION = AHUtils.MAIN_VERSION;
     private static final SimpleChannel HANDLER = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(AHUtils.MOD_ID, "network"),
         () -> PROTOCOL_VERSION,
