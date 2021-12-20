@@ -13,14 +13,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(AhUtils.MOD_ID)
+@Mod(AHUtils.MOD_ID)
 @SuppressWarnings("unused")
-public class AhUtils {
+public class AHUtils {
     public static final String MOD_ID = "ahutils";
     public static String MAIN_VERSION = "";
     public static String FULL_VERSION = "";
 
-    public AhUtils() {
+    public AHUtils() {
         try {
             String pth = getClass().getResource(getClass().getSimpleName() + ".class").toString();
             Attributes attrs = new Manifest(new URL(pth.substring(0, pth.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF").openStream()).getMainAttributes();

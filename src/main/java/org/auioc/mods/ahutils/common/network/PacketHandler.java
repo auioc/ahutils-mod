@@ -2,7 +2,7 @@ package org.auioc.mods.ahutils.common.network;
 
 import java.util.Optional;
 import java.util.function.Function;
-import org.auioc.mods.ahutils.AhUtils;
+import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.api.network.IHPacket;
 import org.auioc.mods.ahutils.api.network.IHPacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
@@ -25,7 +25,7 @@ public final class PacketHandler implements IHPacketHandler {
 
     private static final String PROTOCOL_VERSION = Integer.toString(1);
     private static final SimpleChannel HANDLER = NetworkRegistry.newSimpleChannel(
-        new ResourceLocation(AhUtils.MOD_ID, "network"),
+        new ResourceLocation(AHUtils.MOD_ID, "network"),
         () -> PROTOCOL_VERSION,
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals

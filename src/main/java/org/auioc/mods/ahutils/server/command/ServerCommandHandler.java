@@ -7,7 +7,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import org.auioc.mods.ahutils.AhUtils;
+import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
@@ -29,8 +29,8 @@ public abstract class ServerCommandHandler {
     private static final boolean ClientCrashCmdServerOnly = ServerConfig.ClientCrashCmdServerOnly.get();
 
     public static int getModVersion(CommandContext<CommandSourceStack> ctx) {
-        String mainVersion = AhUtils.MAIN_VERSION;
-        String fullVersion = AhUtils.FULL_VERSION;
+        String mainVersion = AHUtils.MAIN_VERSION;
+        String fullVersion = AHUtils.FULL_VERSION;
 
         MutableComponent message = getStringText("");
         message.append(getStringText("[AHUtils] ").withStyle(ChatFormatting.AQUA));

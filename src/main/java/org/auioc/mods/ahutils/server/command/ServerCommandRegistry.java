@@ -4,7 +4,7 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
-import org.auioc.mods.ahutils.AhUtils;
+import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrlimiterCommandHandler;
 import net.minecraft.commands.CommandSourceStack;
@@ -15,7 +15,7 @@ public class ServerCommandRegistry {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-            literal(AhUtils.MOD_ID)
+            literal(AHUtils.MOD_ID)
                 .executes(ServerCommandHandler::getModVersion)
 
                 .then(literal("version").executes(ServerCommandHandler::getModVersion))

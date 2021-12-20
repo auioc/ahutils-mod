@@ -1,6 +1,6 @@
 package org.auioc.mods.ahutils.server.loot;
 
-import org.auioc.mods.ahutils.AhUtils;
+import org.auioc.mods.ahutils.AHUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,7 +14,7 @@ public class GlobalLootModifierRegistry {
         IForgeRegistry<GlobalLootModifierSerializer<?>> registry = event.getRegistry();
 
         registry.register(
-            (new HLootInjector.Serializer()).setRegistryName(new ResourceLocation(AhUtils.MOD_ID, "loot_injector"))
+            (new HLootInjector.Serializer()).setRegistryName(new ResourceLocation(AHUtils.MOD_ID, "loot_injector"))
         );
     }
 
