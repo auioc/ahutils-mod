@@ -17,8 +17,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @SuppressWarnings("unused")
 public class AHUtils {
     public static final String MOD_ID = "ahutils";
-    public static String MAIN_VERSION = "";
-    public static String FULL_VERSION = "";
+    public static String MAIN_VERSION = "0";
+    public static String FULL_VERSION = "0";
 
     public AHUtils() {
         try {

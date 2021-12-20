@@ -35,7 +35,7 @@ public abstract class ServerCommandHandler {
         MutableComponent message = getStringText("");
         message.append(getStringText("[AHUtils] ").withStyle(ChatFormatting.AQUA));
 
-        if (mainVersion.length() == 0 && fullVersion.length() == 0) {
+        if (mainVersion.equals("0") && fullVersion.equals("0")) {
             message.append(getStringText("Could not read the mod version.").withStyle(ChatFormatting.YELLOW));
             message.append(getStringText("\nIf this is a development environment you can ignore this message.").withStyle(ChatFormatting.GRAY));
         } else {
