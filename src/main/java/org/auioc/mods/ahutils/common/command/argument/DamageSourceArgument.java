@@ -66,6 +66,9 @@ public class DamageSourceArgument implements ArgumentType<DamageSource> {
             MAP.put("dragonBreath", DamageSource.DRAGON_BREATH);
             MAP.put("dryout", DamageSource.DRY_OUT);
             MAP.put("sweetBerryBush", DamageSource.SWEET_BERRY_BUSH);
+            MAP.put("freeze", DamageSource.FREEZE);
+            MAP.put("fallingStalactite", DamageSource.FALLING_STALACTITE);
+            MAP.put("stalagmite", DamageSource.STALAGMITE);
         }
     };
 }
