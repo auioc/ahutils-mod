@@ -79,10 +79,17 @@ public abstract class ServerCommandHandler {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static int hurtEntity(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+    public static int hurtEntity(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
         Collection<? extends Entity> targets = EntityArgument.getEntities(ctx, "targets");
-        DamageSource source = DamageSourceArgument.getDamageSource(ctx, "source");
         float damage = FloatArgumentType.getFloat(ctx, "damage");
+
+        DamageSource source = DamageSource.GENERIC;
+        switch (mode) {
+            case 1: {
+                source = DamageSourceArgument.getDamageSource(ctx, "source");
+                break;
+            }
+        }
 
         for (Entity entity : targets) {
             LogUtil.info(
