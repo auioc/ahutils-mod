@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.server.command.impl.AddrlimiterCommand;
 import org.auioc.mods.ahutils.server.command.impl.CrashCommand;
+import org.auioc.mods.ahutils.server.command.impl.HealCommand;
 import org.auioc.mods.ahutils.server.command.impl.HurtCommand;
 import org.auioc.mods.ahutils.server.command.impl.VersionCommand;
 import net.minecraft.commands.CommandSourceStack;
@@ -20,6 +21,7 @@ public class ServerCommandRegistry {
                 .then(AddrlimiterCommand.BUILDER)
                 .then(CrashCommand.BUILDER)
                 .then(HurtCommand.BUILDER)
+                .then(HealCommand.BUILDER)
         );
     }
 
