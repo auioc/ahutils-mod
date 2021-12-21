@@ -21,6 +21,7 @@ public class EntityDamageSourceArgument implements ArgumentType<Function<Entity,
         return new EntityDamageSourceArgument();
     }
 
+    @SuppressWarnings("unchecked")
     public static Function<Entity, EntityDamageSource> getDamageSource(CommandContext<CommandSourceStack> context, String argument) throws CommandSyntaxException {
         return context.getArgument(argument, Function.class);
     }

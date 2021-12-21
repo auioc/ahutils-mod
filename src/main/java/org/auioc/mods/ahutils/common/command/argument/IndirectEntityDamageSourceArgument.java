@@ -21,6 +21,7 @@ public class IndirectEntityDamageSourceArgument implements ArgumentType<BiFuncti
         return new IndirectEntityDamageSourceArgument();
     }
 
+    @SuppressWarnings("unchecked")
     public static BiFunction<Entity, Entity, IndirectEntityDamageSource> getDamageSource(CommandContext<CommandSourceStack> context, String argument) throws CommandSyntaxException {
         return context.getArgument(argument, BiFunction.class);
     }
