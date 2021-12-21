@@ -3,6 +3,7 @@ package org.auioc.mods.ahutils.utils.game;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -98,6 +99,18 @@ public interface EffectUtils {
             return entity.addEffect(effect);
         }
         return false;
+    }
+
+    static void removeEffect(LivingEntity entity, Predicate<MobEffectInstance> condition) {
+        List<MobEffect> toRemove = new ArrayList<>();
+
+        entity.getActiveEffects().forEach(effect -> {
+            if (condition.test(effect)) {
+                toRemove.add(effect.getEffect());
+            }
+        });
+
+        toRemove.forEach(effect -> entity.removeEffect(effect));
     }
 
 }
