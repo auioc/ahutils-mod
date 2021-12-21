@@ -7,6 +7,8 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
+import org.auioc.mods.ahutils.common.command.argument.EntityDamageSourceArgument;
+import org.auioc.mods.ahutils.common.command.argument.IndirectEntityDamageSourceArgument;
 import org.auioc.mods.ahutils.server.addrlimiter.AddrlimiterCommandHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -52,11 +54,31 @@ public class ServerCommandRegistry {
                         .then(
                             literal("common").then(
                                 argument("source", DamageSourceArgument.damageSource())
-                                    .executes(ctx -> ServerCommandHandler.hurtEntity(ctx, 0))
+                                    .executes(ctx -> ServerCommandHandler.hurtEntity(ctx, 1))
                             )
                         )
-                        .then(literal("entity"))
-                        .then(literal("indirectEntity"))
+                        .then(
+                            literal("entity")
+                                .then(
+                                    argument("source", EntityDamageSourceArgument.damageSource()).then(
+                                        argument("from", EntityArgument.entity())
+                                            .executes(ctx -> ServerCommandHandler.hurtEntity(ctx, 2))
+                                    )
+                                )
+                        )
+                        .then(
+                            literal("indirectEntity").then(
+                                argument("source", IndirectEntityDamageSourceArgument.damageSource()).then(
+                                    argument("from", EntityArgument.entity())
+                                        .executes(ctx -> ServerCommandHandler.hurtEntity(ctx, 3))
+                                        .then(
+                                            argument("owner", EntityArgument.entity())
+                                                .executes(ctx -> ServerCommandHandler.hurtEntity(ctx, 4))
+                                        )
+                                )
+
+                            )
+                        )
                 )
             );
 

@@ -9,6 +9,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.auioc.mods.ahutils.AHUtils;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
+import org.auioc.mods.ahutils.common.command.argument.EntityDamageSourceArgument;
+import org.auioc.mods.ahutils.common.command.argument.IndirectEntityDamageSourceArgument;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.LogUtil;
@@ -87,6 +89,22 @@ public abstract class ServerCommandHandler {
         switch (mode) {
             case 1: {
                 source = DamageSourceArgument.getDamageSource(ctx, "source");
+                break;
+            }
+            case 2: {
+                Entity from = EntityArgument.getEntity(ctx, "from");
+                source = EntityDamageSourceArgument.getDamageSource(ctx, "source").apply(from);
+                break;
+            }
+            case 3: {
+                Entity from = EntityArgument.getEntity(ctx, "from");
+                source = IndirectEntityDamageSourceArgument.getDamageSource(ctx, "source").apply(from, null);
+                break;
+            }
+            case 4: {
+                Entity from = EntityArgument.getEntity(ctx, "from");
+                Entity owner = EntityArgument.getEntity(ctx, "owner");
+                source = IndirectEntityDamageSourceArgument.getDamageSource(ctx, "source").apply(from, owner);
                 break;
             }
         }
