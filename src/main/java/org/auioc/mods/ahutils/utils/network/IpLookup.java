@@ -33,4 +33,48 @@ public interface IpLookup {
         }
     }
 
+    static String lookupAsn(String ip, boolean asnInfoOnly) throws Exception {
+        return geoip2(
+            ip, "asn", asnInfoOnly,
+            (json, simpleResult) -> {
+                if (simpleResult) {
+                    return json.get("autonomous_system_number").getAsString() + " " + json.get("autonomous_system_organization").getAsString();
+                } else {
+                    return json.toString();
+                }
+            }
+        );
+    }
+
+    static String lookupCountry(String ip, boolean isoCodeOnly) throws Exception {
+        return geoip2(
+            ip, "country", isoCodeOnly,
+            (json, simpleResult) -> {
+                if (isoCodeOnly) {
+                    return json.getAsJsonObject("country").get("iso_code").getAsString();
+                } else {
+                    return json.toString();
+                }
+            }
+        );
+    }
+
+    static String lookupCity(String ip, boolean cityNameOnly) throws Exception {
+        return geoip2(
+            ip, "country", cityNameOnly,
+            (json, simpleResult) -> {
+                if (cityNameOnly) {
+                    JsonObject city = json.getAsJsonObject("city");
+                    if (city != null) {
+                        return city.getAsJsonObject("names").get("en").getAsString();
+                    } else {
+                        throw new HSimpleException("Unable to determine the city of the ip " + ip + ", please try asn or country instead.");
+                    }
+                } else {
+                    return json.toString();
+                }
+            }
+        );
+    }
+
 }
