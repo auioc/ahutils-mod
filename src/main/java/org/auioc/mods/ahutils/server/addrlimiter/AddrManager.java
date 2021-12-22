@@ -10,7 +10,7 @@ import java.util.UUID;
 import com.google.gson.Gson;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.game.TextUtils;
-import org.auioc.mods.ahutils.utils.java.NetUtils;
+import org.auioc.mods.ahutils.utils.network.NetUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;

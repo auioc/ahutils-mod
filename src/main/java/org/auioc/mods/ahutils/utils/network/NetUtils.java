@@ -1,4 +1,4 @@
-package org.auioc.mods.ahutils.utils.java;
+package org.auioc.mods.ahutils.utils.network;
 
 import java.net.InetAddress;
 import java.net.SocketAddress;
