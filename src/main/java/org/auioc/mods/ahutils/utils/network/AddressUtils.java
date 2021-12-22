@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.utils.network;
 
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
@@ -20,7 +21,7 @@ public interface AddressUtils {
         try {
             return InetAddress.getByName(addr);
         } catch (UnknownHostException e) {
-            LogUtil.getModLogger().error(LogUtil.getMarker("AddressUtils"), "", e);
+            LOGGER.error(LogUtil.getMarker("AddressUtils"), "", e);
             return null;
         }
     }

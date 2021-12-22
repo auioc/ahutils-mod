@@ -2,12 +2,14 @@ package org.auioc.mods.ahutils.server.command.impl;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.util.Collection;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import org.apache.logging.log4j.Marker;
 import org.auioc.mods.ahutils.common.command.argument.DamageSourceArgument;
 import org.auioc.mods.ahutils.common.command.argument.EntityDamageSourceArgument;
 import org.auioc.mods.ahutils.common.command.argument.IndirectEntityDamageSourceArgument;
@@ -18,6 +20,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 
 public class HurtCommand {
+
+    private static final Marker marker = LogUtil.getMarker("HurtCommand");
 
     public static final LiteralArgumentBuilder<CommandSourceStack> BUILDER =
         literal("hurt")
@@ -84,7 +88,8 @@ public class HurtCommand {
         }
 
         for (Entity entity : targets) {
-            LogUtil.info(
+            LOGGER.info(
+                marker,
                 String.format(
                     "Entity %s has been hurt by the hurt command, %s, damage: %f",
                     entity.toString(), source.toString(), damage

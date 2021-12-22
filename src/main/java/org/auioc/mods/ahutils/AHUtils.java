@@ -3,6 +3,8 @@ package org.auioc.mods.ahutils;
 import java.net.URL;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,15 +22,18 @@ public class AHUtils {
     public static String MAIN_VERSION = "0";
     public static String FULL_VERSION = "0";
 
+    public static final Logger LOGGER = LogUtil.getNamedLogger("AHUtils");
+    public static final Marker CORE = LogUtil.getMarker("CORE");
+
     public AHUtils() {
         try {
             String pth = getClass().getResource(getClass().getSimpleName() + ".class").toString();
             Attributes attrs = new Manifest(new URL(pth.substring(0, pth.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF").openStream()).getMainAttributes();
             MAIN_VERSION = attrs.getValue("Implementation-Version");
             FULL_VERSION = attrs.getValue("AHUtils-Version");
-            LogUtil.warn("[AHUtils] Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
+            LOGGER.warn(CORE, "Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
         } catch (Exception e) {
-            LogUtil.warn("[AHUtils] MANIFEST.MF could not be read. If this is a development environment you can ignore this message.");
+            LOGGER.warn(CORE, "MANIFEST.MF could not be read. If this is a development environment you can ignore this message.");
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, org.auioc.mods.ahutils.common.config.CommonConfig.CONFIG);

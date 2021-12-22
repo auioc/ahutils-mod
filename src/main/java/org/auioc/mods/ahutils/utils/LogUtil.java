@@ -1,13 +1,12 @@
 package org.auioc.mods.ahutils.utils;
 
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 public class LogUtil {
-
-    private static final Logger MOD_LOGGER = getNamedLogger("ahutils");
 
     private static StackTraceElement getCaller() {
         StackTraceElement[] callStack = Thread.currentThread().getStackTrace();
@@ -36,7 +35,7 @@ public class LogUtil {
     }
 
     public static Logger getModLogger() {
-        return MOD_LOGGER;
+        return LOGGER;
     }
 
     public static Marker getMarker(String marker) {
@@ -71,27 +70,27 @@ public class LogUtil {
 
 
     public static void trace(Marker marker, Object msg) {
-        MOD_LOGGER.trace(marker, msg);
+        LOGGER.trace(marker, msg);
     }
 
     public static void debug(Marker marker, Object msg) {
-        MOD_LOGGER.debug(marker, msg);
+        LOGGER.debug(marker, msg);
     }
 
     public static void info(Marker marker, Object msg) {
-        MOD_LOGGER.info(marker, msg);
+        LOGGER.info(marker, msg);
     }
 
     public static void warn(Marker marker, Object msg) {
-        MOD_LOGGER.warn(marker, msg);
+        LOGGER.warn(marker, msg);
     }
 
     public static void error(Marker marker, Object msg) {
-        MOD_LOGGER.error(marker, msg);
+        LOGGER.error(marker, msg);
     }
 
     public static void error(Marker marker, Object msg, Throwable t) {
-        MOD_LOGGER.error(marker, msg, t);
+        LOGGER.error(marker, msg, t);
     }
 
 

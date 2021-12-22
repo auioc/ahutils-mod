@@ -29,8 +29,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'log4j.configurationFile', 'log4j2.xml'
             property 'mixin.debug', 'true'
             arg '-mixin.config=ahutils.mixin.json'
             mods {
@@ -42,8 +41,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'log4j.configurationFile', 'log4j2.xml'
             property 'mixin.debug', 'true'
             arg '-mixin.config=ahutils.mixin.json'
             mods {

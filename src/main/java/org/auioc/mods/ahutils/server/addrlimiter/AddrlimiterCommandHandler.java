@@ -1,10 +1,12 @@
 package org.auioc.mods.ahutils.server.addrlimiter;
 
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.io.File;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import org.apache.logging.log4j.Marker;
 import org.auioc.mods.ahutils.utils.LogUtil;
 import org.auioc.mods.ahutils.utils.game.TextUtils;
 import org.auioc.mods.ahutils.utils.java.FileUtils;
@@ -15,6 +17,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
 public final class AddrlimiterCommandHandler {
+
+    private static final Marker marker = LogUtil.getMarker("AddrLimiter");
 
     private static final String getKey(String key) {
         return "ahutils.addrlimiter.command." + key;
@@ -42,7 +46,7 @@ public final class AddrlimiterCommandHandler {
             if (source.getEntity() != null) {
                 source.sendSuccess(((mode == 1) ? prefix() : TextUtils.getStringText("")).append(message), false);
             } else {
-                LogUtil.info(LogUtil.getMarker("AddrLimiter"), message.getString());
+                LOGGER.info(marker, message.getString());
             }
         } else if (mode == 3) {
             try {

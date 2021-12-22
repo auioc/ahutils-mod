@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.utils.delogger;
 
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.auioc.mods.ahutils.common.config.CommonConfig;
@@ -9,7 +10,7 @@ import org.auioc.mods.ahutils.utils.delogger.filter.PrintStreamFilter;
 
 public class Delogger {
     public static void init() {
-        LogUtil.info("[AHUtils] Delogger loaded.");
+        LOGGER.info(LogUtil.getMarker("Delogger"), "Delogger loaded.");
 
         // Java system out
         System.setOut(new PrintStreamFilter(System.out));

@@ -2,6 +2,7 @@ package org.auioc.mods.ahutils.server.command.impl;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.util.Collection;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
@@ -55,7 +56,7 @@ public class CrashCommand {
             ServerPlayer player = source.getServer().getPlayerList().getPlayer(gameprofile.getId());
             PacketHandler.sendTo(player, new org.auioc.mods.ahutils.client.network.TriggerClientCrashPacket(mode));
 
-            LogUtil.warn(
+            LOGGER.warn(
                 LogUtil.getMarker("TriggerClientCrash"), String.format(
                     "Send packet with mode %d to %s(%s) by %s",
                     mode, player.getName().getString(), player.getStringUUID(), sourceName

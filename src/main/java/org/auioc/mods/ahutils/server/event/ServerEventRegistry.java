@@ -1,6 +1,8 @@
 package org.auioc.mods.ahutils.server.event;
 
+import static org.auioc.mods.ahutils.AHUtils.LOGGER;
 import java.util.UUID;
+import org.apache.logging.log4j.Marker;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.server.event.impl.ServerPlayerEntitySendMessageEvent;
 import org.auioc.mods.ahutils.utils.LogUtil;
@@ -14,6 +16,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ServerEventRegistry {
 
+    private static final Marker marker = LogUtil.getMarker("ServerHooks");
+
     // Return true if the event was Cancelable cancelled
 
     public static boolean postServerLoginEvent(final ClientIntentionPacket packet, final Connection manager) {
@@ -23,9 +27,8 @@ public class ServerEventRegistry {
             TextComponent message = new TextComponent(event.getMessage());
             manager.send(new ClientboundLoginDisconnectPacket(message));
             manager.disconnect(message);
-            LogUtil.info(
-                "ServerHooks",
-                LogUtil.getMarker("ServerLogin"),
+            LOGGER.info(
+                LogUtil.getMarker("ServerLogin").addParents(marker),
                 String.format("Disconnecting %s connection attempt from %s: %s", event.getPacket().getIntention(), event.getNetworkManager().getRemoteAddress(), event.getMessage())
             );
             return true;
