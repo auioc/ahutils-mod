@@ -13,6 +13,7 @@ public class CommonConfig {
     public static ConfigValue<List<? extends String>> DeloggerRegexFilter;
 
     public static ConfigValue<String> GeoIP2ApiUrl;
+    public static ConfigValue<List<? extends String>> GeoIP2AvailableDatabases;
 
     static {
         ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
@@ -33,7 +34,12 @@ public class CommonConfig {
 
             {
                 b.push("ip_lookup");
-                GeoIP2ApiUrl = b.define("geoip2_api_url", "http://127.0.0.1:80/geoip2/");
+                {
+                    b.push("geoip2");
+                    GeoIP2ApiUrl = b.define("api_url", "http://127.0.0.1:80/geoip2/");
+                    GeoIP2AvailableDatabases = b.define("available_databases", List.of("asn", "country", "city"));
+                    b.pop();
+                }
                 b.pop();
             }
 
