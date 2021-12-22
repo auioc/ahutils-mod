@@ -7,6 +7,8 @@ import org.apache.logging.log4j.MarkerManager;
 
 public class LogUtil {
 
+    private static final Logger MOD_LOGGER = getNamedLogger("ahutils");
+
     private static StackTraceElement getCaller() {
         StackTraceElement[] callStack = Thread.currentThread().getStackTrace();
 
@@ -34,7 +36,7 @@ public class LogUtil {
     }
 
     public static Logger getModLogger() {
-        return getNamedLogger("ahutils");
+        return MOD_LOGGER;
     }
 
     public static Marker getMarker(String marker) {
@@ -69,27 +71,27 @@ public class LogUtil {
 
 
     public static void trace(Marker marker, Object msg) {
-        getNamedLogger("ahutils").trace(marker, msg);
+        MOD_LOGGER.trace(marker, msg);
     }
 
     public static void debug(Marker marker, Object msg) {
-        getNamedLogger("ahutils").debug(marker, msg);
+        MOD_LOGGER.debug(marker, msg);
     }
 
     public static void info(Marker marker, Object msg) {
-        getNamedLogger("ahutils").info(marker, msg);
+        MOD_LOGGER.info(marker, msg);
     }
 
     public static void warn(Marker marker, Object msg) {
-        getNamedLogger("ahutils").warn(marker, msg);
+        MOD_LOGGER.warn(marker, msg);
     }
 
     public static void error(Marker marker, Object msg) {
-        getNamedLogger("ahutils").error(marker, msg);
+        MOD_LOGGER.error(marker, msg);
     }
 
     public static void error(Marker marker, Object msg, Throwable t) {
-        getNamedLogger("ahutils").error(marker, msg, t);
+        MOD_LOGGER.error(marker, msg, t);
     }
 
 
