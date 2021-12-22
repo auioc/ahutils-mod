@@ -10,7 +10,7 @@ import java.util.UUID;
 import com.google.gson.Gson;
 import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.utils.game.TextUtils;
-import org.auioc.mods.ahutils.utils.network.NetUtils;
+import org.auioc.mods.ahutils.utils.network.AddressUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -60,10 +60,10 @@ public class AddrManager {
 
     public boolean check(String addr, UUID uuid) {
         if (this.map.containsKey(addr)) {
-            if (bypassLocalAddress && NetUtils.isLocalAddress(addr)) {
+            if (bypassLocalAddress && AddressUtils.isLocalAddress(addr)) {
                 return true;
             }
-            if (bypassLanAddress && NetUtils.isLanAddress(addr)) {
+            if (bypassLanAddress && AddressUtils.isLanAddress(addr)) {
                 return true;
             }
             if ((this.map.get(addr)).size() > (maxPlayersPreAddr - 1)) {
@@ -107,9 +107,9 @@ public class AddrManager {
             entryIndex++;
 
             TextComponent l = getStringText("\n  " + (lastEntry ? "┗ " : "┣ ") + addr);
-            if (NetUtils.isLocalAddress(addr)) {
+            if (AddressUtils.isLocalAddress(addr)) {
                 l.append(getStringText(" ").append(getI18nText("local_address")).withStyle(ChatFormatting.GRAY));
-            } else if (NetUtils.isLanAddress(addr)) {
+            } else if (AddressUtils.isLanAddress(addr)) {
                 l.append(getStringText(" ").append(getI18nText("lan_address")).withStyle(ChatFormatting.GRAY));
             }
             l.append(getStringText(" (" + uuids.size() + ")").withStyle(ChatFormatting.GRAY));

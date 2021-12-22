@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import javax.annotation.Nullable;
 import org.auioc.mods.ahutils.utils.LogUtil;
 
-public interface NetUtils {
+public interface AddressUtils {
 
     @Deprecated
     static String ipv4toString(SocketAddress addr) {
@@ -20,7 +20,7 @@ public interface NetUtils {
         try {
             return InetAddress.getByName(addr);
         } catch (UnknownHostException e) {
-            LogUtil.getModLogger().error(LogUtil.getMarker("NetUtils"), "", e);
+            LogUtil.getModLogger().error(LogUtil.getMarker("AddressUtils"), "", e);
             return null;
         }
     }
