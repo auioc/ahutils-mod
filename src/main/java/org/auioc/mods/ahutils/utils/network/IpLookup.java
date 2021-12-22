@@ -61,7 +61,7 @@ public interface IpLookup {
 
     static String lookupCity(String ip, boolean cityNameOnly) throws Exception {
         return geoip2(
-            ip, "country", cityNameOnly,
+            ip, "city", cityNameOnly,
             (json, simpleResult) -> {
                 if (cityNameOnly) {
                     JsonObject city = json.getAsJsonObject("city");
