@@ -2,6 +2,7 @@ package org.auioc.mods.ahutils.server.command.impl;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
+import static org.auioc.mods.ahutils.utils.game.TextUtils.emptyText;
 import static org.auioc.mods.ahutils.utils.game.TextUtils.getStringText;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -46,7 +47,7 @@ public class IpLookupCommand {
         ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
         String ip = AddrUtils.getPlayerIp(player);
 
-        MutableComponent message = getStringText("").append(player.getDisplayName()).append(": " + ip + " ");
+        MutableComponent message = emptyText().append(player.getDisplayName()).append(": " + ip + " ");
 
         if (AddressUtils.isLocalAddress(ip)) {
             message.append("(Local)");

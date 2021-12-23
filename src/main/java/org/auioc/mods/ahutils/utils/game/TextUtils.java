@@ -20,6 +20,10 @@ public interface TextUtils {
         return new TextComponent("");
     }
 
+    static TextComponent emptyText() {
+        return new TextComponent("");
+    }
+
     static TextComponent getStringText(String text) {
         return new TextComponent(text);
     }

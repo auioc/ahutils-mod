@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.server.addrlimiter;
 
+import static org.auioc.mods.ahutils.utils.game.TextUtils.emptyText;
 import static org.auioc.mods.ahutils.utils.game.TextUtils.getStringText;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,7 +88,7 @@ public class AddrManager {
     }
 
     public Component toChatMessage(PlayerList playerList) {
-        TextComponent m = getStringText("");
+        TextComponent m = emptyText();
 
         m.append(getStringText("[AddrLimiter]").withStyle(ChatFormatting.AQUA));
         m.append(getPrefix().append(getI18nText("title")).withStyle(ChatFormatting.DARK_AQUA));
@@ -131,7 +132,7 @@ public class AddrManager {
             m.append(l);
         }
 
-        TextComponent e = (TextComponent) getStringText("").withStyle(ChatFormatting.YELLOW);
+        TextComponent e = (TextComponent) emptyText().withStyle(ChatFormatting.YELLOW);
         if (errorOffline > 0) {
             e.append(getPrefix().append(getI18nText("detected_non_online_players", errorOffline)));
         }

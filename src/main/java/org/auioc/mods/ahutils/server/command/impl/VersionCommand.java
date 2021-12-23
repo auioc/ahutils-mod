@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.server.command.impl;
 
+import static org.auioc.mods.ahutils.utils.game.TextUtils.emptyText;
 import static org.auioc.mods.ahutils.utils.game.TextUtils.getStringText;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -14,7 +15,7 @@ public class VersionCommand {
         String mainVersion = AHUtils.MAIN_VERSION;
         String fullVersion = AHUtils.FULL_VERSION;
 
-        MutableComponent message = getStringText("");
+        MutableComponent message = emptyText();
         message.append(getStringText("[AHUtils] ").withStyle(ChatFormatting.AQUA));
 
         if (mainVersion.equals("0") && fullVersion.equals("0")) {
