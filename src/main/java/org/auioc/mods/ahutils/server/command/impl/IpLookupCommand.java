@@ -21,24 +21,23 @@ public class IpLookupCommand {
 
     public static final LiteralArgumentBuilder<CommandSourceStack> BUILDER =
         literal("ip")
-            .requires(source -> source.hasPermission(3))
-            .then(
-                literal("player").then(
-                    argument("player", EntityArgument.player()).executes(ctx -> h(ctx, false, false, false))
-                        .then(
-                            literal("+asn").executes(ctx -> h(ctx, true, false, false))
-                                .then(
-                                    literal("+country").executes(ctx -> h(ctx, true, true, false))
-                                        .then(literal("+city").executes(ctx -> h(ctx, true, true, true)))
-                                )
-                                .then(literal("+city").executes(ctx -> h(ctx, true, false, true)))
-                        )
-                        .then(
-                            literal("+country").executes(ctx -> h(ctx, false, true, false))
-                                .then(literal("+city").executes(ctx -> h(ctx, false, true, true)))
-                        )
-                        .then(literal("+city").executes(ctx -> h(ctx, false, false, true)))
-                )
+            .requires(source -> source.hasPermission(3)).then(
+                argument("player", EntityArgument.player())
+                    .executes(ctx -> h(ctx, false, false, false))
+                    .then(
+                        literal("+asn")
+                            .executes(ctx -> h(ctx, true, false, false))
+                            .then(
+                                literal("+country").executes(ctx -> h(ctx, true, true, false))
+                                    .then(literal("+city").executes(ctx -> h(ctx, true, true, true)))
+                            )
+                            .then(literal("+city").executes(ctx -> h(ctx, true, false, true)))
+                    )
+                    .then(
+                        literal("+country").executes(ctx -> h(ctx, false, true, false))
+                            .then(literal("+city").executes(ctx -> h(ctx, false, true, true)))
+                    )
+                    .then(literal("+city").executes(ctx -> h(ctx, false, false, true)))
             );
 
     private static int h(CommandContext<CommandSourceStack> ctx, boolean asn, boolean country, boolean city) throws CommandSyntaxException {
