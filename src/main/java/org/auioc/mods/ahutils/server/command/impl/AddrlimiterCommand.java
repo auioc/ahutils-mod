@@ -10,20 +10,22 @@ public class AddrlimiterCommand {
     public static final LiteralArgumentBuilder<CommandSourceStack> BUILDER =
         literal("addrlimiter")
             .requires(source -> source.hasPermission(3))
+            .then(literal("enable").executes(ctx -> AddrlimiterCommandHandler.switchStatus(ctx, true)))
+            .then(literal("disable").executes(ctx -> AddrlimiterCommandHandler.switchStatus(ctx, false)))
             .then(
                 literal("dump")
-                    .then(literal("json").executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 1)))
-                    .then(literal("list").executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 2)))
+                    .then(literal("json").executes(ctx -> AddrlimiterCommandHandler.dump(ctx, 1)))
+                    .then(literal("list").executes(ctx -> AddrlimiterCommandHandler.dump(ctx, 2)))
                     .then(
                         literal("file")
                             .requires(source -> (source.getEntity() == null))
-                            .executes(ctx -> AddrlimiterCommandHandler.dumpAddrlimiterMap(ctx, 3))
+                            .executes(ctx -> AddrlimiterCommandHandler.dump(ctx, 3))
                     )
             )
             .then(
                 literal("refresh")
                     .requires(source -> source.hasPermission(4))
-                    .executes(AddrlimiterCommandHandler::refreshAddrlimiter)
+                    .executes(AddrlimiterCommandHandler::refresh)
             );
 
 }

@@ -14,7 +14,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public final class AddrlimiterCommandHandler {
 
@@ -24,27 +23,31 @@ public final class AddrlimiterCommandHandler {
         return "ahutils.addrlimiter.command." + key;
     }
 
-    private static final TranslatableComponent getI18nText(String key) {
-        return TextUtils.getI18nText(getKey(key));
-    }
-
     private static final MutableComponent prefix() {
-        return TextUtils.getStringText("").append(TextUtils.getStringText("[AddrLimiter] ").withStyle(ChatFormatting.AQUA));
+        return TextUtils.empty().append(TextUtils.getStringText("[AddrLimiter] ").withStyle(ChatFormatting.AQUA));
     }
 
-    public static final SimpleCommandExceptionType NOT_ENABLED = new SimpleCommandExceptionType(prefix().append(getI18nText("not_enabled")));
+    private static final MutableComponent getI18nText(String key) {
+        return prefix().append(TextUtils.getI18nText(getKey(key)));
+    }
 
+    public static final SimpleCommandExceptionType NOT_ENABLED = new SimpleCommandExceptionType(getI18nText("not_enabled"));
+    public static final SimpleCommandExceptionType ALREADY_ENABLED = new SimpleCommandExceptionType(getI18nText("already_enabled"));
+    public static final SimpleCommandExceptionType ALREADY_DISABLED = new SimpleCommandExceptionType(getI18nText("already_disabled"));
 
-    public static final int dumpAddrlimiterMap(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
+    public static final int dump(CommandContext<CommandSourceStack> ctx, int mode) throws CommandSyntaxException {
         if (!AddrHandler.isEnabled()) {
             throw NOT_ENABLED.create();
         }
+
         CommandSourceStack source = ctx.getSource();
+
         AddrManager addrManager = AddrManager.getInstance();
+
         if (mode == 1 || mode == 2) {
             Component message = (mode == 1) ? addrManager.toJsonText() : addrManager.toChatMessage(source.getServer().getPlayerList());
             if (source.getEntity() != null) {
-                source.sendSuccess(((mode == 1) ? prefix() : TextUtils.getStringText("")).append(message), false);
+                source.sendSuccess(((mode == 1) ? prefix() : TextUtils.empty()).append(message), false);
             } else {
                 LOGGER.info(marker, message.getString());
             }
@@ -60,14 +63,40 @@ public final class AddrlimiterCommandHandler {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static final int refreshAddrlimiter(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+    public static final int refresh(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         if (!AddrHandler.isEnabled()) {
             throw NOT_ENABLED.create();
         }
+
         CommandSourceStack source = ctx.getSource();
-        source.sendSuccess(prefix().append(getI18nText("refresh.start")), true);
+
+        source.sendSuccess(getI18nText("refresh.start"), true);
         AddrHandler.refreshAddrManager(source.getServer().getPlayerList());
-        source.sendSuccess(prefix().append(getI18nText("refresh.success").withStyle(ChatFormatting.GREEN)), true);
+        source.sendSuccess(getI18nText("refresh.success").withStyle(ChatFormatting.GREEN), true);
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    public static final int switchStatus(CommandContext<CommandSourceStack> ctx, boolean status) throws CommandSyntaxException {
+        CommandSourceStack source = ctx.getSource();
+
+        MutableComponent message;
+
+        if (status) {
+            if (AddrHandler.isEnabled()) {
+                throw ALREADY_ENABLED.create();
+            }
+            AddrHandler.enable(source.getServer().getPlayerList());
+            message = getI18nText("enable");
+        } else {
+            if (!AddrHandler.isEnabled()) {
+                throw ALREADY_DISABLED.create();
+            }
+            AddrHandler.disable();
+            message = getI18nText("disable");
+        }
+
+        source.sendSuccess(message, true);
 
         return Command.SINGLE_SUCCESS;
     }

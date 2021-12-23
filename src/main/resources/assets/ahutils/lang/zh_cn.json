@@ -11,6 +11,10 @@
     "ahutils.argument.damage_source.invalid": "无效的伤害类型%s",
 
     "ahutils.addrlimiter.command.not_enabled": "此功能未启用",
+    "ahutils.addrlimiter.command.already_enabled": "此功能已启用, 请勿重复操作",
+    "ahutils.addrlimiter.command.already_disabled": "此功能已禁用, 请勿重复操作",
+    "ahutils.addrlimiter.command.enable": "已启用此功能",
+    "ahutils.addrlimiter.command.disable": "已禁用此功能",
     "ahutils.addrlimiter.command.dump.success": "成功将数据输出到文件%s",
     "ahutils.addrlimiter.command.dump.failed": "输出数据到文件失败: %s",
     "ahutils.addrlimiter.command.refresh.start": "开始刷新映射",

@@ -11,6 +11,10 @@
     "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
 
     "ahutils.addrlimiter.command.not_enabled": "This feature is not enabled",
+    "ahutils.addrlimiter.command.already_enabled": "This feature is already enabled, do not repeat this operation",
+    "ahutils.addrlimiter.command.already_disabled": "This feature is already disabled, do not repeat this operation",
+    "ahutils.addrlimiter.command.enable": "This feature is now enabled",
+    "ahutils.addrlimiter.command.disable": "This feature is now disabled",
     "ahutils.addrlimiter.command.dump.success": "Successful dump data to file %s",
     "ahutils.addrlimiter.command.dump.failed": "Cannot dump data to file: %s",
     "ahutils.addrlimiter.command.refresh.start": "Start refreshing",

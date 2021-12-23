@@ -12,7 +12,7 @@ import net.minecraft.server.players.PlayerList;
 
 public class AddrHandler {
 
-    private static final boolean enable = ServerConfig.EnableAddrLimiter.get();
+    private static boolean enable = ServerConfig.EnableAddrLimiter.get();
     private static final AddrManager limiter = AddrManager.getInstance();
 
     public static void playerAttemptLogin(final ServerLoginEvent event) {
@@ -47,6 +47,16 @@ public class AddrHandler {
 
     public static boolean isEnabled() {
         return enable;
+    }
+
+    public static void enable(PlayerList playerList) {
+        enable = true;
+        refreshAddrManager(playerList);
+    }
+
+    public static void disable() {
+        enable = false;
+        limiter.clear();
     }
 
     private static String getMessage() {
