@@ -16,6 +16,10 @@ public interface TextUtils {
         player.sendMessage(message, Util.NIL_UUID);
     }
 
+    static TextComponent empty() {
+        return new TextComponent("");
+    }
+
     static TextComponent getStringText(String text) {
         return new TextComponent(text);
     }
