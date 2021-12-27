@@ -3,6 +3,7 @@ package org.auioc.mods.ahutils.api.item;
 import java.util.function.Supplier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.sounds.SoundEvent;
@@ -19,7 +20,7 @@ public class HArmorMaterial implements ArmorMaterial {
     private float toughness = 0.0F;
     private float knockbackResistance = 0.0F;
     private SoundEvent sound = null;
-    private LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(null);
+    private LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<Ingredient>(() -> Ingredient.of(Items.AIR));
 
     public HArmorMaterial(String name) {
         this.name = name;
