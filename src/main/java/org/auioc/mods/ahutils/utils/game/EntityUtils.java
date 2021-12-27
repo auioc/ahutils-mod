@@ -46,19 +46,19 @@ public interface EntityUtils {
 
 
 
-    public static BlockHitResult getBlockRayTraceResult(Entity entity, double rayLength, ClipContext.Block blockMode, ClipContext.Fluid fluidMode) {
+    public static BlockHitResult getBlockHitResult(Entity entity, double rayLength, ClipContext.Block blockMode, ClipContext.Fluid fluidMode) {
         Vec3[] viewRay = getEntityViewRay(entity, rayLength);
         ClipContext rayCtx = new ClipContext(viewRay[0], viewRay[1], blockMode, fluidMode, entity);
         return entity.level.clip(rayCtx);
     }
 
     @Nullable
-    public static EntityHitResult getEntityRayTraceResult(Entity entity, double rayLength, float pickRadiusAddition, boolean blockMode) {
+    public static EntityHitResult getEntityHitResult(Entity entity, double rayLength, float pickRadiusAddition, boolean blockMode) {
         Vec3[] viewRay = getEntityViewRay(entity, rayLength);
 
         Vec3 to = viewRay[1];
         if (blockMode) {
-            BlockHitResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE);
+            BlockHitResult rayHitBlock = getBlockHitResult(entity, rayLength, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE);
             if (rayHitBlock.getType() != HitResult.Type.MISS) {
                 to = rayHitBlock.getLocation();
             }
@@ -79,12 +79,13 @@ public interface EntityUtils {
         return getEntityHitResult(entity, from, to, 0.0F);
     }
 
-    public static BlockHitResult getBlockRayTraceResult(Entity entity, double rayLength) {
-        return getBlockRayTraceResult(entity, rayLength, ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY);
+
+    public static BlockHitResult getBlockHitResult(Entity entity, double rayLength) {
+        return getBlockHitResult(entity, rayLength, ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY);
     }
 
-    public static EntityHitResult getEntityRayTraceResult(Entity entity, double rayLength) {
-        return getEntityRayTraceResult(entity, rayLength, 0.0F, false);
+    public static EntityHitResult getEntityHitResult(Entity entity, double rayLength) {
+        return getEntityHitResult(entity, rayLength, 0.0F, false);
     }
 
 
@@ -94,12 +95,12 @@ public interface EntityUtils {
         float pickRadiusAddition, ClipContext.Block blockMode, ClipContext.Fluid fluidMode,
         Function<EntityHitResult, Integer> e, Function<BlockHitResult, Integer> b, Function<BlockHitResult, Integer> m
     ) {
-        EntityHitResult rayHitEntity = getEntityRayTraceResult(entity, rayLength, pickRadiusAddition, false);
+        EntityHitResult rayHitEntity = getEntityHitResult(entity, rayLength, pickRadiusAddition, false);
         if (rayHitEntity != null) {
             return e.apply(rayHitEntity);
         }
 
-        BlockHitResult rayHitBlock = getBlockRayTraceResult(entity, rayLength, blockMode, fluidMode);
+        BlockHitResult rayHitBlock = getBlockHitResult(entity, rayLength, blockMode, fluidMode);
         if (rayHitBlock.getType() != HitResult.Type.MISS) {
             return b.apply(rayHitBlock);
         } else {
