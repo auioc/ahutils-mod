@@ -35,7 +35,7 @@ repositories {
 
 dependencies {
     compileOnly "org.auioc.mods.ahutils:ahutils-<MINECRAFT_VERSION>:<AHUTILS_VERSION>:forgelib"
-    runtimeOnly "org.auioc.mods.ahutils:ahutils-<MINECRAFT_VERSION>:<AHUTILS_VERSION>"
+    runtimeOnly "org.auioc.mods.ahutils:ahutils-<MINECRAFT_VERSION>:<AHUTILS_VERSION>:deobf"
 }
 ```
 
@@ -56,7 +56,7 @@ If you do not want to or can not use the GitHub Packages:
     ```groovy
     dependencies {
         compileOnly files("libs/ahutils-<VERSION>-forgelib.jar")
-        runtimeOnly files("libs/ahutils-<VERSION>.jar")
+        runtimeOnly files("libs/ahutils-<VERSION>-deobf.jar")
     }
     ```
 
