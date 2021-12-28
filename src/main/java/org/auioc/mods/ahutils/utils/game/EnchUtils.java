@@ -1,6 +1,6 @@
 package org.auioc.mods.ahutils.utils.game;
 
-import java.util.Random;
+import org.apache.commons.lang3.RandomUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -12,22 +12,46 @@ public interface EnchUtils {
         return ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(id));
     }
 
-    static void enchantAll(ListTag enchantments) {
+
+    static void enchantOne(ListTag enchantments, int index, int level) {
+        CompoundTag nbt = enchantments.getCompound(index);
+        nbt.putShort("lvl", (short) (nbt.getShort("lvl") + level));
+    }
+
+    static void enchantOne(CompoundTag enchantment, int level) {
+        enchantment.putShort("lvl", (short) (enchantment.getShort("lvl") + level));
+    }
+
+    static void enchantAll(ListTag enchantments, int level) {
         for (int i = 0; i < enchantments.size(); i++) {
-            CompoundTag nbt = enchantments.getCompound(i);
-            nbt.putShort("lvl", (short) (nbt.getShort("lvl") + 1));
+            enchantOne(enchantments.getCompound(i), level);
         }
     }
 
-    static void enchantOne(ListTag enchantments, int index) {
-        CompoundTag nbt = enchantments.getCompound(index);
-        nbt.putShort("lvl", (short) (nbt.getShort("lvl") + 1));
+    static void enchantRandom(ListTag enchantments, int level) {
+        enchantOne(enchantments.getCompound(RandomUtils.nextInt(0, enchantments.size())), level);
     }
 
-    static void enchantRandom(ListTag enchantments) {
-        int enchCount = enchantments.size();
-        int index = (new Random()).nextInt((enchCount - 0) + 1) + 0;
-        CompoundTag nbt = enchantments.getCompound(index);
-        nbt.putShort("lvl", (short) (nbt.getShort("lvl") + 1));
+
+    static CompoundTag getHighestEnchantment(ListTag enchantments) {
+        int highestIndex = 0;
+        int highestLevel = 0;
+        for (int i = 0, l = enchantments.size(); i < l; i++) {
+            if (enchantments.getCompound(i).getShort("lvl") > highestLevel) {
+                highestIndex = i;
+            }
+        }
+        return enchantments.getCompound(highestIndex);
     }
+
+    static boolean isOverLimit(ListTag enchantments) {
+        for (int i = 0, l = enchantments.size(); i < l; i++) {
+            CompoundTag ench = enchantments.getCompound(i);
+            if (ench.getShort("lvl") > (EnchUtils.getEnchantment(ench.getString("id"))).getMaxLevel()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
