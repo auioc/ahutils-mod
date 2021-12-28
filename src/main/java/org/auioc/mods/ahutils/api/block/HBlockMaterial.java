@@ -62,6 +62,11 @@ public class HBlockMaterial {
         return this;
     }
 
+    public HBlockMaterial pushOnly() {
+        this.pushReaction = PushReaction.PUSH_ONLY;
+        return this;
+    }
+
     public Material build() {
         return new Material(this.color, this.liquid, this.solid, this.blocksMotion, this.solidBlocking, this.flammable, this.replaceable, this.pushReaction);
     }
