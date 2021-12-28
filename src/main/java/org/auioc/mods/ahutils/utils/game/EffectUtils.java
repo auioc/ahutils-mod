@@ -113,4 +113,12 @@ public interface EffectUtils {
         toRemove.forEach(effect -> entity.removeEffect(effect));
     }
 
+    static int getEffectLevel(LivingEntity entity, MobEffect effect) {
+        MobEffectInstance instance = entity.getEffect(effect);
+        if (instance == null) {
+            return 0;
+        }
+        return instance.getAmplifier() + 1;
+    }
+
 }
