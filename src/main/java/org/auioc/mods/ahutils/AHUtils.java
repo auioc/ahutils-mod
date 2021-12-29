@@ -1,11 +1,21 @@
 package org.auioc.mods.ahutils;
 
-import java.net.URL;
 import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
+import org.auioc.mods.ahutils.client.config.ClientConfig;
+import org.auioc.mods.ahutils.client.event.ClientEventHandler;
+import org.auioc.mods.ahutils.common.command.CommandArgumentRegistry;
+import org.auioc.mods.ahutils.common.config.CommonConfig;
+import org.auioc.mods.ahutils.common.event.CommonEventHandler;
+import org.auioc.mods.ahutils.common.itemgroup.ItemGroupRegistry;
+import org.auioc.mods.ahutils.common.network.PacketHandler;
+import org.auioc.mods.ahutils.server.config.ServerConfig;
+import org.auioc.mods.ahutils.server.event.ServerEventHandler;
+import org.auioc.mods.ahutils.server.loot.GlobalLootModifierRegistry;
 import org.auioc.mods.ahutils.utils.LogUtil;
+import org.auioc.mods.ahutils.utils.delogger.Delogger;
+import org.auioc.mods.ahutils.utils.java.JarUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,58 +28,61 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(AHUtils.MOD_ID)
 @SuppressWarnings("unused")
 public class AHUtils {
+
     public static final String MOD_ID = "ahutils";
     public static String MAIN_VERSION = "0";
     public static String FULL_VERSION = "0";
 
     public static final Logger LOGGER = LogUtil.getNamedLogger("AHUtils");
-    public static final Marker CORE = LogUtil.getMarker("CORE");
+    private static final Marker CORE = LogUtil.getMarker("CORE");
 
     public AHUtils() {
         try {
-            String pth = getClass().getResource(getClass().getSimpleName() + ".class").toString();
-            Attributes attrs = new Manifest(new URL(pth.substring(0, pth.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF").openStream()).getMainAttributes();
+            final Attributes attrs = JarUtils.getManifest(getClass());
             MAIN_VERSION = attrs.getValue("Implementation-Version");
             FULL_VERSION = attrs.getValue("AHUtils-Version");
-            LOGGER.warn(CORE, "Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
+            LOGGER.info(CORE, "Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
         } catch (Exception e) {
             LOGGER.warn(CORE, "MANIFEST.MF could not be read. If this is a development environment you can ignore this message.");
         }
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, org.auioc.mods.ahutils.common.config.CommonConfig.CONFIG);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, org.auioc.mods.ahutils.client.config.ClientConfig.CONFIG);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, org.auioc.mods.ahutils.server.config.ServerConfig.CONFIG);
 
-        org.auioc.mods.ahutils.utils.delogger.Delogger.init();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
-        final ClientSideOnlySetup ClientSideOnlySetup = new ClientSideOnlySetup(modEventBus, forgeEventBus);
-
         modSetup(modEventBus);
         forgeSetup(forgeEventBus);
+
+        final ClientSideOnlySetup ClientSideOnlySetup = new ClientSideOnlySetup(modEventBus, forgeEventBus);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientSideOnlySetup::modSetup);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientSideOnlySetup::forgeSetup);
+
+
+        Delogger.init();
     }
 
     private void modSetup(final IEventBus modEventBus) {
-        modEventBus.register(org.auioc.mods.ahutils.common.network.PacketHandler.class);
-        org.auioc.mods.ahutils.common.command.CommandArgumentRegistry.register();
-        modEventBus.register(org.auioc.mods.ahutils.server.loot.GlobalLootModifierRegistry.class);
+        modEventBus.register(PacketHandler.class);
+        CommandArgumentRegistry.register();
+        modEventBus.register(GlobalLootModifierRegistry.class);
     }
 
     private void forgeSetup(final IEventBus forgeEventBus) {
-        org.auioc.mods.ahutils.common.itemgroup.ItemGroupRegistry.register();
-        forgeEventBus.register(org.auioc.mods.ahutils.server.event.ServerEventHandler.class);
-        forgeEventBus.register(org.auioc.mods.ahutils.common.event.CommonEventHandler.class);
+        ItemGroupRegistry.register();
+        forgeEventBus.register(ServerEventHandler.class);
+        forgeEventBus.register(CommonEventHandler.class);
     }
 
-    public class ClientSideOnlySetup {
+
+    private class ClientSideOnlySetup {
         private final IEventBus modEventBus;
         private final IEventBus forgeEventBus;
 
-        public ClientSideOnlySetup(IEventBus modEventBus, IEventBus forgeEventBus) {
+        public ClientSideOnlySetup(final IEventBus modEventBus, final IEventBus forgeEventBus) {
             this.modEventBus = modEventBus;
             this.forgeEventBus = forgeEventBus;
         }
@@ -77,7 +90,8 @@ public class AHUtils {
         public void modSetup() {}
 
         public void forgeSetup() {
-            forgeEventBus.register(org.auioc.mods.ahutils.client.event.ClientEventHandler.class);
+            forgeEventBus.register(ClientEventHandler.class);
         }
     }
+
 }
