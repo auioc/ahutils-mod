@@ -25,7 +25,7 @@ public class HealCommand {
         if (removeAllEffect) {
             player.removeAllEffects();
         } else {
-            EffectUtils.removeEffect(player, effect -> !effect.getEffect().isBeneficial());
+            EffectUtils.removeEffect(player, EffectUtils.IS_NOT_BENEFICIAL);
         }
 
         return Command.SINGLE_SUCCESS;

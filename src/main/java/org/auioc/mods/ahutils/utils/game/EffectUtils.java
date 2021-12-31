@@ -104,14 +104,19 @@ public interface EffectUtils {
     static void removeEffect(LivingEntity entity, Predicate<MobEffectInstance> condition) {
         List<MobEffect> toRemove = new ArrayList<>();
 
-        entity.getActiveEffects().forEach(effect -> {
-            if (condition.test(effect)) {
-                toRemove.add(effect.getEffect());
+        entity.getActiveEffects().forEach(instance -> {
+            if (condition.test(instance)) {
+                toRemove.add(instance.getEffect());
             }
         });
 
         toRemove.forEach(effect -> entity.removeEffect(effect));
     }
+
+    static Predicate<MobEffectInstance> IS_BENEFICIAL = (e) -> e.getEffect().isBeneficial();
+    static Predicate<MobEffectInstance> IS_NOT_BENEFICIAL = (e) -> !e.getEffect().isBeneficial();
+    static Predicate<MobEffectInstance> IS_HARMFUL = (e) -> e.getEffect().getCategory() == MobEffectCategory.HARMFUL;
+    static Predicate<MobEffectInstance> IS_NEUTRAL = (e) -> e.getEffect().getCategory() == MobEffectCategory.NEUTRAL;
 
     static int getEffectLevel(LivingEntity entity, MobEffect effect) {
         MobEffectInstance instance = entity.getEffect(effect);
