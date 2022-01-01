@@ -5,8 +5,7 @@ import java.util.List;
 import com.mojang.datafixers.util.Pair;
 import org.auioc.mods.ahutils.server.event.ServerEventRegistry;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.Overwrite;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -16,25 +15,19 @@ import net.minecraft.world.level.Level;
 public class MixinLivingEntity {
 
     // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
-    @Redirect(
-        method = "Lnet/minecraft/world/entity/LivingEntity;eat(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/LivingEntity;addEatEffect(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)V",
-            ordinal = 0
-        ),
-        require = 1,
-        allow = 1
-    )
-    private void onEatAddEffect(LivingEntity thisClass, ItemStack food, Level level, LivingEntity entity) {
-        if (!level.isClientSide) {
+    @Overwrite()
+    private void addEatEffect(ItemStack stack, Level level, LivingEntity entity) {
+        if (!level.isClientSide() && stack.isEdible()) {
             List<MobEffectInstance> effects = new ArrayList<>();
-            for (Pair<MobEffectInstance, Float> pair : food.getItem().getFoodProperties().getEffects()) {
+
+            for (Pair<MobEffectInstance, Float> pair : stack.getItem().getFoodProperties().getEffects()) {
                 if (pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
                     effects.add(new MobEffectInstance(pair.getFirst()));
                 }
             }
-            effects = ServerEventRegistry.postLivingEatAddEffectEvent(entity, food, effects);
+
+            effects = ServerEventRegistry.postLivingEatAddEffectEvent(entity, stack, effects);
+
             for (MobEffectInstance instance : effects) {
                 entity.addEffect(instance);
             }

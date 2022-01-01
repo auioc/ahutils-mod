@@ -1,7 +1,6 @@
 package org.auioc.mods.ahutils.server.event;
 
 import static org.auioc.mods.ahutils.AHUtils.LOGGER;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.apache.logging.log4j.Marker;
@@ -50,7 +49,10 @@ public class ServerEventRegistry {
 
     public static List<MobEffectInstance> postLivingEatAddEffectEvent(LivingEntity entity, ItemStack food, List<MobEffectInstance> effects) {
         LivingEatAddEffectEvent event = new LivingEatAddEffectEvent(entity, food, effects);
-        return forgeEventBus.post(event) ? new ArrayList<>() : event.getEffects();
+        if (forgeEventBus.post(event)) {
+            event.getEffects().clear();
+        }
+        return event.getEffects();
     }
 
 }
