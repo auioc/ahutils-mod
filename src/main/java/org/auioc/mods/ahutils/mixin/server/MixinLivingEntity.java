@@ -3,6 +3,7 @@ package org.auioc.mods.ahutils.mixin.server;
 import java.util.ArrayList;
 import java.util.List;
 import com.mojang.datafixers.util.Pair;
+import org.auioc.mods.ahutils.server.event.ServerEventRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -33,7 +34,7 @@ public class MixinLivingEntity {
                     effects.add(new MobEffectInstance(pair.getFirst()));
                 }
             }
-            effects = org.auioc.mods.ahutils.server.event.ServerEventRegistry.postLivingEatAddEffectEvent(entity, food, effects);
+            effects = ServerEventRegistry.postLivingEatAddEffectEvent(entity, food, effects);
             for (MobEffectInstance instance : effects) {
                 entity.addEffect(instance);
             }

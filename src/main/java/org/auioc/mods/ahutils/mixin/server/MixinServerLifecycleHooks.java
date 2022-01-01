@@ -1,5 +1,6 @@
 package org.auioc.mods.ahutils.mixin.server;
 
+import org.auioc.mods.ahutils.server.event.ServerEventRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +21,7 @@ public abstract class MixinServerLifecycleHooks {
         cancellable = true
     )
     private static void onServerLogin(final ClientIntentionPacket packet, final Connection manager, CallbackInfoReturnable<Boolean> cir) {
-        if (org.auioc.mods.ahutils.server.event.ServerEventRegistry.postServerLoginEvent(packet, manager)) {
+        if (ServerEventRegistry.postServerLoginEvent(packet, manager)) {
             cir.setReturnValue(false);
         }
     }
