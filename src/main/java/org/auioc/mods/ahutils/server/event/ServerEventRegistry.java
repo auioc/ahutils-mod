@@ -1,8 +1,11 @@
 package org.auioc.mods.ahutils.server.event;
 
 import static org.auioc.mods.ahutils.AHUtils.LOGGER;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.apache.logging.log4j.Marker;
+import org.auioc.mods.ahutils.server.event.impl.LivingEatAddEffectEvent;
 import org.auioc.mods.ahutils.server.event.impl.ServerLoginEvent;
 import org.auioc.mods.ahutils.server.event.impl.ServerPlayerEntitySendMessageEvent;
 import org.auioc.mods.ahutils.utils.LogUtil;
@@ -12,11 +15,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.handshake.ClientIntentionPacket;
 import net.minecraft.network.protocol.login.ClientboundLoginDisconnectPacket;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ServerEventRegistry {
 
     private static final Marker marker = LogUtil.getMarker("ServerHooks");
+    private static final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
     // Return true if the event was Cancelable cancelled
 
@@ -38,6 +46,11 @@ public class ServerEventRegistry {
 
     public static boolean postServerPlayerEntitySendMessageEvent(Component message, ChatType type, UUID uuid) {
         return MinecraftForge.EVENT_BUS.post(new ServerPlayerEntitySendMessageEvent(message, type, uuid));
+    }
+
+    public static List<MobEffectInstance> postLivingEatAddEffectEvent(LivingEntity entity, ItemStack food, List<MobEffectInstance> effects) {
+        LivingEatAddEffectEvent event = new LivingEatAddEffectEvent(entity, food, effects);
+        return forgeEventBus.post(event) ? new ArrayList<>() : event.getEffects();
     }
 
 }

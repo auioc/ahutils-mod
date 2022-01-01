@@ -1,4 +1,4 @@
-package org.auioc.mods.ahutils.common.event.impl;
+package org.auioc.mods.ahutils.server.event.impl;
 
 import java.util.List;
 import net.minecraft.world.effect.MobEffectInstance;
