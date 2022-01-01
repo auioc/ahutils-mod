@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(value = PistonBaseBlock.class)
-public abstract class MixinPistonBlock {
+public abstract class MixinPistonBaseBlock {
 
     // @org.spongepowered.asm.mixin.Debug(export = true, print = true)
     @Inject(
