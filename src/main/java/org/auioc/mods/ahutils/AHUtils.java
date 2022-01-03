@@ -1,8 +1,8 @@
 package org.auioc.mods.ahutils;
 
-import java.util.jar.Attributes;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
+import org.auioc.mods.ahutils.api.data.Tuple;
 import org.auioc.mods.ahutils.client.config.ClientConfig;
 import org.auioc.mods.ahutils.client.event.ClientEventHandler;
 import org.auioc.mods.ahutils.common.command.CommandArgumentRegistry;
@@ -28,21 +28,17 @@ public class AHUtils {
 
     public static final String MOD_ID = "ahutils";
     public static final String MOD_NAME = "AHUtils";
-    public static String MAIN_VERSION = "0";
-    public static String FULL_VERSION = "0";
+    public static String MAIN_VERSION;
+    public static String FULL_VERSION;
 
     public static final Logger LOGGER = LogUtil.getNamedLogger("AHUtils");
     private static final Marker CORE = LogUtil.getMarker("CORE");
 
     public AHUtils() {
-        try {
-            final Attributes attrs = JarUtils.getManifest(getClass());
-            MAIN_VERSION = attrs.getValue("Implementation-Version");
-            FULL_VERSION = attrs.getValue("AHUtils-Version");
-            LOGGER.info(CORE, "Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
-        } catch (Exception e) {
-            LOGGER.warn(CORE, "MANIFEST.MF could not be read. If this is a development environment you can ignore this message.");
-        }
+        Tuple<String, String> version = JarUtils.getModVersion(getClass(), MOD_NAME);
+        MAIN_VERSION = version.getA();
+        FULL_VERSION = version.getB();
+        LOGGER.info(CORE, "Version: " + MAIN_VERSION + " (" + FULL_VERSION + ")");
 
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CONFIG);
