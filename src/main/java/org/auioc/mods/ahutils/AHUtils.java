@@ -6,7 +6,6 @@ import org.auioc.mods.ahutils.api.data.Tuple;
 import org.auioc.mods.ahutils.client.config.ClientConfig;
 import org.auioc.mods.ahutils.client.event.ClientEventHandler;
 import org.auioc.mods.ahutils.common.command.CommandArgumentRegistry;
-import org.auioc.mods.ahutils.common.event.CommonEventHandler;
 import org.auioc.mods.ahutils.common.itemgroup.ItemGroupRegistry;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
 import org.auioc.mods.ahutils.server.event.ServerEventHandler;
@@ -63,7 +62,6 @@ public class AHUtils {
     private void forgeSetup(final IEventBus forgeEventBus) {
         ItemGroupRegistry.register();
         forgeEventBus.register(ServerEventHandler.class);
-        forgeEventBus.register(CommonEventHandler.class);
     }
 
 
