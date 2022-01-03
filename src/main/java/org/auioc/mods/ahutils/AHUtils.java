@@ -27,6 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class AHUtils {
 
     public static final String MOD_ID = "ahutils";
+    public static final String MOD_NAME = "AHUtils";
     public static String MAIN_VERSION = "0";
     public static String FULL_VERSION = "0";
 
