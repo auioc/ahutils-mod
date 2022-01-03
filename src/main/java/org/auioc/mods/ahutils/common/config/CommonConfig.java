@@ -1,6 +1,5 @@
 package org.auioc.mods.ahutils.common.config;
 
-import java.util.ArrayList;
 import java.util.List;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
@@ -8,9 +7,6 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 public class CommonConfig {
 
     public static ForgeConfigSpec CONFIG;
-
-    public static ConfigValue<List<? extends String>> DeloggerBasicFilter;
-    public static ConfigValue<List<? extends String>> DeloggerRegexFilter;
 
     public static ConfigValue<String> GeoIP2ApiUrl;
     public static ConfigValue<List<? extends String>> GeoIP2AvailableDatabases;
@@ -20,17 +16,6 @@ public class CommonConfig {
 
         {
             b.push("utils");
-
-            {
-                b.push("delogger");
-                {
-                    b.push("filter");
-                    DeloggerBasicFilter = b.define("basic", new ArrayList<String>());
-                    DeloggerRegexFilter = b.define("regex", new ArrayList<String>());
-                    b.pop();
-                }
-                b.pop();
-            }
 
             {
                 b.push("ip_lookup");

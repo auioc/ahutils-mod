@@ -14,7 +14,6 @@ import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.event.ServerEventHandler;
 import org.auioc.mods.ahutils.server.loot.GlobalLootModifierRegistry;
 import org.auioc.mods.ahutils.utils.LogUtil;
-import org.auioc.mods.ahutils.utils.delogger.Delogger;
 import org.auioc.mods.ahutils.utils.java.JarUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -60,9 +59,6 @@ public class AHUtils {
         final ClientSideOnlySetup ClientSideOnlySetup = new ClientSideOnlySetup(modEventBus, forgeEventBus);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientSideOnlySetup::modSetup);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientSideOnlySetup::forgeSetup);
-
-
-        Delogger.init();
     }
 
     private void modSetup(final IEventBus modEventBus) {
