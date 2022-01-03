@@ -1,4 +1,4 @@
-package org.auioc.mods.ahutils.server.loot;
+package org.auioc.mods.ahutils.server.loot.impl;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,7 @@
 package org.auioc.mods.ahutils.server.loot;
 
 import org.auioc.mods.ahutils.AHUtils;
+import org.auioc.mods.ahutils.server.loot.impl.HLootInjector;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
