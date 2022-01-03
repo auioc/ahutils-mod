@@ -8,22 +8,5 @@
     "ahutils.command.failed.not_dedicated_server": "This command must be executed by the dedicated server",
     "ahutils.command.failed.reflection": "Failed while using reflection to get private source",
 
-    "ahutils.argument.damage_source.invalid": "Invalid damage source %s",
-
-    "ahutils.addrlimiter.command.not_enabled": "This feature is not enabled",
-    "ahutils.addrlimiter.command.already_enabled": "This feature is already enabled, do not repeat this operation",
-    "ahutils.addrlimiter.command.already_disabled": "This feature is already disabled, do not repeat this operation",
-    "ahutils.addrlimiter.command.enable": "This feature is now enabled",
-    "ahutils.addrlimiter.command.disable": "This feature is now disabled",
-    "ahutils.addrlimiter.command.dump.success": "Successful dump data to file %s",
-    "ahutils.addrlimiter.command.dump.failed": "Cannot dump data to file: %s",
-    "ahutils.addrlimiter.command.refresh.start": "Start refreshing",
-    "ahutils.addrlimiter.command.refresh.success": "Refresh successfully",
-    "ahutils.addrlimiter.dump.title": "Current player map",
-    "ahutils.addrlimiter.dump.no_data": "No data is recorded in the addrlimiter",
-    "ahutils.addrlimiter.dump.local_address": "(Local)",
-    "ahutils.addrlimiter.dump.lan_address": "(Lan)",
-    "ahutils.addrlimiter.dump.detected_non_online_players": "WARNING: Detected %s non-online players in the list",
-    "ahutils.addrlimiter.dump.detected_duplicate_players": "WARNING: Detected %s duplicate players in the list",
-    "ahutils.addrlimiter.dump.refresh_tip": "(Tip: Try to run \"refresh\" command to fix these errors)"
+    "ahutils.argument.damage_source.invalid": "Invalid damage source %s"
 }

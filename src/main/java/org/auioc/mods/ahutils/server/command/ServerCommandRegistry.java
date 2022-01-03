@@ -3,7 +3,6 @@ package org.auioc.mods.ahutils.server.command;
 import static net.minecraft.commands.Commands.literal;
 import com.mojang.brigadier.CommandDispatcher;
 import org.auioc.mods.ahutils.AHUtils;
-import org.auioc.mods.ahutils.server.command.impl.AddrlimiterCommand;
 import org.auioc.mods.ahutils.server.command.impl.CrashCommand;
 import org.auioc.mods.ahutils.server.command.impl.HealCommand;
 import org.auioc.mods.ahutils.server.command.impl.HurtCommand;
@@ -19,7 +18,6 @@ public class ServerCommandRegistry {
                 .executes(VersionCommand::getModVersion)
                 .then(literal("version").executes(VersionCommand::getModVersion))
 
-                .then(AddrlimiterCommand.BUILDER)
                 .then(CrashCommand.BUILDER)
                 .then(HurtCommand.BUILDER)
                 .then(HealCommand.BUILDER)
