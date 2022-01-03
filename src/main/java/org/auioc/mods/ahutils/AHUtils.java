@@ -10,7 +10,6 @@ import org.auioc.mods.ahutils.common.config.CommonConfig;
 import org.auioc.mods.ahutils.common.event.CommonEventHandler;
 import org.auioc.mods.ahutils.common.itemgroup.ItemGroupRegistry;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
-import org.auioc.mods.ahutils.server.config.ServerConfig;
 import org.auioc.mods.ahutils.server.event.ServerEventHandler;
 import org.auioc.mods.ahutils.server.loot.GlobalLootModifierRegistry;
 import org.auioc.mods.ahutils.utils.LogUtil;
@@ -48,7 +47,6 @@ public class AHUtils {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CONFIG);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
