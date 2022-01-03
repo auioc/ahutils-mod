@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Marker;
 import org.auioc.mods.ahutils.client.config.ClientConfig;
 import org.auioc.mods.ahutils.client.event.ClientEventHandler;
 import org.auioc.mods.ahutils.common.command.CommandArgumentRegistry;
-import org.auioc.mods.ahutils.common.config.CommonConfig;
 import org.auioc.mods.ahutils.common.event.CommonEventHandler;
 import org.auioc.mods.ahutils.common.itemgroup.ItemGroupRegistry;
 import org.auioc.mods.ahutils.common.network.PacketHandler;
@@ -45,7 +44,6 @@ public class AHUtils {
         }
 
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CONFIG);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
