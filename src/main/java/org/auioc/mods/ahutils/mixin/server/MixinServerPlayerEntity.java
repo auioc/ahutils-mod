@@ -1,7 +1,7 @@
 package org.auioc.mods.ahutils.mixin.server;
 
 import java.util.UUID;
-import org.auioc.mods.ahutils.server.event.ServerEventRegistry;
+import org.auioc.mods.ahutils.server.event.ServerEventFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +22,7 @@ public abstract class MixinServerPlayerEntity {
         cancellable = true
     )
     private void onSendMessage(Component p_9147_, ChatType p_9148_, UUID p_9149_, CallbackInfo ci) {
-        if (ServerEventRegistry.postServerPlayerEntitySendMessageEvent(p_9147_, p_9148_, p_9149_)) {
+        if (ServerEventFactory.fireServerPlayerEntitySendMessageEvent(p_9147_, p_9148_, p_9149_)) {
             ci.cancel();
         }
     }

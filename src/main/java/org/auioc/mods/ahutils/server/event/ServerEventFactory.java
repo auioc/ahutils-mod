@@ -20,14 +20,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-public class ServerEventRegistry {
+public class ServerEventFactory {
 
     private static final Marker marker = LogUtil.getMarker("ServerHooks");
     private static final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
     // Return true if the event was Cancelable cancelled
 
-    public static boolean postServerLoginEvent(final ClientIntentionPacket packet, final Connection manager) {
+    public static boolean fireServerLoginEvent(final ClientIntentionPacket packet, final Connection manager) {
         ServerLoginEvent event = new ServerLoginEvent(packet, manager);
         boolean cancelled = MinecraftForge.EVENT_BUS.post(event);
         if (cancelled) {
@@ -43,11 +43,11 @@ public class ServerEventRegistry {
         return false;
     }
 
-    public static boolean postServerPlayerEntitySendMessageEvent(Component message, ChatType type, UUID uuid) {
+    public static boolean fireServerPlayerEntitySendMessageEvent(Component message, ChatType type, UUID uuid) {
         return MinecraftForge.EVENT_BUS.post(new ServerPlayerEntitySendMessageEvent(message, type, uuid));
     }
 
-    public static List<MobEffectInstance> postLivingEatAddEffectEvent(LivingEntity entity, ItemStack food, List<MobEffectInstance> effects) {
+    public static List<MobEffectInstance> fireLivingEatAddEffectEvent(LivingEntity entity, ItemStack food, List<MobEffectInstance> effects) {
         LivingEatAddEffectEvent event = new LivingEatAddEffectEvent(entity, food, effects);
         if (forgeEventBus.post(event)) {
             event.getEffects().clear();

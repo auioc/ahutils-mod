@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-public class CommonEventRegistry {
+public class CommonEventFactory {
 
     private static final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
@@ -17,7 +17,7 @@ public class CommonEventRegistry {
         return forgeEventBus.post(new org.auioc.mods.ahutils.common.event.impl.PistonAddBlockLineEvent(blockState, level, blockPos, direction));
     }
 
-    public static boolean postPistonCheckPushableEvent(BlockState blockState, Level level, BlockPos blockPos, Direction pushDirection, boolean p_60209_, Direction p_60210_) {
+    public static boolean firePistonCheckPushableEvent(BlockState blockState, Level level, BlockPos blockPos, Direction pushDirection, boolean p_60209_, Direction p_60210_) {
         return forgeEventBus.post(new PistonCheckPushableEvent(blockState, level, blockPos, pushDirection, p_60209_, p_60210_));
     }
 

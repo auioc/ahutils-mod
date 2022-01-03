@@ -3,7 +3,7 @@ package org.auioc.mods.ahutils.mixin.server;
 import java.util.ArrayList;
 import java.util.List;
 import com.mojang.datafixers.util.Pair;
-import org.auioc.mods.ahutils.server.event.ServerEventRegistry;
+import org.auioc.mods.ahutils.server.event.ServerEventFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,7 +26,7 @@ public class MixinLivingEntity {
                 }
             }
 
-            effects = ServerEventRegistry.postLivingEatAddEffectEvent(entity, stack, effects);
+            effects = ServerEventFactory.fireLivingEatAddEffectEvent(entity, stack, effects);
 
             for (MobEffectInstance instance : effects) {
                 entity.addEffect(instance);
