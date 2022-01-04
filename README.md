@@ -4,6 +4,8 @@
 
 Minecraft utilities, also a library for AH's mods.
 
+**WARNING: This mod has been deprecated, use [ArnicaLib](https://github.com/WakelessSloth56/arnicalib-mcmod) instead!**
+
 [![GitHub license](https://img.shields.io/github/license/WakelessSloth56/ahutils-mod?style=flat-square)](/LICENSE)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WakelessSloth56/ahutils-mod/gradle-ci?style=flat-square)](https://github.com/WakelessSloth56/ahutils-mod/actions)
 &nbsp;
