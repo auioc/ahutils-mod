@@ -1,18 +1,19 @@
 modLoader="javafml"
 loaderVersion="[39,)"
 license="GNU GPLv3"
-issueTrackerURL="https://github.com/WakelessSloth56/ahutils-mod/issues"
+issueTrackerURL="https://github.com/auioc/ahutils-mod/issues"
 
 [[mods]]
 modId="ahutils"
 version="${file.jarVersion}"
-updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.18.1.json"
+# updateJSONURL="https://hi.auioc.org/ahutils-mod/update/1.18.1.json"
 displayName="AHUtils"
-displayURL="https://github.com/WakelessSloth56/ahutils-mod"
+displayURL="https://github.com/auioc/ahutils-mod"
 credits="AUIOC"
 authors="WakelssSloth56"
 description='''
 Minecraft utilities, also a library for AH's mods.
+WARNING: This mod has been deprecated, use ArnicaLib instead!
 '''
 
 [[dependencies.ahutils]]
